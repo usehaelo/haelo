@@ -96,3 +96,9 @@ export const saveNotificationSettings = async (payload: {
     body: JSON.stringify(payload)
   })
 }
+export const revokeEmailAccess = async (providerUId: string) => {
+  return await apiFetch(`/api/onboard/email/${providerUId}`, {
+    method: 'DELETE'
+  })
+}
+

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Save, CheckCircle, AlertCircle, Zap, Bell, Layers, Shield, Mail, Smartphone, Plus, Users, UserPlus, MoreVertical, X } from 'lucide-react'
-import { saveTimerConfig, getHaeloTone, getProviders, connectEmail, getNotificationSettings, saveNotificationSettings, addWhatsappNumber, verifyWhatsappNumber, getWhatsappNumber, getDomain, saveDomain } from '@/lib/api/onboard'
+import { saveTimerConfig, getHaeloTone, getProviders, connectEmail, getNotificationSettings, saveNotificationSettings, addWhatsappNumber, verifyWhatsappNumber, getWhatsappNumber, getDomain, saveDomain, revokeEmailAccess } from '@/lib/api/onboard'
 import { getAccounts, inviteAccount, resendInvite, removeAccount, type OrgAccount, type AccountRole } from '@/lib/api/accounts'
 
 // ── TOKENS ───────────────────────────────────────────────────────────────────
@@ -147,8 +147,8 @@ function TimerModeOpt({ id, label, tagline, desc, icon, active, onClick }: {
 }
 
 // ── EMAIL PROVIDER OPTION ─────────────────────────────────────────────────────
-function EmailProviderOpt({ id, label, sub, color, letter, active, connecting, onClick }: {
-  id: string; label: string; sub: string; color: string; letter: string; active: boolean; connecting?: boolean; onClick: () => void
+function EmailProviderOpt({ id, label, sub, color, letter, active, connecting, onClick, onRevoke, revoking }: {
+  id: string; label: string; sub: string; color: string; letter: string; active: boolean; connecting?: boolean; onClick: () => void; onRevoke?: () => void; revoking?: boolean
 }) {
   const [hov, setHov] = useState(false)
   return (
@@ -167,10 +167,13 @@ function EmailProviderOpt({ id, label, sub, color, letter, active, connecting, o
       {connecting && (
         <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 20, background: INK_06, color: INK_60, flexShrink: 0 }}>Connecting...</span>
       )}
-      {!connecting && (
+      {!connecting && !onRevoke && (
         <div style={{ width: 16, height: 16, borderRadius: '50%', border: `1.5px solid ${active ? INK : INK_20}`, flexShrink: 0, background: active ? INK : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all .18s' }}>
           {active && <div style={{ width: 6, height: 6, background: '#fff', borderRadius: '50%' }} />}
         </div>
+      )}
+      {onRevoke && (
+        <DangerBtn label={revoking ? "Revoking..." : "Revoke access"} onClick={onRevoke} disabled={revoking} />
       )}
     </button>
   )
@@ -341,11 +344,11 @@ function InviteModal({ onClose, onInvite }: { onClose: () => void; onInvite: (em
 }
 
 // ── DANGER BUTTON ──────────────────────────────────────────────────────────────
-function DangerBtn({ label }: { label: string }) {
+function DangerBtn({ label, onClick, disabled }: { label: string; onClick?: () => void; disabled?: boolean }) {
   const [hov, setHov] = useState(false)
   return (
-    <button onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 12, fontWeight: 600, color: hov ? RED : INK_40, background: hov ? RED_BG : 'transparent', border: `1px solid ${hov ? 'rgba(192,57,43,0.2)' : 'transparent'}`, padding: '7px 12px', borderRadius: 8, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif", transition: 'all .18s' }}>
+    <button onClick={(e) => { e.stopPropagation(); onClick && onClick() }} disabled={disabled} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 12, fontWeight: 600, color: hov ? RED : INK_40, background: hov ? RED_BG : 'transparent', border: `1px solid ${hov ? 'rgba(192,57,43,0.2)' : 'transparent'}`, padding: '7px 12px', borderRadius: 8, cursor: disabled ? 'not-allowed' : 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif", transition: 'all .18s', opacity: disabled ? 0.6 : 1 }}>
       {label}
     </button>
   )
@@ -445,6 +448,7 @@ export default function SettingsPage() {
   const [saveFlash, setSaveFlash] = useState(false)
   const [connectedProviders, setConnectedProviders] = useState<any[]>([])
   const [showAddProvider, setShowAddProvider] = useState(false)
+  const [revokingProvider, setRevokingProvider] = useState<string | null>(null)
   const [connectingProvider, setConnectingProvider] = useState<string | null>(null)
   
   const [userType, setUserType] = useState<string | null>(null)
@@ -829,6 +833,19 @@ export default function SettingsPage() {
                     sub={cp.email || pInfo.sub}
                     active={emailProvider === pInfo.id} 
                     onClick={() => setEmailProvider(pInfo.id)} 
+                    onRevoke={async () => {
+                      setRevokingProvider(cp.id)
+                      try {
+                        await revokeEmailAccess(cp.uid || cp.id)
+                        setConnectedProviders(prev => prev.filter(p => p.id !== cp.id))
+                      } catch (err) {
+                        console.error('Failed to revoke access', err)
+                        alert('Failed to revoke access')
+                      } finally {
+                        setRevokingProvider(null)
+                      }
+                    }}
+                    revoking={revokingProvider === cp.id}
                   />
                 )
               })}
@@ -904,7 +921,6 @@ export default function SettingsPage() {
                 <button onClick={() => setShowAddProvider(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'transparent', border: `1.5px solid ${INK_20}`, color: INK, padding: '7px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer', transition: 'all .18s' }}>
                   <Plus size={14} /> Add email client
                 </button>
-                {connectedProviders.length > 0 && <DangerBtn label="Revoke email access" />}
               </div>
             )}
           </SectionCard>
