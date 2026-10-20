@@ -1,0 +1,97 @@
+{
+  "layouts": [
+    {
+      "kind": "login",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": []
+    },
+    {
+      "kind": "login",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 820,
+      "brokenImages": []
+    },
+    {
+      "kind": "login",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": []
+    },
+    {
+      "kind": "login",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": []
+    },
+    {
+      "kind": "signup",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": []
+    },
+    {
+      "kind": "signup",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 820,
+      "brokenImages": []
+    },
+    {
+      "kind": "signup",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": []
+    },
+    {
+      "kind": "signup",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": []
+    }
+  ],
+  "a11y": [
+    {
+      "kind": "login",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "kind": "login",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "kind": "signup",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "kind": "signup",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "kind": "verification",
+      "name": "desktop",
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "flows": {
+    "loginErrorAndSuccess": true,
+    "passwordVisibility": true,
+    "signupBackAndEnter": true,
+    "registrationErrorAndSuccess": true,
+    "verificationErrorAndSuccess": true,
+    "payloadsAndTokenCleanup": true
+  },
+  "network": "All API calls mocked; no real accounts created."
+}

@@ -1,0 +1,245 @@
+{
+  "layouts": [
+    {
+      "kind": "overview",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1434,
+      "brokenImages": []
+    },
+    {
+      "kind": "overview",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 820,
+      "brokenImages": []
+    },
+    {
+      "kind": "overview",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "kind": "overview",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "kind": "activity",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": []
+    },
+    {
+      "kind": "activity",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 820,
+      "brokenImages": []
+    },
+    {
+      "kind": "activity",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "kind": "activity",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "kind": "staff",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": []
+    },
+    {
+      "kind": "staff",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 820,
+      "brokenImages": []
+    },
+    {
+      "kind": "staff",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "kind": "staff",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "kind": "business-bible",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1434,
+      "brokenImages": []
+    },
+    {
+      "kind": "business-bible",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 814,
+      "brokenImages": []
+    },
+    {
+      "kind": "business-bible",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "kind": "business-bible",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "kind": "settings",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1434,
+      "brokenImages": []
+    },
+    {
+      "kind": "settings",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 814,
+      "brokenImages": []
+    },
+    {
+      "kind": "settings",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "kind": "settings",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "kind": "billing",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1434,
+      "brokenImages": []
+    },
+    {
+      "kind": "billing",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 814,
+      "brokenImages": []
+    },
+    {
+      "kind": "billing",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "kind": "billing",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    }
+  ],
+  "a11y": [
+    {
+      "kind": "overview",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "kind": "overview",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "kind": "activity",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "kind": "activity",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "kind": "staff",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "kind": "staff",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "kind": "business-bible",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "kind": "business-bible",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "kind": "settings",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "kind": "settings",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "kind": "billing",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "kind": "billing",
+      "name": "mobile",
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "mutations": [],
+  "checks": {
+    "mobileMenu": true,
+    "escape": true,
+    "drawerNavigation": true,
+    "activitySearch": true,
+    "departmentFilter": true,
+    "activityExpansion": true
+  },
+  "data": "All workspace data mocked; no real accounts, payments, or messages modified."
+}

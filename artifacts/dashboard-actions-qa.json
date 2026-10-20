@@ -1,0 +1,38 @@
+{
+  "checks": {
+    "staffSearch": true,
+    "addStaff": true,
+    "modalEscape": true,
+    "csvExport": true,
+    "invite": true,
+    "notificationSave": true,
+    "timerSave": true,
+    "templateDownload": true,
+    "bibleUpload": true
+  },
+  "mutations": [
+    {
+      "url": "http://localhost:3103/dashboard/undefined/api/staff/add",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/dashboard/undefined/api/staff/invite",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/dashboard/undefined/api/onboard/notifications",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/dashboard/undefined/api/onboard/haelo-tone",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/dashboard/undefined/api/bible/upload",
+      "method": "POST"
+    }
+  ],
+  "errors": [],
+  "modalAccessibility": [],
+  "data": "All API requests mocked. No real invitations, uploads, staff changes, payments, or messages."
+}

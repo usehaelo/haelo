@@ -1,0 +1,528 @@
+/* Stable, persistent preview: changing a step never remounts this surface. */
+.workflow-section .workflow-layout {
+  gap: 72px;
+  grid-template-columns: 0.95fr 1.05fr;
+}
+.workflow-section .workflow-visual {
+  padding-top: 0;
+  top: 112px;
+}
+.workflow-section .workflow-step {
+  position: relative;
+  padding: 29px 0;
+  gap: 20px;
+  color: #75676a;
+}
+.workflow-section .workflow-step.active {
+  color: var(--bordeaux-900);
+}
+.workflow-section .workflow-step.active:before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: 32px;
+  bottom: 32px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--bordeaux-900);
+}
+.workflow-section .workflow-step > span:nth-child(2) > span {
+  font-size: 13px;
+  line-height: 1.9;
+  max-width: 355px;
+}
+.workflow-section .workflow-step.active > span:nth-child(2) > span {
+  color: #6b565d;
+}
+.workflow-section .workflow-step > svg {
+  margin-top: 5px;
+}
+.workflow-section .workflow-preview {
+  background: #430e16;
+  color: #fff;
+  border: 1px solid #5e1a26;
+  border-radius: 14px;
+  overflow: hidden;
+  animation: none;
+  box-shadow: 0 24px 65px -36px #430e1670;
+}
+.workflow-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 28px;
+  border-bottom: 1px solid #ffffff20;
+}
+.workflow-preview-header > span {
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: #dbb9c1;
+}
+.workflow-panels {
+  display: grid;
+  position: relative;
+  min-height: 404px;
+}
+.workflow-panel {
+  grid-area: 1 / 1;
+  padding: 25px 28px 23px;
+}
+.workflow-panel[hidden] {
+  display: block;
+  visibility: hidden;
+  pointer-events: none;
+}
+.workflow-phase {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10px;
+  color: #edc9d0;
+}
+.workflow-phase > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.workflow-phase > span:last-child {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.workflow-phase > span:last-child > span {
+  color: #c49ca7;
+  margin-left: 3px;
+}
+.workflow-panel h3 {
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: -0.045em;
+  margin-top: 23px;
+  font-weight: 500;
+  color: #fff;
+}
+.workflow-panel-description {
+  font-size: 11px;
+  line-height: 1.8;
+  margin-top: 10px !important;
+  color: #dbbcc4;
+  min-height: 40px;
+}
+.workflow-example,
+.workflow-context-list {
+  background: #ffffff07;
+  border: 1px solid #ffffff21;
+  border-radius: 8px;
+  margin-top: 21px;
+}
+.workflow-example {
+  padding: 17px 18px;
+  min-height: 166px;
+}
+.workflow-example-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  color: #edc9d0;
+}
+.workflow-example-label > span {
+  margin-left: auto;
+  font-size: 7px;
+  color: #d6b0bb;
+}
+.workflow-example > strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin-top: 14px;
+}
+.workflow-example > p {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #e0c7ce;
+  margin-top: 9px;
+}
+.workflow-person {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 15px;
+}
+.workflow-person > span {
+  width: 27px;
+  height: 27px;
+  border: 1px solid #ffffff30;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #ffffff08;
+  color: #efd5dc;
+  font-size: 8px;
+}
+.workflow-person strong {
+  display: block;
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.workflow-person small {
+  display: block;
+  font-size: 8px;
+  color: #d4b0bb;
+  line-height: 1.6;
+}
+.workflow-context-list {
+  padding: 0 16px;
+  min-height: 166px;
+}
+.workflow-context-list > div {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid #ffffff17;
+}
+.workflow-context-list > div:last-child {
+  border-bottom: 0;
+}
+.workflow-context-list > div > svg:first-child {
+  color: #edc9d0;
+  stroke-width: 1.5;
+  flex-shrink: 0;
+}
+.workflow-context-list > div > svg:last-child {
+  margin-left: auto;
+  color: #e7bdc8;
+  flex-shrink: 0;
+}
+.workflow-context-list strong {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #fff;
+}
+.workflow-context-list small {
+  display: block;
+  font-size: 9px;
+  line-height: 1.6;
+  color: #d6b2bd;
+}
+.workflow-example .workflow-draft {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #f6e7eb;
+  margin-top: 12px;
+}
+.workflow-review-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 8px;
+  line-height: 1.8;
+  color: #e4c2cc;
+  border-top: 1px solid #ffffff20;
+  padding-top: 12px;
+  margin-top: 13px;
+}
+.workflow-review-label > span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #edc9d0;
+  flex-shrink: 0;
+}
+.workflow-decision a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 10px;
+  min-height: 32px;
+  margin-top: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: #b88190;
+}
+.workflow-panel-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 9px;
+  line-height: 1.8;
+  color: #e4c2cc;
+  margin-top: 18px;
+}
+.workflow-panel-note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.workflow-preview-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 17px 24px;
+  border-top: 1px solid #ffffff20;
+  background: #ffffff03;
+}
+.workflow-progress {
+  display: flex;
+  gap: 7px;
+  flex: 1;
+}
+.workflow-progress button {
+  border: 1px solid transparent;
+  background: transparent;
+  color: #d1aab6;
+  border-radius: 5px;
+  padding: 6px 8px;
+  text-align: left;
+  min-height: 40px;
+  line-height: 1.5;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.workflow-progress button > span:first-child {
+  display: block;
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+.workflow-progress button > span:last-child {
+  display: block;
+  font-size: 7px;
+  margin-top: 2px;
+}
+.workflow-progress button[aria-pressed="true"] {
+  background: #ffffff0f;
+  border-color: #ffffff25;
+  color: #fff;
+}
+.workflow-progress button:hover {
+  background: #ffffff12;
+  color: #fff;
+}
+.workflow-arrows {
+  display: flex;
+  gap: 6px;
+}
+.workflow-arrows button {
+  display: grid;
+  place-items: center;
+  width: 33px;
+  min-height: 36px;
+  border: 1px solid #ffffff28;
+  border-radius: 5px;
+  background: transparent;
+  color: #fff;
+}
+.workflow-arrows button:hover:not(:disabled) {
+  background: #ffffff12;
+  border-color: #ffffff50;
+}
+.workflow-preview :focus-visible {
+  outline-color: #f2b0af;
+  outline-offset: 3px;
+}
+@media (max-width: 1100px) {
+  .workflow-section .workflow-layout {
+    gap: 40px;
+  }
+  .workflow-preview-header {
+    padding: 20px 22px;
+  }
+  .workflow-panel {
+    padding: 23px 22px;
+  }
+  .workflow-panel h3 {
+    font-size: 26px;
+  }
+  .workflow-preview-controls {
+    padding: 15px 18px;
+    gap: 10px;
+  }
+  .workflow-progress {
+    gap: 3px;
+  }
+  .workflow-progress button {
+    padding-inline: 6px;
+  }
+  .workflow-arrows {
+    gap: 4px;
+  }
+  .workflow-arrows button {
+    width: 29px;
+  }
+  .workflow-panels {
+    min-height: 425px;
+  }
+}
+@media (min-width: 601px) and (max-width: 800px) {
+  .workflow-section .workflow-layout {
+    gap: 25px;
+  }
+  .workflow-section .workflow-step {
+    gap: 12px;
+  }
+  .workflow-preview-header {
+    padding: 18px 16px;
+  }
+  .workflow-preview-header > span {
+    font-size: 6px;
+  }
+  .workflow-panel {
+    padding: 20px 16px;
+  }
+  .workflow-panel h3 {
+    font-size: 24px;
+  }
+  .workflow-example {
+    padding: 14px 12px;
+  }
+  .workflow-example-label > span {
+    display: none;
+  }
+  .workflow-example > p,
+  .workflow-example .workflow-draft {
+    font-size: 10px;
+  }
+  .workflow-context-list {
+    padding-inline: 12px;
+  }
+  .workflow-phase {
+    font-size: 8px;
+  }
+  .workflow-preview-controls {
+    padding: 12px 14px;
+  }
+  .workflow-progress button {
+    padding: 5px;
+  }
+  .workflow-progress button > span:last-child {
+    font-size: 6px;
+  }
+  .workflow-arrows {
+    display: none;
+  }
+  .workflow-panels {
+    min-height: 435px;
+  }
+}
+@media (max-width: 600px) {
+  .workflow-section .workflow-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+  }
+  .workflow-section .workflow-visual {
+    display: block;
+    position: static;
+    order: -1;
+    width: 100%;
+    padding: 0;
+  }
+  .workflow-section .workflow-steps {
+    width: 100%;
+  }
+  .workflow-section .workflow-step {
+    padding: 24px 0;
+    gap: 17px;
+  }
+  .workflow-section .workflow-step.active:before {
+    left: -10px;
+    top: 27px;
+    bottom: 27px;
+  }
+  .workflow-section .workflow-step strong {
+    font-size: 20px;
+  }
+  .workflow-preview-header {
+    padding: 20px;
+  }
+  .workflow-preview-header > span {
+    font-size: 7px;
+  }
+  .workflow-panel {
+    padding: 23px 20px;
+  }
+  .workflow-panel h3 {
+    font-size: 27px;
+  }
+  .workflow-phase {
+    font-size: 9px;
+  }
+  .workflow-panels {
+    min-height: 405px;
+  }
+  .workflow-panel-description {
+    font-size: 12px;
+    min-height: 44px;
+  }
+  .workflow-example {
+    padding: 16px;
+    min-height: 166px;
+  }
+  .workflow-example > p,
+  .workflow-example .workflow-draft {
+    font-size: 11px;
+  }
+  .workflow-panel-note {
+    font-size: 9px;
+  }
+  .workflow-preview-controls {
+    padding: 15px 15px;
+    gap: 8px;
+  }
+  .workflow-progress {
+    gap: 3px;
+  }
+  .workflow-progress button {
+    padding: 6px;
+    min-height: 44px;
+  }
+  .workflow-progress button > span:last-child {
+    font-size: 7px;
+  }
+  .workflow-arrows button {
+    width: 30px;
+    min-height: 40px;
+  }
+  .workflow-section .visual-caption {
+    font-size: 10px;
+    margin-top: 17px !important;
+  }
+}
+@media (max-width: 360px) {
+  .workflow-panel {
+    padding: 22px 17px;
+  }
+  .workflow-panel h3 {
+    font-size: 25px;
+  }
+  .workflow-panels {
+    min-height: 440px;
+  }
+  .workflow-progress button {
+    padding-inline: 5px;
+  }
+  .workflow-progress button > span:last-child {
+    font-size: 6px;
+  }
+  .workflow-preview-controls {
+    padding: 13px;
+  }
+  .workflow-arrows {
+    gap: 3px;
+  }
+  .workflow-arrows button {
+    width: 27px;
+  }
+  .workflow-example-label > span {
+    display: none;
+  }
+}

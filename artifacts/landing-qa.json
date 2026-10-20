@@ -1,0 +1,62 @@
+{
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": [],
+      "demoHeight": 590,
+      "demoContentHeight": 590
+    },
+    {
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 820,
+      "brokenImages": [],
+      "demoHeight": 590,
+      "demoContentHeight": 590
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "demoHeight": 650,
+      "demoContentHeight": 650
+    },
+    {
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": [],
+      "demoHeight": 700,
+      "demoContentHeight": 700
+    }
+  ],
+  "prices": [
+    {
+      "people": 1,
+      "price": "₦15,000 / month"
+    },
+    {
+      "people": 2,
+      "price": "₦60,000 / month"
+    },
+    {
+      "people": 5,
+      "price": "₦60,000 / month"
+    },
+    {
+      "people": 6,
+      "price": "₦195,000 / month"
+    },
+    {
+      "people": 15,
+      "price": "₦195,000 / month"
+    }
+  ],
+  "errors": [],
+  "apiCalls": [],
+  "brokenAnchors": [],
+  "accessibility": []
+}

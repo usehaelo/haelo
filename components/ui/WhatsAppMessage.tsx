@@ -1,5 +1,7 @@
 'use client'
 
+import Logo from './Logo'
+
 interface WhatsAppMessageProps {
   sender?: string
   role?: string
@@ -24,7 +26,7 @@ export default function WhatsAppMessage({
         {/* WhatsApp header */}
         <div className="bg-[#25D366] rounded-2xl rounded-b-none px-4 py-3 flex items-center gap-3">
           <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white font-bold text-xs">
-            H
+            <Logo showWordmark={false} size="sm" />
           </div>
           <div>
             <p className="text-white font-bold text-sm">Haelo</p>

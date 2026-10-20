@@ -1,0 +1,8 @@
+{
+  "autoplay": true,
+  "threeScenarioData": true,
+  "pause": true,
+  "resume": true,
+  "offscreenPause": true,
+  "analysisAccessibilityViolations": []
+}

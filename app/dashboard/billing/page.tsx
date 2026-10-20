@@ -1,7 +1,31 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { dashboardTheme } from "@/components/dashboard/theme";
+const {
+  BRAND,
+  INK,
+  NAVY,
+  CREAM,
+  WHITE,
+  GOLD,
+  GOLD_LIGHT,
+  GOLD_BG,
+  GREEN,
+  GREEN_BG,
+  INK_10,
+  INK_20,
+  INK_40,
+  INK_60,
+  INK_06,
+  RED,
+  RED_BG,
+  RED_BORDER,
+} = dashboardTheme;
+
+import { PRICING_PLANS, type PricingPlan } from "@/lib/pricing";
+
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import {
   CheckCircle,
   Download,
@@ -12,55 +36,17 @@ import {
   Users,
   UserPlus,
   ChevronRight,
-} from 'lucide-react'
-import {
-  getAccounts,
-  type OrgAccount,
-} from '@/lib/api/accounts'
-import { getBillingHistory } from '@/lib/api/billing'
+} from "lucide-react";
+import { getAccounts, type OrgAccount } from "@/lib/api/accounts";
+import { getBillingHistory } from "@/lib/api/billing";
 
 // ── TOKENS ────────────────────────────────────────────────────────────────────
-
-const INK = '#11270B'
-const NAVY = '#0A1628'
-const CREAM = '#F7F4EE'
-const WHITE = '#FFFFFF'
-
-const GOLD = '#B8962E'
-const GOLD_LIGHT = '#D4AE52'
-const GOLD_BG = 'rgba(184,150,46,0.08)'
-
-const GREEN = '#2E7D52'
-const GREEN_BG = 'rgba(46,125,82,0.08)'
-
-const INK_10 = 'rgba(17,39,11,0.1)'
-const INK_20 = 'rgba(17,39,11,0.2)'
-const INK_40 = 'rgba(17,39,11,0.4)'
-const INK_60 = 'rgba(17,39,11,0.6)'
-const INK_06 = 'rgba(17,39,11,0.06)'
-
-const RED = '#C0392B'
-const RED_BG = 'rgba(192,57,43,0.06)'
-const RED_BORDER = 'rgba(192,57,43,0.18)'
 
 // ── GLOBAL CSS ────────────────────────────────────────────────────────────────
 
 const GLOBAL_CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
-body,
-html {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background: ${CREAM};
-  color: ${INK};
-  -webkit-font-smoothing: antialiased;
-}
 
 @keyframes fadeUp {
   from {
@@ -107,11 +93,11 @@ html {
 
 .pricing-plan:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(17,39,11,0.08);
+  box-shadow: 0 10px 30px rgba(44,32,35,0.08);
 }
 
 .pricing-plan-current:hover {
-  box-shadow: 0 10px 30px rgba(10,22,40,0.18);
+  box-shadow: 0 10px 30px rgba(67,14,22,0.18);
 }
 
 .pricing-button {
@@ -123,7 +109,7 @@ html {
 
 .pricing-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(17,39,11,0.16);
+  box-shadow: 0 6px 18px rgba(44,32,35,0.16);
 }
 
 .current-plan-status {
@@ -170,57 +156,14 @@ html {
     width: 100% !important;
   }
 }
-`
+`;
 
 // ── PRICING MODEL ────────────────────────────────────────────────────────────
-
-type PricingPlan = {
-  id: string
-  name: string
-  description: string
-  minUsers: number
-  maxUsers: number
-  price: number
-  priceLabel: string
-}
-
-const PRICING_PLANS: PricingPlan[] = [
-  {
-    id: 'individual',
-    name: 'Individual',
-    description:
-      'Everything you need to manage your inbox on your own.',
-    minUsers: 1,
-    maxUsers: 1,
-    price: 15000,
-    priceLabel: '1 person',
-  },
-  {
-    id: 'team',
-    name: 'Team',
-    description:
-      'For small teams working together from one shared workspace.',
-    minUsers: 2,
-    maxUsers: 5,
-    price: 60000,
-    priceLabel: '2–5 people',
-  },
-  {
-    id: 'business',
-    name: 'Business',
-    description:
-      'For growing teams that need more people and collaboration.',
-    minUsers: 6,
-    maxUsers: 15,
-    price: 195000,
-    priceLabel: '6–15 people',
-  },
-]
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 
 function formatNaira(n: number): string {
-  return `₦${n.toLocaleString('en-NG')}`
+  return `₦${n.toLocaleString("en-NG")}`;
 }
 
 /*
@@ -230,7 +173,7 @@ function formatNaira(n: number): string {
  * when they are ready.
  */
 function getPaystackUrl(plan: PricingPlan): string {
-  return `https://paystack.com/pay/haelo-${plan.id}`
+  return `https://paystack.com/pay/haelo-${plan.id}`;
 }
 
 // For the UI prototype, the current plan is inferred from
@@ -240,12 +183,10 @@ function getPaystackUrl(plan: PricingPlan): string {
 // by your backend/payment system.
 function getPlanForUsers(users: number): PricingPlan {
   const matchingPlan = PRICING_PLANS.find(
-    plan =>
-      users >= plan.minUsers &&
-      users <= plan.maxUsers
-  )
+    (plan) => users >= plan.minUsers && users <= plan.maxUsers,
+  );
 
-  return matchingPlan || PRICING_PLANS[0]
+  return matchingPlan || PRICING_PLANS[0];
 }
 
 // ── SHARED CARD ───────────────────────────────────────────────────────────────
@@ -257,56 +198,47 @@ function Card({
   onLeave,
   style: extra,
 }: {
-  children: React.ReactNode
-  hov?: boolean
-  onEnter?: () => void
-  onLeave?: () => void
-  style?: React.CSSProperties
+  children: React.ReactNode;
+  hov?: boolean;
+  onEnter?: () => void;
+  onLeave?: () => void;
+  style?: React.CSSProperties;
 }) {
   return (
     <div
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       style={{
-        background: hov ? WHITE : 'transparent',
-        border: `1.5px solid ${
-          hov ? INK_20 : INK_10
-        }`,
+        background: WHITE,
+        border: `1.5px solid ${hov ? INK_20 : INK_10}`,
         borderRadius: 16,
         padding: 28,
-        transition:
-          'all .22s cubic-bezier(.4,0,.2,1)',
-        boxShadow: hov
-          ? '0 8px 32px rgba(17,39,11,0.09)'
-          : 'none',
+        transition: "all .22s cubic-bezier(.4,0,.2,1)",
+        boxShadow: hov ? "0 8px 32px rgba(44,32,35,0.09)" : "none",
         ...extra,
       }}
     >
       {children}
     </div>
-  )
+  );
 }
 
 // ── SECTION TITLE ─────────────────────────────────────────────────────────────
 
-function SectionTitle({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <p
       style={{
         fontSize: 14,
         fontWeight: 700,
         color: INK,
-        letterSpacing: '-.015em',
+        letterSpacing: "-.015em",
         marginBottom: 18,
       }}
     >
       {children}
     </p>
-  )
+  );
 }
 
 // ── INVOICE ROW ───────────────────────────────────────────────────────────────
@@ -316,55 +248,44 @@ function InvoiceRow({
   last,
 }: {
   inv: {
-    id: string
-    date: string
-    amount: string
-    status: string
-  }
-  last: boolean
+    id: string;
+    date: string;
+    amount: string;
+    status: string;
+  };
+  last: boolean;
 }) {
-  const [hov, setHov] = useState(false)
-  const [dlHov, setDlHov] = useState(false)
+  const [hov, setHov] = useState(false);
+  const [dlHov, setDlHov] = useState(false);
 
   return (
     <div
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        display: 'flex',
-        alignItems: 'center',
+        display: "flex",
+        alignItems: "center",
         gap: 14,
-        padding: '13px 20px',
-        background: hov
-          ? CREAM
-          : 'transparent',
-        borderBottom: last
-          ? 'none'
-          : `1px solid ${INK_06}`,
-        transition: 'background .16s',
+        padding: "13px 20px",
+        background: hov ? CREAM : "transparent",
+        borderBottom: last ? "none" : `1px solid ${INK_06}`,
+        transition: "background .16s",
       }}
     >
       <div
         style={{
           width: 36,
           height: 36,
-          background: hov
-            ? INK
-            : INK_06,
+          background: hov ? INK : INK_06,
           borderRadius: 9,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           flexShrink: 0,
-          transition: 'all .18s',
+          transition: "all .18s",
         }}
       >
-        <CreditCard
-          size={15}
-          color={
-            hov ? '#fff' : INK_40
-          }
-        />
+        <CreditCard size={15} color={hov ? "#fff" : INK_40} />
       </div>
 
       <div style={{ flex: 1 }}>
@@ -403,67 +324,50 @@ function InvoiceRow({
         style={{
           fontSize: 10,
           fontWeight: 700,
-          padding: '3px 9px',
+          padding: "3px 9px",
           borderRadius: 20,
           background: GREEN_BG,
           color: GREEN,
           flexShrink: 0,
         }}
       >
-        {inv.status.charAt(0).toUpperCase() +
-          inv.status.slice(1)}
+        {inv.status.charAt(0).toUpperCase() + inv.status.slice(1)}
       </span>
 
       <button
-        onMouseEnter={() =>
-          setDlHov(true)
-        }
-        onMouseLeave={() =>
-          setDlHov(false)
-        }
+        aria-label={`Download invoice ${inv.id} (unavailable)`}
+        disabled
+        title="Invoice downloads are not available yet"
+        onMouseEnter={() => setDlHov(true)}
+        onMouseLeave={() => setDlHov(false)}
         style={{
           width: 30,
           height: 30,
           borderRadius: 8,
-          border: `1px solid ${
-            dlHov
-              ? INK_20
-              : 'transparent'
-          }`,
-          background: dlHov
-            ? WHITE
-            : 'transparent',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          transition: 'all .15s',
+          border: `1px solid ${dlHov ? INK_20 : "transparent"}`,
+          background: WHITE,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          transition: "all .15s",
           flexShrink: 0,
         }}
       >
-        <Download
-          size={13}
-          color={
-            dlHov ? INK : INK_40
-          }
-        />
+        <Download size={13} color={dlHov ? INK : INK_40} />
       </button>
     </div>
-  )
+  );
 }
 
 // ── FEATURE ITEM ──────────────────────────────────────────────────────────────
 
-function FeatureItem({
-  f,
-}: {
-  f: string
-}) {
+function FeatureItem({ f }: { f: string }) {
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'flex-start',
+        display: "flex",
+        alignItems: "flex-start",
         gap: 9,
       }}
     >
@@ -486,39 +390,35 @@ function FeatureItem({
         {f}
       </span>
     </div>
-  )
+  );
 }
 
 // ── MEMBER ROW ────────────────────────────────────────────────────────────────
 
 type BillingAccountPreview = {
-  id: number
-  name: string | null
-  email: string
-  status: string
-}
+  id: number;
+  name: string | null;
+  email: string;
+  status: string;
+};
 
 function initials(name: string) {
   return name
-    .split(' ')
+    .split(" ")
     .map((n: string) => n[0])
-    .join('')
+    .join("")
     .slice(0, 2)
-    .toUpperCase()
+    .toUpperCase();
 }
 
-function MemberRow({
-  m,
-}: {
-  m: BillingAccountPreview
-}) {
+function MemberRow({ m }: { m: BillingAccountPreview }) {
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
+        display: "flex",
+        alignItems: "center",
         gap: 11,
-        padding: '9px 0',
+        padding: "9px 0",
       }}
     >
       <div
@@ -526,21 +426,17 @@ function MemberRow({
           width: 32,
           height: 32,
           borderRadius: 9,
-          background: INK,
+          background: BRAND,
           color: CREAM,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           fontSize: 11,
           fontWeight: 700,
           flexShrink: 0,
         }}
       >
-        {m.name
-          ? initials(m.name)
-          : m.email
-              .slice(0, 2)
-              .toUpperCase()}
+        {m.name ? initials(m.name) : m.email.slice(0, 2).toUpperCase()}
       </div>
 
       <div
@@ -554,9 +450,9 @@ function MemberRow({
             fontSize: 12.5,
             fontWeight: 700,
             color: INK,
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           {m.name || m.email}
@@ -570,7 +466,9 @@ function MemberRow({
         >
           {m.name
             ? m.email
-            : 'Invited · not yet joined'}
+            : m.status === "active"
+              ? "Workspace account"
+              : "Invitation pending"}
         </p>
       </div>
 
@@ -578,25 +476,17 @@ function MemberRow({
         style={{
           fontSize: 9.5,
           fontWeight: 700,
-          padding: '3px 8px',
+          padding: "3px 8px",
           borderRadius: 20,
           flexShrink: 0,
-          background:
-            m.status === 'active'
-              ? GREEN_BG
-              : 'rgba(180,83,9,0.08)',
-          color:
-            m.status === 'active'
-              ? GREEN
-              : '#B45309',
+          background: m.status === "active" ? GREEN_BG : "rgba(180,83,9,0.08)",
+          color: m.status === "active" ? GREEN : "#B45309",
         }}
       >
-        {m.status === 'active'
-          ? 'Active'
-          : 'Invited'}
+        {m.status === "active" ? "Active" : "Invited"}
       </span>
     </div>
-  )
+  );
 }
 
 // ── PRICING PLAN CARD ─────────────────────────────────────────────────────────
@@ -606,29 +496,18 @@ function PricingPlanCard({
   isCurrent,
   subActive,
 }: {
-  plan: PricingPlan
-  isCurrent: boolean
-  subActive?: boolean | null
+  plan: PricingPlan;
+  isCurrent: boolean;
+  subActive?: boolean | null;
 }) {
-  const paystackUrl =
-    getPaystackUrl(plan)
+  const paystackUrl = getPaystackUrl(plan);
 
   return (
     <div
-      className={`pricing-plan ${
-        isCurrent
-          ? 'pricing-plan-current'
-          : ''
-      }`}
+      className={`pricing-plan ${isCurrent ? "pricing-plan-current" : ""}`}
       style={{
-        background: isCurrent
-          ? NAVY
-          : WHITE,
-        border: `1.5px solid ${
-          isCurrent
-            ? NAVY
-            : INK_10
-        }`,
+        background: isCurrent ? NAVY : WHITE,
+        border: `1.5px solid ${isCurrent ? NAVY : INK_10}`,
         borderRadius: 16,
         padding: 22,
       }}
@@ -638,18 +517,17 @@ function PricingPlanCard({
       <div
         className="pricing-plan-header"
         style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent:
-            'space-between',
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
           gap: 20,
         }}
       >
         <div style={{ flex: 1 }}>
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
+              display: "flex",
+              alignItems: "center",
               gap: 8,
               marginBottom: 7,
             }}
@@ -658,27 +536,23 @@ function PricingPlanCard({
               style={{
                 fontSize: 17,
                 fontWeight: 800,
-                color: isCurrent
-                  ? '#fff'
-                  : INK,
-                letterSpacing:
-                  '-.02em',
+                color: isCurrent ? "#fff" : INK,
+                letterSpacing: "-.02em",
               }}
             >
               {plan.name}
             </h3>
 
             {isCurrent && (
-              <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
                 <span
                   style={{
                     fontSize: 9,
                     fontWeight: 700,
-                    padding: '3px 8px',
+                    padding: "3px 8px",
                     borderRadius: 20,
-                    background:
-                      GREEN_BG,
-                    color: '#4ABA7A',
+                    background: GREEN_BG,
+                    color: GREEN,
                   }}
                 >
                   CURRENT PLAN
@@ -688,14 +562,22 @@ function PricingPlanCard({
                     style={{
                       fontSize: 9,
                       fontWeight: 700,
-                      padding: '3px 8px',
+                      padding: "3px 8px",
                       borderRadius: 20,
-                      background: subActive ? 'rgba(46,125,82,0.15)' : 'rgba(192,57,43,0.15)',
-                      color: subActive ? '#4ABA7A' : '#C0392B',
-                      letterSpacing: '0.02em'
+                      background: subActive
+                        ? "rgba(46,125,82,0.15)"
+                        : "rgba(192,57,43,0.15)",
+                      color: subActive
+                        ? isCurrent
+                          ? "#B9E4C8"
+                          : GREEN
+                        : isCurrent
+                          ? "#F3BCC5"
+                          : "#A92736",
+                      letterSpacing: "0.02em",
                     }}
                   >
-                    {subActive ? 'ACTIVE' : 'EXPIRED'}
+                    {subActive ? "ACTIVE" : "EXPIRED"}
                   </span>
                 )}
               </div>
@@ -705,9 +587,7 @@ function PricingPlanCard({
           <p
             style={{
               fontSize: 11.5,
-              color: isCurrent
-                ? 'rgba(255,255,255,0.5)'
-                : INK_60,
+              color: isCurrent ? "rgba(255,255,255,0.8)" : INK_60,
               lineHeight: 1.55,
               marginBottom: 12,
               maxWidth: 400,
@@ -718,18 +598,14 @@ function PricingPlanCard({
 
           <div
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
+              display: "inline-flex",
+              alignItems: "center",
               gap: 6,
               fontSize: 10.5,
               fontWeight: 700,
-              color: isCurrent
-                ? GOLD_LIGHT
-                : GREEN,
-              background: isCurrent
-                ? 'rgba(184,150,46,0.1)'
-                : GREEN_BG,
-              padding: '5px 9px',
+              color: isCurrent ? GOLD_LIGHT : GREEN,
+              background: isCurrent ? "rgba(94,26,38,0.1)" : GREEN_BG,
+              padding: "5px 9px",
               borderRadius: 7,
             }}
           >
@@ -743,7 +619,7 @@ function PricingPlanCard({
         <div
           className="pricing-plan-price"
           style={{
-            textAlign: 'right',
+            textAlign: "right",
             flexShrink: 0,
           }}
         >
@@ -751,25 +627,18 @@ function PricingPlanCard({
             style={{
               fontSize: 24,
               fontWeight: 800,
-              color: isCurrent
-                ? GOLD_LIGHT
-                : INK,
-              letterSpacing:
-                '-.03em',
+              color: isCurrent ? GOLD_LIGHT : INK,
+              letterSpacing: "-.03em",
               lineHeight: 1,
             }}
           >
-            {formatNaira(
-              plan.price
-            )}
+            {formatNaira(plan.price)}
           </p>
 
           <p
             style={{
               fontSize: 10,
-              color: isCurrent
-                ? 'rgba(255,255,255,0.4)'
-                : INK_40,
+              color: isCurrent ? "rgba(255,255,255,0.8)" : INK_40,
               marginTop: 5,
             }}
           >
@@ -783,17 +652,14 @@ function PricingPlanCard({
       <div
         className="pricing-plan-footer"
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent:
-            'space-between',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
           gap: 12,
           marginTop: 18,
           paddingTop: 16,
           borderTop: `1px solid ${
-            isCurrent
-              ? 'rgba(255,255,255,0.08)'
-              : INK_06
+            isCurrent ? "rgba(255,255,255,0.08)" : INK_06
           }`,
         }}
       >
@@ -801,27 +667,18 @@ function PricingPlanCard({
 
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
+            display: "flex",
+            alignItems: "center",
             gap: 6,
           }}
         >
-          <Zap
-            size={13}
-            color={
-              isCurrent
-                ? GOLD_LIGHT
-                : GREEN
-            }
-          />
+          <Zap size={13} color={isCurrent ? GOLD_LIGHT : GREEN} />
 
           <span
             style={{
               fontSize: 10.5,
               fontWeight: 600,
-              color: isCurrent
-                ? 'rgba(255,255,255,0.5)'
-                : INK_60,
+              color: isCurrent ? "rgba(255,255,255,0.8)" : INK_60,
             }}
           >
             7-day free trial
@@ -834,27 +691,21 @@ function PricingPlanCard({
           <div
             className="current-plan-status"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent:
-                'center',
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
               gap: 7,
               minWidth: 155,
-              background:
-                'rgba(255,255,255,0.08)',
-              color:
-                'rgba(255,255,255,0.5)',
-              fontFamily:
-                "'Plus Jakarta Sans', sans-serif",
+              background: "rgba(255,255,255,0.08)",
+              color: "rgba(255,255,255,0.8)",
+              fontFamily: "var(--dashboard-font), sans-serif",
               fontSize: 11.5,
               fontWeight: 700,
-              padding: '10px 15px',
+              padding: "10px 15px",
               borderRadius: 9,
             }}
           >
-            <CheckCircle
-              size={13}
-            />
+            <CheckCircle size={13} />
             Current plan
           </div>
         ) : (
@@ -866,124 +717,103 @@ function PricingPlanCard({
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent:
-                'center',
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
               gap: 7,
               minWidth: 155,
-              background: INK,
+              background: BRAND,
               color: WHITE,
-              fontFamily:
-                "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "var(--dashboard-font), sans-serif",
               fontSize: 11.5,
               fontWeight: 700,
-              padding: '10px 15px',
+              padding: "10px 15px",
               borderRadius: 9,
-              textDecoration: 'none',
+              textDecoration: "none",
             }}
           >
             Subscribe now
-            <ArrowRight
-              size={13}
-            />
+            <ArrowRight size={13} />
           </a>
         )}
       </div>
     </div>
-  )
+  );
 }
 
 // ── PAGE ──────────────────────────────────────────────────────────────────────
 
 export default function BillingPage() {
-  const [featHov, setFeatHov] =
-    useState(false)
+  const [featHov, setFeatHov] = useState(false);
 
-  const [invoiceHov, setInvoiceHov] =
-    useState(false)
+  const [invoiceHov, setInvoiceHov] = useState(false);
 
-  const [cancelHov, setCancelHov] =
-    useState(false)
+  const [cancelHov, setCancelHov] = useState(false);
 
-  const [membersHov, setMembersHov] =
-    useState(false)
+  const [membersHov, setMembersHov] = useState(false);
 
-  const [addMemberHov, setAddMemberHov] =
-    useState(false)
+  const [addMemberHov, setAddMemberHov] = useState(false);
 
-  const [
-    accountsPreview,
-    setAccountsPreview,
-  ] = useState<
+  const [accountsPreview, setAccountsPreview] = useState<
     BillingAccountPreview[]
-  >([])
+  >([]);
 
-  const [
-    totalStaffCount,
-    setTotalStaffCount,
-  ] = useState(0)
+  const [totalStaffCount, setTotalStaffCount] = useState(0);
 
-  const [
-    staffLoading,
-    setStaffLoading,
-  ] = useState(true)
+  const [staffLoading, setStaffLoading] = useState(true);
 
-  const [
-    subDetails,
-    setSubDetails
-  ] = useState<{seatCount: number, isActive: boolean} | null>(null)
+  const [subDetails, setSubDetails] = useState<{
+    seatCount: number;
+    isActive: boolean;
+  } | null>(null);
 
   // ── FETCH TEAM ACCOUNTS ────────────────────────────────────────────────────
 
   useEffect(() => {
-    const fetchAccounts =
-      async () => {
-        setStaffLoading(true)
+    const fetchAccounts = async () => {
+      setStaffLoading(true);
 
-        try {
-          const res =
-            await getAccounts()
+      try {
+        const res = await getAccounts();
 
-          if (
-            res?.data?.accounts
-          ) {
-            const accts: OrgAccount[] =
-              res.data.accounts
-
-            setAccountsPreview(
-              accts.map(a => ({
-                id: a.id,
-                name: a.name,
-                email: a.email,
-                status: a.status,
-              }))
-            )
-
-            setTotalStaffCount(
-              accts.length
-            )
-          }
-        } catch (err) {
-          console.error(
-            'Failed to fetch team accounts for billing summary:',
-            err
-          )
-        } finally {
-          setStaffLoading(false)
-        }
-      }
-
-    fetchAccounts()
-    
-    import('@/lib/api/billing').then(({ getSubscription }) => {
-      getSubscription().then(res => {
         if (res?.data) {
-          setSubDetails(res.data)
+          const accts: OrgAccount[] = Array.isArray(res.data)
+            ? res.data
+            : res.data.accounts || [];
+
+          setAccountsPreview(
+            accts.map((a) => ({
+              id: a.id,
+              name: a.name,
+              email: a.email,
+              status: a.status,
+            })),
+          );
+
+          setTotalStaffCount(accts.length);
         }
-      }).catch(err => console.error('Failed to fetch subscription:', err))
-    })
-  }, [])
+      } catch (err) {
+        console.error(
+          "Failed to fetch team accounts for billing summary:",
+          err,
+        );
+      } finally {
+        setStaffLoading(false);
+      }
+    };
+
+    fetchAccounts();
+
+    import("@/lib/api/billing").then(({ getSubscription }) => {
+      getSubscription()
+        .then((res) => {
+          if (res?.data) {
+            setSubDetails(res.data);
+          }
+        })
+        .catch((err) => console.error("Failed to fetch subscription:", err));
+    });
+  }, []);
 
   /*
    * For now, the current plan is inferred from
@@ -993,162 +823,93 @@ export default function BillingPage() {
    * replace this with the actual subscription plan
    * returned by the backend.
    */
-  const seats =
-    subDetails?.seatCount || totalStaffCount || 1
+  const seats = subDetails?.seatCount || totalStaffCount || 1;
 
-  const currentPlan =
-    getPlanForUsers(seats)
+  const currentPlan = getPlanForUsers(seats);
 
   // ── INVOICES ───────────────────────────────────────────────────────────────
 
-  const [
-    invoices,
-    setInvoices,
-  ] = useState<
+  const [invoices, setInvoices] = useState<
     {
-      id: string
-      date: string
-      amount: string
-      status: string
+      id: string;
+      date: string;
+      amount: string;
+      status: string;
     }[]
-  >([])
+  >([]);
 
-  const [
-    invoicesPage,
-    setInvoicesPage,
-  ] = useState(1)
+  const [invoicesPage, setInvoicesPage] = useState(1);
 
-  const [
-    hasMoreInvoices,
-    setHasMoreInvoices,
-  ] = useState(false)
+  const [hasMoreInvoices, setHasMoreInvoices] = useState(false);
 
-  const [
-    loadingInvoices,
-    setLoadingInvoices,
-  ] = useState(false)
+  const [loadingInvoices, setLoadingInvoices] = useState(false);
 
-  const loadInvoices =
-    async (page: number) => {
-      if (loadingInvoices)
-        return
+  const loadInvoices = async (page: number) => {
+    if (loadingInvoices) return;
 
-      setLoadingInvoices(
-        true
-      )
+    setLoadingInvoices(true);
 
-      try {
-        const res =
-          await getBillingHistory(
-            page,
-            5
-          )
+    try {
+      const res = await getBillingHistory(page, 5);
 
-        if (res?.data) {
-          const newInvoices =
-            res.data.transactions.map(
-              (t: any) => ({
-                id: String(
-                  t.trxRef ||
-                    t.id
-                ),
-                date: new Date(
-                  t.createdAt
-                ).toLocaleDateString(
-                  'en-US',
-                  {
-                    month:
-                      'short',
-                    day: 'numeric',
-                    year:
-                      'numeric',
-                  }
-                ),
-                amount: `₦${Number(
-                  t.amount
-                ).toLocaleString(
-                  'en-NG'
-                )}`,
-                status:
-                  t.status?.toLowerCase() ||
-                  'unknown',
-              })
-            )
+      if (res?.data) {
+        const newInvoices = res.data.transactions.map((t: any) => ({
+          id: String(t.trxRef || t.id),
+          date: new Date(t.createdAt).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          }),
+          amount: `₦${Number(t.amount).toLocaleString("en-NG")}`,
+          status: t.status?.toLowerCase() || "unknown",
+        }));
 
-          if (page === 1) {
-            setInvoices(
-              newInvoices
-            )
-          } else {
-            setInvoices(
-              prev => [
-                ...prev,
-                ...newInvoices,
-              ]
-            )
-          }
-
-          setHasMoreInvoices(
-            res.data.meta
-              .nextPage !==
-              null
-          )
+        if (page === 1) {
+          setInvoices(newInvoices);
+        } else {
+          setInvoices((prev) => [...prev, ...newInvoices]);
         }
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setLoadingInvoices(
-          false
-        )
-      }
-    }
 
+        setHasMoreInvoices(res.data.meta.nextPage !== null);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingInvoices(false);
+    }
+  };
+
+  // Capture the initial loader: pagination explicitly requests subsequent pages.
+  const firstInvoiceLoad = useRef(loadInvoices);
   useEffect(() => {
-    loadInvoices(1)
-  }, [])
+    firstInvoiceLoad.current(1);
+  }, []);
 
-  const handleInvoiceScroll = (
-    e: React.UIEvent<HTMLDivElement>
-  ) => {
-    const {
-      scrollTop,
-      scrollHeight,
-      clientHeight,
-    } = e.currentTarget
+  const handleInvoiceScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
 
-    if (
-      scrollHeight -
-        scrollTop -
-        clientHeight <
-      20
-    ) {
-      if (
-        hasMoreInvoices &&
-        !loadingInvoices
-      ) {
-        const next =
-          invoicesPage + 1
+    if (scrollHeight - scrollTop - clientHeight < 20) {
+      if (hasMoreInvoices && !loadingInvoices) {
+        const next = invoicesPage + 1;
 
-        setInvoicesPage(
-          next
-        )
+        setInvoicesPage(next);
 
-        loadInvoices(next)
+        loadInvoices(next);
       }
     }
-  }
+  };
 
   // ── FEATURES ───────────────────────────────────────────────────────────────
 
   const features = [
-    'Add as many inboxes as you need',
-    'All email providers',
-    'Unlimited Business Bible size',
-    'Custom timer per staff level',
-    'Shared team dashboard',
-    'Priority support',
-    'Monthly performance report',
-  ]
+    "Add as many inboxes as you need",
+    "All email providers",
+    "Unlimited Business Bible size",
+    "Custom timer per staff level",
+    "Shared team dashboard",
+    "Priority support",
+    "Monthly performance report",
+  ];
 
   // ── RENDER ─────────────────────────────────────────────────────────────────
 
@@ -1157,15 +918,14 @@ export default function BillingPage() {
       <style dangerouslySetInnerHTML={{ __html: GLOBAL_CSS }} />
 
       <main
-        className="main-pad"
+        className="main-pad billing-page"
         style={{
           flex: 1,
-          padding:
-            '40px 40px 60px',
-          overflowY: 'auto',
+          padding: "40px 40px 60px",
+          overflowY: "auto",
           maxWidth: 1200,
-          margin: '0 auto',
-          width: '100%',
+          margin: "0 auto",
+          width: "100%",
         }}
       >
         {/* HEADER */}
@@ -1180,10 +940,8 @@ export default function BillingPage() {
             style={{
               fontSize: 10,
               fontWeight: 700,
-              letterSpacing:
-                '.1em',
-              textTransform:
-                'uppercase',
+              letterSpacing: ".1em",
+              textTransform: "uppercase",
               color: GOLD,
               marginBottom: 6,
             }}
@@ -1196,8 +954,7 @@ export default function BillingPage() {
               fontSize: 28,
               fontWeight: 800,
               color: INK,
-              letterSpacing:
-                '-0.03em',
+              letterSpacing: "-0.03em",
               lineHeight: 1.1,
               marginBottom: 4,
             }}
@@ -1212,26 +969,21 @@ export default function BillingPage() {
               fontWeight: 500,
             }}
           >
-            Manage your subscription,
-            payment method, and
-            invoice history.
+            Manage your subscription, payment method, and invoice history.
           </p>
         </div>
 
         <div
           style={{
-            display: 'flex',
-            flexDirection:
-              'column',
+            display: "flex",
+            flexDirection: "column",
             gap: 14,
-            maxWidth: 720,
+            maxWidth: "100%",
           }}
         >
           {/* ── PLANS & PRICING ── */}
 
-          <div
-            className="fade-up stagger-1"
-          >
+          <div className="fade-up stagger-1">
             <div
               style={{
                 marginBottom: 18,
@@ -1241,10 +993,8 @@ export default function BillingPage() {
                 style={{
                   fontSize: 10,
                   fontWeight: 700,
-                  letterSpacing:
-                    '.1em',
-                  textTransform:
-                    'uppercase',
+                  letterSpacing: ".1em",
+                  textTransform: "uppercase",
                   color: GOLD,
                   marginBottom: 6,
                 }}
@@ -1257,14 +1007,11 @@ export default function BillingPage() {
                   fontSize: 22,
                   fontWeight: 800,
                   color: INK,
-                  letterSpacing:
-                    '-0.025em',
+                  letterSpacing: "-0.025em",
                   marginBottom: 5,
                 }}
               >
-                Choose the right
-                plan for your
-                team.
+                Choose the right plan for your team.
               </h2>
 
               <p
@@ -1273,34 +1020,26 @@ export default function BillingPage() {
                   color: INK_60,
                 }}
               >
-                Upgrade your
-                workspace with a
-                7-day free trial on
-                every plan.
+                Upgrade your workspace with a 7-day free trial on every plan.
               </p>
             </div>
 
             <div
+              className="billing-plans"
               style={{
-                display: 'flex',
-                flexDirection:
-                  'column',
+                display: "flex",
+                flexDirection: "column",
                 gap: 10,
               }}
             >
-              {PRICING_PLANS.map(
-                plan => (
-                  <PricingPlanCard
-                    key={plan.id}
-                    plan={plan}
-                    isCurrent={
-                      currentPlan.id ===
-                      plan.id
-                    }
-                    subActive={subDetails?.isActive}
-                  />
-                )
-              )}
+              {PRICING_PLANS.map((plan) => (
+                <PricingPlanCard
+                  key={plan.id}
+                  plan={plan}
+                  isCurrent={currentPlan.id === plan.id}
+                  subActive={subDetails?.isActive}
+                />
+              ))}
             </div>
           </div>
 
@@ -1308,24 +1047,14 @@ export default function BillingPage() {
 
           <Card
             hov={membersHov}
-            onEnter={() =>
-              setMembersHov(
-                true
-              )
-            }
-            onLeave={() =>
-              setMembersHov(
-                false
-              )
-            }
+            onEnter={() => setMembersHov(true)}
+            onLeave={() => setMembersHov(false)}
           >
             <div
               style={{
-                display: 'flex',
-                alignItems:
-                  'center',
-                justifyContent:
-                  'space-between',
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
                 marginBottom: 16,
               }}
             >
@@ -1338,68 +1067,37 @@ export default function BillingPage() {
                       fontWeight: 500,
                     }}
                   >
-                    {' '}
-                    ·{' '}
-                    {
-                      totalStaffCount
-                    }{' '}
-                    {totalStaffCount ===
-                    1
-                      ? 'person'
-                      : 'people'}
+                    {" "}
+                    · {totalStaffCount}{" "}
+                    {totalStaffCount === 1 ? "person" : "people"}
                   </span>
                 )}
               </SectionTitle>
 
               <Link
                 href="/dashboard/settings"
-                onMouseEnter={() =>
-                  setAddMemberHov(
-                    true
-                  )
-                }
-                onMouseLeave={() =>
-                  setAddMemberHov(
-                    false
-                  )
-                }
+                onMouseEnter={() => setAddMemberHov(true)}
+                onMouseLeave={() => setAddMemberHov(false)}
                 style={{
-                  display:
-                    'inline-flex',
-                  alignItems:
-                    'center',
+                  display: "inline-flex",
+                  alignItems: "center",
                   gap: 6,
                   fontSize: 12,
                   fontWeight: 700,
-                  color:
-                    addMemberHov
-                      ? INK
-                      : GREEN,
-                  background:
-                    addMemberHov
-                      ? CREAM
-                      : 'transparent',
+                  color: addMemberHov ? INK : GREEN,
+                  background: addMemberHov ? CREAM : "transparent",
                   border: `1.5px solid ${
-                    addMemberHov
-                      ? INK_20
-                      : 'rgba(46,125,82,0.25)'
+                    addMemberHov ? INK_20 : "rgba(46,125,82,0.25)"
                   }`,
                   borderRadius: 9,
-                  padding:
-                    '7px 13px',
-                  textDecoration:
-                    'none',
-                  fontFamily:
-                    "'Plus Jakarta Sans', sans-serif",
-                  transition:
-                    'all .18s',
-                  whiteSpace:
-                    'nowrap',
+                  padding: "7px 13px",
+                  textDecoration: "none",
+                  fontFamily: "var(--dashboard-font), sans-serif",
+                  transition: "all .18s",
+                  whiteSpace: "nowrap",
                 }}
               >
-                <UserPlus
-                  size={13}
-                />
+                <UserPlus size={13} />
                 Invite member
               </Link>
             </div>
@@ -1409,97 +1107,61 @@ export default function BillingPage() {
                 style={{
                   fontSize: 12,
                   color: INK_40,
-                  padding:
-                    '8px 0',
+                  padding: "8px 0",
                 }}
               >
-                Loading team
-                accounts…
+                Loading team accounts…
               </p>
-            ) : accountsPreview.length ===
-              0 ? (
+            ) : accountsPreview.length === 0 ? (
               <p
                 style={{
                   fontSize: 12,
                   color: INK_40,
-                  padding:
-                    '8px 0',
+                  padding: "8px 0",
                 }}
               >
-                Just you so far
-                — invite your
-                team from
-                Settings.
+                Just you so far — invite your team from Settings.
               </p>
             ) : (
               <div
                 style={{
-                  display:
-                    'flex',
-                  flexDirection:
-                    'column',
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
-                {accountsPreview
-                  .slice(0, 5)
-                  .map(
-                    (
-                      m,
-                      i
-                    ) => (
-                      <div
-                        key={
-                          m.id
-                        }
-                        style={{
-                          borderBottom:
-                            i <
-                            Math.min(
-                              accountsPreview.length,
-                              5
-                            ) -
-                              1
-                              ? `1px solid ${INK_06}`
-                              : 'none',
-                        }}
-                      >
-                        <MemberRow
-                          m={m}
-                        />
-                      </div>
-                    )
-                  )}
+                {accountsPreview.slice(0, 5).map((m, i) => (
+                  <div
+                    key={m.id}
+                    style={{
+                      borderBottom:
+                        i < Math.min(accountsPreview.length, 5) - 1
+                          ? `1px solid ${INK_06}`
+                          : "none",
+                    }}
+                  >
+                    <MemberRow m={m} />
+                  </div>
+                ))}
               </div>
             )}
 
-            {totalStaffCount >
-              5 && (
+            {totalStaffCount > 5 && (
               <Link
                 href="/dashboard/settings"
                 style={{
-                  display:
-                    'inline-flex',
-                  alignItems:
-                    'center',
+                  display: "inline-flex",
+                  alignItems: "center",
                   gap: 4,
                   fontSize: 11.5,
                   fontWeight: 700,
                   color: GREEN,
-                  textDecoration:
-                    'none',
+                  textDecoration: "none",
                   marginTop: 12,
-                  fontFamily:
-                    "'Plus Jakarta Sans', sans-serif",
+                  fontFamily: "var(--dashboard-font), sans-serif",
                 }}
               >
-                View all{' '}
-                {
-                  totalStaffCount
-                }{' '}
-                accounts
-                <ChevronRight
-                  size={13}
-                />
+                View all {totalStaffCount} accounts
+                <ChevronRight size={13} />
               </Link>
             )}
 
@@ -1511,14 +1173,8 @@ export default function BillingPage() {
                 lineHeight: 1.6,
               }}
             >
-              Your plan is
-              based on your
-              team size. Add or
-              remove team
-              members from
-              Settings to keep
-              your workspace
-              up to date.
+              Your plan is based on your team size. Add or remove team members
+              from Settings to keep your workspace up to date.
             </p>
           </Card>
 
@@ -1526,34 +1182,22 @@ export default function BillingPage() {
 
           <Card
             hov={featHov}
-            onEnter={() =>
-              setFeatHov(true)
-            }
-            onLeave={() =>
-              setFeatHov(false)
-            }
+            onEnter={() => setFeatHov(true)}
+            onLeave={() => setFeatHov(false)}
           >
-            <SectionTitle>
-              What's included
-            </SectionTitle>
+            <SectionTitle>What&apos;s included</SectionTitle>
 
             <div
               className="features-grid"
               style={{
-                display: 'grid',
-                gridTemplateColumns:
-                  '1fr 1fr',
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
                 gap: 10,
               }}
             >
-              {features.map(
-                f => (
-                  <FeatureItem
-                    key={f}
-                    f={f}
-                  />
-                )
-              )}
+              {features.map((f) => (
+                <FeatureItem key={f} f={f} />
+              ))}
             </div>
           </Card>
 
@@ -1561,48 +1205,24 @@ export default function BillingPage() {
 
           <div
             className="fade-up stagger-4"
-            onMouseEnter={() =>
-              setInvoiceHov(
-                true
-              )
-            }
-            onMouseLeave={() =>
-              setInvoiceHov(
-                false
-              )
-            }
+            onMouseEnter={() => setInvoiceHov(true)}
+            onMouseLeave={() => setInvoiceHov(false)}
             style={{
-              background:
-                invoiceHov
-                  ? WHITE
-                  : 'transparent',
-              border: `1.5px solid ${
-                invoiceHov
-                  ? INK_20
-                  : INK_10
-              }`,
+              background: WHITE,
+              border: `1.5px solid ${invoiceHov ? INK_20 : INK_10}`,
               borderRadius: 16,
-              overflow: 'hidden',
-              transition:
-                'all .22s cubic-bezier(.4,0,.2,1)',
-              boxShadow:
-                invoiceHov
-                  ? '0 8px 32px rgba(17,39,11,0.09)'
-                  : 'none',
+              overflow: "hidden",
+              transition: "all .22s cubic-bezier(.4,0,.2,1)",
+              boxShadow: invoiceHov ? "0 8px 32px rgba(44,32,35,0.09)" : "none",
             }}
           >
             <div
               style={{
-                display:
-                  'flex',
-                alignItems:
-                  'center',
-                justifyContent:
-                  'space-between',
-                padding:
-                  '18px 20px',
-                borderBottom:
-                  `1px solid ${INK_06}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "18px 20px",
+                borderBottom: `1px solid ${INK_06}`,
               }}
             >
               <p
@@ -1610,8 +1230,7 @@ export default function BillingPage() {
                   fontSize: 14,
                   fontWeight: 700,
                   color: INK,
-                  letterSpacing:
-                    '-.015em',
+                  letterSpacing: "-.015em",
                 }}
               >
                 Invoice history
@@ -1619,127 +1238,76 @@ export default function BillingPage() {
 
               <button
                 style={{
-                  display:
-                    'inline-flex',
-                  alignItems:
-                    'center',
+                  display: "inline-flex",
+                  alignItems: "center",
                   gap: 5,
                   fontSize: 11,
                   fontWeight: 700,
                   color: GREEN,
-                  background:
-                    'none',
-                  border:
-                    'none',
-                  cursor:
-                    'pointer',
-                  fontFamily:
-                    "'Plus Jakarta Sans', sans-serif",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontFamily: "var(--dashboard-font), sans-serif",
                 }}
               >
-                <Download
-                  size={12}
-                />
+                <Download size={12} />
                 Download all
               </button>
             </div>
 
             <div
               style={{
-                display:
-                  'grid',
-                gridTemplateColumns:
-                  '1fr auto auto auto',
+                display: "grid",
+                gridTemplateColumns: "1fr auto auto auto",
                 gap: 0,
-                padding:
-                  '8px 20px',
-                background:
-                  CREAM,
-                borderBottom:
-                  `1px solid ${INK_06}`,
+                padding: "8px 20px",
+                background: CREAM,
+                borderBottom: `1px solid ${INK_06}`,
               }}
             >
-              {[
-                'Invoice',
-                'Amount',
-                'Status',
-                '',
-              ].map(
-                (h, i) => (
-                  <p
-                    key={i}
-                    style={{
-                      fontSize: 9,
-                      fontWeight: 700,
-                      letterSpacing:
-                        '.08em',
-                      textTransform:
-                        'uppercase',
-                      color:
-                        INK_40,
-                      paddingRight:
-                        i <
-                        3
-                          ? 16
-                          : 0,
-                      textAlign:
-                        i ===
-                        3
-                          ? 'right'
-                          : 'left',
-                    }}
-                  >
-                    {h}
-                  </p>
-                )
-              )}
+              {["Invoice", "Amount", "Status", ""].map((h, i) => (
+                <p
+                  key={i}
+                  style={{
+                    fontSize: 9,
+                    fontWeight: 700,
+                    letterSpacing: ".08em",
+                    textTransform: "uppercase",
+                    color: INK_40,
+                    paddingRight: i < 3 ? 16 : 0,
+                    textAlign: i === 3 ? "right" : "left",
+                  }}
+                >
+                  {h}
+                </p>
+              ))}
             </div>
 
             <div
-              onScroll={
-                handleInvoiceScroll
-              }
+              onScroll={handleInvoiceScroll}
               style={{
                 maxHeight: 250,
-                overflowY:
-                  'auto',
+                overflowY: "auto",
               }}
             >
-              {invoices.length >
-              0 ? (
-                invoices.map(
-                  (
-                    inv,
-                    i
-                  ) => (
-                    <InvoiceRow
-                      key={
-                        inv.id
-                      }
-                      inv={
-                        inv
-                      }
-                      last={
-                        i ===
-                        invoices.length -
-                          1
-                      }
-                    />
-                  )
-                )
+              {invoices.length > 0 ? (
+                invoices.map((inv, i) => (
+                  <InvoiceRow
+                    key={inv.id}
+                    inv={inv}
+                    last={i === invoices.length - 1}
+                  />
+                ))
               ) : (
                 <p
                   style={{
                     fontSize: 13,
                     color: INK_40,
-                    padding:
-                      '20px',
-                    textAlign:
-                      'center',
+                    padding: "20px",
+                    textAlign: "center",
                   }}
                 >
-                  No invoices
-                  found.
+                  No invoices found.
                 </p>
               )}
 
@@ -1748,10 +1316,8 @@ export default function BillingPage() {
                   style={{
                     fontSize: 11,
                     color: INK_40,
-                    padding:
-                      '10px 20px',
-                    textAlign:
-                      'center',
+                    padding: "10px 20px",
+                    textAlign: "center",
                   }}
                 >
                   Loading...
@@ -1764,42 +1330,23 @@ export default function BillingPage() {
 
           <div
             className="fade-up stagger-5"
-            onMouseEnter={() =>
-              setCancelHov(
-                true
-              )
-            }
-            onMouseLeave={() =>
-              setCancelHov(
-                false
-              )
-            }
+            onMouseEnter={() => setCancelHov(true)}
+            onMouseLeave={() => setCancelHov(false)}
             style={{
-              background:
-                cancelHov
-                  ? '#FFF8F7'
-                  : 'transparent',
+              background: cancelHov ? "#FFF8F7" : "transparent",
               border: `1.5px solid ${
-                cancelHov
-                  ? RED_BORDER
-                  : 'rgba(192,57,43,0.12)'
+                cancelHov ? RED_BORDER : "rgba(192,57,43,0.12)"
               }`,
               borderRadius: 16,
               padding: 24,
-              transition:
-                'all .22s',
-              boxShadow:
-                cancelHov
-                  ? '0 6px 20px rgba(192,57,43,0.07)'
-                  : 'none',
+              transition: "all .22s",
+              boxShadow: cancelHov ? "0 6px 20px rgba(192,57,43,0.07)" : "none",
             }}
           >
             <div
               style={{
-                display:
-                  'flex',
-                alignItems:
-                  'flex-start',
+                display: "flex",
+                alignItems: "flex-start",
                 gap: 12,
               }}
             >
@@ -1807,23 +1354,16 @@ export default function BillingPage() {
                 style={{
                   width: 34,
                   height: 34,
-                  background:
-                    RED_BG,
+                  background: RED_BG,
                   border: `1px solid ${RED_BORDER}`,
                   borderRadius: 9,
-                  display:
-                    'flex',
-                  alignItems:
-                    'center',
-                  justifyContent:
-                    'center',
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   flexShrink: 0,
                 }}
               >
-                <AlertCircle
-                  size={15}
-                  color={RED}
-                />
+                <AlertCircle size={15} color={RED} />
               </div>
 
               <div>
@@ -1847,16 +1387,9 @@ export default function BillingPage() {
                     maxWidth: 480,
                   }}
                 >
-                  Cancelling stops
-                  Haelo from
-                  processing emails
-                  at the end of
-                  your current
-                  billing period.
-                  Your data is
-                  retained for 30
-                  days after
-                  cancellation.
+                  Cancelling stops Haelo from processing emails at the end of
+                  your current billing period. Your data is retained for 30 days
+                  after cancellation.
                 </p>
 
                 <CancelBtn />
@@ -1866,29 +1399,24 @@ export default function BillingPage() {
         </div>
       </main>
     </>
-  )
+  );
 }
 
 // ── CANCEL BUTTON ─────────────────────────────────────────────────────────────
 
 function CancelBtn() {
-  const [hov, setHov] =
-    useState(false)
+  const [hov, setHov] = useState(false);
 
-  const [confirm, setConfirm] =
-    useState(false)
+  const [confirm, setConfirm] = useState(false);
 
   if (confirm) {
     return (
       <div
         style={{
-          display:
-            'flex',
-          alignItems:
-            'center',
+          display: "flex",
+          alignItems: "center",
           gap: 10,
-          flexWrap:
-            'wrap',
+          flexWrap: "wrap",
         }}
       >
         <p
@@ -1897,107 +1425,70 @@ function CancelBtn() {
             color: INK_60,
           }}
         >
-          Are you sure? This
-          cannot be undone.
+          Are you sure? This cannot be undone.
         </p>
 
         <button
-          onMouseEnter={e =>
-            (e.currentTarget.style.background =
-              'rgba(192,57,43,0.12)')
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.background = "rgba(192,57,43,0.12)")
           }
-          onMouseLeave={e =>
-            (e.currentTarget.style.background =
-              RED_BG)
-          }
+          onMouseLeave={(e) => (e.currentTarget.style.background = RED_BG)}
           style={{
             fontSize: 11,
             fontWeight: 700,
             color: RED,
-            background:
-              RED_BG,
+            background: RED_BG,
             border: `1px solid ${RED_BORDER}`,
             borderRadius: 8,
-            padding:
-              '6px 12px',
-            cursor:
-              'pointer',
-            fontFamily:
-              "'Plus Jakarta Sans', sans-serif",
-            transition:
-              'all .15s',
+            padding: "6px 12px",
+            cursor: "pointer",
+            fontFamily: "var(--dashboard-font), sans-serif",
+            transition: "all .15s",
           }}
         >
           Yes, cancel
         </button>
 
         <button
-          onClick={() =>
-            setConfirm(
-              false
-            )
-          }
+          onClick={() => setConfirm(false)}
           style={{
             fontSize: 11,
             fontWeight: 600,
             color: INK_40,
-            background:
-              'none',
-            border: 'none',
-            cursor:
-              'pointer',
-            fontFamily:
-              "'Plus Jakarta Sans', sans-serif",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontFamily: "var(--dashboard-font), sans-serif",
           }}
         >
           Keep plan
         </button>
       </div>
-    )
+    );
   }
 
   return (
     <button
-      onClick={() =>
-        setConfirm(true)
-      }
-      onMouseEnter={() =>
-        setHov(true)
-      }
-      onMouseLeave={() =>
-        setHov(false)
-      }
+      onClick={() => setConfirm(true)}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
       style={{
-        display:
-          'inline-flex',
-        alignItems:
-          'center',
+        display: "inline-flex",
+        alignItems: "center",
         gap: 6,
         fontSize: 12,
         fontWeight: 700,
-        color: hov
-          ? RED
-          : INK_40,
-        background: hov
-          ? RED_BG
-          : 'transparent',
-        border: `1px solid ${
-          hov
-            ? RED_BORDER
-            : 'transparent'
-        }`,
+        color: hov ? RED : INK_40,
+        background: hov ? RED_BG : "transparent",
+        border: `1px solid ${hov ? RED_BORDER : "transparent"}`,
         borderRadius: 8,
-        padding:
-          '6px 12px',
-        cursor:
-          'pointer',
-        fontFamily:
-          "'Plus Jakarta Sans', sans-serif",
-        transition:
-          'all .18s',
+        padding: "6px 12px",
+        cursor: "pointer",
+        fontFamily: "var(--dashboard-font), sans-serif",
+        transition: "all .18s",
       }}
     >
       Cancel subscription
     </button>
-  )
+  );
 }

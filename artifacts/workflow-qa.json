@@ -1,0 +1,77 @@
+{
+  "mobileSelectionAndReveal": true,
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1434,
+      "heights": [
+        556,
+        556,
+        556,
+        556
+      ],
+      "persistent": true,
+      "background": "rgb(67, 14, 22)",
+      "animation": "none"
+    },
+    {
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 814,
+      "heights": [
+        569,
+        569,
+        569,
+        569
+      ],
+      "persistent": true,
+      "background": "rgb(67, 14, 22)",
+      "animation": "none"
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "heights": [
+        587.953125,
+        587.953125,
+        587.953125,
+        587.953125
+      ],
+      "persistent": true,
+      "background": "rgb(67, 14, 22)",
+      "animation": "none"
+    },
+    {
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "heights": [
+        597.84375,
+        597.84375,
+        597.84375,
+        597.84375
+      ],
+      "persistent": true,
+      "background": "rgb(67, 14, 22)",
+      "animation": "none"
+    }
+  ],
+  "scrollTransitions": {
+    "down": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "up": [
+      3,
+      2,
+      1,
+      0
+    ]
+  },
+  "errors": [],
+  "accessibility": []
+}

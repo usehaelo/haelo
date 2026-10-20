@@ -1,5 +1,7 @@
 'use client'
 
+import Logo from '@/components/ui/Logo'
+
 import { useState } from 'react'
 import Link from 'next/link'
 import {
@@ -85,17 +87,7 @@ function initials(name: string) {
 
 // ── LOGO ─────────────────────────────────────────────────────────────────────
 function HaeloLogo() {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
-        <path d="M5 35 C5 35 5 15 20 8 C35 15 35 35 35 35" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" fill="none"/>
-        <line x1="13" y1="18" x2="13" y2="33" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"/>
-        <line x1="27" y1="18" x2="27" y2="33" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"/>
-        <line x1="13" y1="25.5" x2="27" y2="25.5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"/>
-      </svg>
-      <span style={{ fontSize: 15, fontWeight: 800, color: '#fff', letterSpacing: '-0.025em' }}>Haelo</span>
-    </div>
-  )
+  return <Logo variant="white-on-navy" size="sm" />
 }
 
 // ── NAV ITEM ─────────────────────────────────────────────────────────────────

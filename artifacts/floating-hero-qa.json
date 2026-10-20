@@ -1,0 +1,166 @@
+{
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1434,
+      "stages": [
+        {
+          "stage": "proposal",
+          "height": 660,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "reply",
+          "height": 660,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "sending",
+          "height": 660,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "confirmed",
+          "height": 660,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "exit",
+          "height": 660,
+          "overlap": false,
+          "clipped": false
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 814,
+      "stages": [
+        {
+          "stage": "proposal",
+          "height": 700,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "reply",
+          "height": 700,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "sending",
+          "height": 700,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "confirmed",
+          "height": 700,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "exit",
+          "height": 700,
+          "overlap": false,
+          "clipped": false
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "stages": [
+        {
+          "stage": "proposal",
+          "height": 710,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "reply",
+          "height": 710,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "sending",
+          "height": 710,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "confirmed",
+          "height": 710,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "exit",
+          "height": 710,
+          "overlap": false,
+          "clipped": false
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 320,
+      "stages": [
+        {
+          "stage": "proposal",
+          "height": 790,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "reply",
+          "height": 790,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "sending",
+          "height": 790,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "confirmed",
+          "height": 790,
+          "overlap": false,
+          "clipped": false
+        },
+        {
+          "stage": "exit",
+          "height": 790,
+          "overlap": false,
+          "clipped": false
+        }
+      ],
+      "brokenImages": []
+    }
+  ],
+  "scenarioSummaries": [
+    "HAELO\n\nYou have a new email from Amaka in Operations.\n\nShe’s asking whether to proceed with the revised supplier agreement.\n\n9:43",
+    "HAELO\n\nDaniel in Business Development has emailed you.\n\nYour prospective partner is available Thursday at 2 PM. Should he confirm the meeting?\n\n9:45",
+    "HAELO\n\nGood morning. You’ve received an email from Tayo in Marketing.\n\nHe’s requesting approval for the Q4 campaign budget so the team can proceed.\n\n9:41"
+  ],
+  "editAndApprove": true,
+  "oldPanelRemoved": true,
+  "errors": [],
+  "apiCalls": [],
+  "accessibility": []
+}

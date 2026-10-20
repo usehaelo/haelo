@@ -1,5 +1,7 @@
 'use client'
 
+import Logo from '@/components/ui/Logo'
+
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { connectEmail, saveDomain, addWhatsappNumber, verifyWhatsappNumber, uploadBibleFiles, saveHaeloTone, saveTimerConfig } from '@/lib/api/onboard'
 
@@ -198,17 +200,7 @@ function ArrowLeft({ color='currentColor', size=13 }: { color?:string; size?:num
 }
 
 function HaeloLogo() {
-  return (
-    <div style={{ display:'flex', alignItems:'center', gap:9 }}>
-      <svg width="26" height="26" viewBox="0 0 40 40" fill="none">
-        <path d="M5 35 C5 35 5 15 20 8 C35 15 35 35 35 35" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" fill="none" />
-        <line x1="13" y1="18" x2="13" y2="33" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />
-        <line x1="27" y1="18" x2="27" y2="33" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />
-        <line x1="13" y1="25.5" x2="27" y2="25.5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />
-      </svg>
-      <span style={{ fontSize:17, fontWeight:700, color:'#fff', letterSpacing:'-0.02em' }}>Haelo</span>
-    </div>
-  )
+  return <Logo variant="white-on-navy" size="md" />
 }
 
 // ── BUTTONS ──────────────────────────────────────────────────────────────────

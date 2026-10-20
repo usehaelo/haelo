@@ -1,0 +1,9 @@
+{
+  "autoplay": true,
+  "pauseAndResume": true,
+  "automaticExecutiveReply": true,
+  "loop": true,
+  "offscreenPause": true,
+  "manualApproveCompletesAndHolds": true,
+  "errors": []
+}
