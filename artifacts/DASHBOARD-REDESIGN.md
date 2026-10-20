@@ -1,6 +1,15 @@
 # HAELO dashboard redesign
 
-The full dashboard now follows the landing/authentication Bordeaux identity. Scope includes Overview, Business Bible, Staff Directory, Activity Log, Settings, Billing, desktop navigation, the mobile drawer, and staff/invitation dialogs.
+The dashboard now has distinct layouts for each task, alongside the Bordeaux brand identity. The full dashboard follows the landing/authentication Bordeaux identity. Scope includes Overview, Business Bible, Staff Directory, Activity Log, Settings, Billing, desktop navigation, the mobile drawer, and staff/invitation dialogs.
+
+## Layout and interaction update
+
+- Overview: workspace brief, attention links, integrated performance strip, searchable conversation list, working All/Needs review/Completed filters, and a selected conversation inspector with incoming and suggested/sent messages. Pending totals explicitly refer to the latest conversations, not the entire workspace.
+- Business Bible: vertical knowledge categories, central document workspace, and desktop reference rail; categories become horizontally scrollable on mobile.
+- Staff: people/context summary, working department filters, desktop directory, and individual people cards with actions on mobile.
+- Activity: desktop performance rail alongside the searchable log; department options are derived from loaded records. Smaller screens use a stacked layout.
+- Settings: dedicated Connections, Response workflow, Notifications, and admin Team access views. Existing controls stay mounted so switching categories preserves in-progress fields. Billing team links open the Team access category directly.
+- Billing: plan comparison above invoice history and a separate account/benefits column; mobile sections stack in document order.
 
 ## Experience
 
@@ -58,7 +67,7 @@ All workspace data and API responses used for screenshots/tests are mocked. No r
 
 [Mobile navigation](dashboard-navigation-mobile.png) · [Add staff dialog](dashboard-add-staff.png) · [Invitation dialog](dashboard-invite.png)
 
-Detailed reports: `dashboard-qa.json`, `dashboard-actions-qa.json`, and `dashboard-final-qa.json`. The final check also confirms aligned plan actions and that repeated clicks during a pending provider connection produce only one request.
+Detailed reports: `dashboard-qa.json`, `dashboard-actions-qa.json`, and `dashboard-final-qa.json`. New layout interactions are recorded in `dashboard-layout-interactions.json`: overview filtering/search/selection, staff department filters, settings categories and direct Team access links.
 
 ## Limits
 

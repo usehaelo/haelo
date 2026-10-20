@@ -1249,6 +1249,7 @@ export default function StaffPage() {
     { email: string; received: string }[]
   >([]);
   const [search, setSearch] = useState("");
+  const [department, setDepartment] = useState("All departments");
   const [showAdd, setShowAdd] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [tableHov, setTableHov] = useState(false);
@@ -1310,12 +1311,14 @@ export default function StaffPage() {
     fetchStaff();
   }, [page]);
 
-  const filtered = staff.filter(
-    (s) =>
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.role.toLowerCase().includes(search.toLowerCase()) ||
-      s.dept.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filtered = staff
+    .filter((s) => department === "All departments" || s.dept === department)
+    .filter(
+      (s) =>
+        s.name.toLowerCase().includes(search.toLowerCase()) ||
+        s.role.toLowerCase().includes(search.toLowerCase()) ||
+        s.dept.toLowerCase().includes(search.toLowerCase()),
+    );
 
   const addStaff = async (form: {
     name: string;
@@ -1501,6 +1504,42 @@ export default function StaffPage() {
           </div>
         )}
 
+        <section className="directory-summary" aria-label="Directory summary">
+          <div>
+            <span className="workspace-eyebrow">People & context</span>
+            <h2>A familiar face behind every email.</h2>
+            <p>
+              Keep roles and responsibilities clear so Haelo knows who’s who.
+            </p>
+          </div>
+          <div>
+            <strong>{staff.length}</strong>
+            <span>people in this view</span>
+          </div>
+          <div>
+            <strong>
+              {new Set(staff.map((s) => s.dept).filter(Boolean)).size}
+            </strong>
+            <span>departments</span>
+          </div>
+        </section>
+        <div
+          className="department-navigation"
+          aria-label="Filter staff by department"
+        >
+          {[
+            "All departments",
+            ...Array.from(new Set(staff.map((s) => s.dept).filter(Boolean))),
+          ].map((d) => (
+            <button
+              key={d}
+              aria-pressed={department === d}
+              onClick={() => setDepartment(d)}
+            >
+              {d}
+            </button>
+          ))}
+        </div>
         {/* SEARCH */}
         <div style={{ marginBottom: 16 }}>
           <SearchInput value={search} onChange={setSearch} />
@@ -1521,6 +1560,7 @@ export default function StaffPage() {
         >
           <div style={{ overflowX: "auto" }}>
             <table
+              className="people-table"
               style={{
                 width: "100%",
                 borderCollapse: "collapse",
@@ -1633,27 +1673,33 @@ export default function StaffPage() {
                     </td>
                   </tr>
                 ) : (
-                  filtered.map((s) => (
-                    <>
-                      <StaffRow
-                        key={s.id}
-                        s={s}
-                        isEditing={editingId === s.id}
-                        onEditToggle={() =>
-                          setEditingId(editingId === s.id ? null : s.id)
-                        }
-                        onDelete={() => deleteStaff(s.id)}
-                      />
-                      {editingId === s.id && (
-                        <EditPanel
-                          key={`edit-${s.id}`}
-                          staff={s}
-                          onSave={saveStaff}
-                          onCancel={() => setEditingId(null)}
+                  filtered
+                    .filter(
+                      (s) =>
+                        department === "All departments" ||
+                        s.dept === department,
+                    )
+                    .map((s) => (
+                      <>
+                        <StaffRow
+                          key={s.id}
+                          s={s}
+                          isEditing={editingId === s.id}
+                          onEditToggle={() =>
+                            setEditingId(editingId === s.id ? null : s.id)
+                          }
+                          onDelete={() => deleteStaff(s.id)}
                         />
-                      )}
-                    </>
-                  ))
+                        {editingId === s.id && (
+                          <EditPanel
+                            key={`edit-${s.id}`}
+                            staff={s}
+                            onSave={saveStaff}
+                            onCancel={() => setEditingId(null)}
+                          />
+                        )}
+                      </>
+                    ))
                 )}
               </tbody>
             </table>

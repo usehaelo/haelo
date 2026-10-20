@@ -85,12 +85,14 @@ const GLOBAL_CSS = `
 // ── SECTION CARD ─────────────────────────────────────────────────────────────
 function SectionCard({
   children,
+  section,
   hov,
   onEnter,
   onLeave,
   style: extra,
 }: {
   children: React.ReactNode;
+  section?: string;
   hov?: boolean;
   onEnter?: () => void;
   onLeave?: () => void;
@@ -98,6 +100,7 @@ function SectionCard({
 }) {
   return (
     <div
+      data-settings-section={section}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       style={{
@@ -727,7 +730,11 @@ function AccountRow({
           {account.name || account.email}
         </p>
         <p style={{ fontSize: 11, color: INK_40 }}>
-          {account.name ? account.email : "Invited · not yet joined"}
+          {account.name
+            ? account.email
+            : account.status === "active"
+              ? "Workspace account"
+              : "Invitation pending"}
         </p>
       </div>
       <RoleBadge role={account.role} />
@@ -924,9 +931,9 @@ function InviteModal({
             marginBottom: 20,
           }}
         >
-          They&apos;ll get an email invite to join your Haelo account. They set their
-          own password and go through their own onboarding — same company, their
-          own dashboard.
+          They&apos;ll get an email invite to join your Haelo account. They set
+          their own password and go through their own onboarding — same company,
+          their own dashboard.
         </p>
 
         <div style={{ marginBottom: 16 }}>
@@ -1041,6 +1048,19 @@ function DangerBtn({
 
 // ── PAGE ──────────────────────────────────────────────────────────────────────
 export default function SettingsPage() {
+  const [activeSection, setActiveSection] = useState("connections");
+  useEffect(() => {
+    const syncSection = () => {
+      const section = window.location.hash.slice(1);
+      if (
+        ["connections", "workflow", "notifications", "team"].includes(section)
+      )
+        setActiveSection(section);
+    };
+    syncSection();
+    window.addEventListener("hashchange", syncSection);
+    return () => window.removeEventListener("hashchange", syncSection);
+  }, []);
   const [timerMode, setTimerMode] = useState<string>("");
   const [timer, setTimer] = useState("");
   const [remindFreq, setRemindFreq] = useState("");
@@ -1548,17 +1568,49 @@ export default function SettingsPage() {
           />
         )}
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 14,
-            maxWidth: 720,
-          }}
-        >
+        <div className="settings-workspace" data-active-section={activeSection}>
+          <nav className="settings-categories" aria-label="Settings categories">
+            <p className="workspace-eyebrow">Your workspace</p>
+            {[
+              {
+                id: "connections",
+                label: "Connections",
+                hint: "Email, WhatsApp & domain",
+              },
+              {
+                id: "workflow",
+                label: "Response workflow",
+                hint: "Timing & approval behaviour",
+              },
+              {
+                id: "notifications",
+                label: "Notifications",
+                hint: "Choose what reaches you",
+              },
+              ...(userType === "admin"
+                ? [
+                    {
+                      id: "team",
+                      label: "Team access",
+                      hint: "Members & invitations",
+                    },
+                  ]
+                : []),
+            ].map((item) => (
+              <button
+                key={item.id}
+                aria-pressed={activeSection === item.id}
+                onClick={() => setActiveSection(item.id)}
+              >
+                <strong>{item.label}</strong>
+                <span>{item.hint}</span>
+              </button>
+            ))}
+          </nav>
           {/* ── 0. TEAM ACCOUNTS ── */}
           {userType === "admin" && (
             <SectionCard
+              section="team"
               hov={accountsHov}
               onEnter={() => setAccountsHov(true)}
               onLeave={() => setAccountsHov(false)}
@@ -1662,6 +1714,7 @@ export default function SettingsPage() {
 
           {/* ── 1. TIMER ── */}
           <SectionCard
+            section="workflow"
             hov={timerHov}
             onEnter={() => setTimerHov(true)}
             onLeave={() => setTimerHov(false)}
@@ -1740,6 +1793,7 @@ export default function SettingsPage() {
 
           {/* ── 2. EMAIL ── */}
           <SectionCard
+            section="connections"
             hov={emailHov}
             onEnter={() => setEmailHov(true)}
             onLeave={() => setEmailHov(false)}
@@ -1954,6 +2008,7 @@ export default function SettingsPage() {
 
           {/* ── 3. WHATSAPP ── */}
           <SectionCard
+            section="connections"
             hov={waHov}
             onEnter={() => setWaHov(true)}
             onLeave={() => setWaHov(false)}
@@ -2173,6 +2228,7 @@ export default function SettingsPage() {
 
           {/* ── 4. DOMAIN ── */}
           <SectionCard
+            section="connections"
             hov={domainHov}
             onEnter={() => setDomainHov(true)}
             onLeave={() => setDomainHov(false)}
@@ -2332,6 +2388,7 @@ export default function SettingsPage() {
 
           {/* ── 5. NOTIFICATIONS ── */}
           <SectionCard
+            section="notifications"
             hov={notifHov}
             onEnter={() => setNotifHov(true)}
             onLeave={() => setNotifHov(false)}

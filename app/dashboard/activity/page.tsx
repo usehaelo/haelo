@@ -88,11 +88,7 @@ export default function ActivityPage() {
 
   const depts = [
     "All",
-    "Operations",
-    "Human Resources",
-    "Finance",
-    "Sales",
-    "Product",
+    ...Array.from(new Set(activities.map((a) => a.dept).filter(Boolean))),
   ];
 
   const filtered = activities.filter(

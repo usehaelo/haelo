@@ -899,7 +899,7 @@ export default function BusinessBiblePage() {
         </Card>
 
         {/* ── TWO COLUMN LAYOUT ── */}
-        <div className="main-grid">
+        <div className="main-grid knowledge-workspace">
           {/* ── LEFT ── */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Progress bar */}
@@ -923,7 +923,10 @@ export default function BusinessBiblePage() {
             </div>
 
             {/* Category tabs */}
-            <div className="tab-row">
+            <div
+              className="tab-row knowledge-categories"
+              aria-label="Knowledge categories"
+            >
               {BIBLE_DOCS.map((d) => {
                 const docKey = d.id === "org" ? "chart" : d.id;
                 const hasFiles =

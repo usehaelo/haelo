@@ -974,6 +974,7 @@ export default function BillingPage() {
         </div>
 
         <div
+          className="billing-workspace"
           style={{
             display: "flex",
             flexDirection: "column",
@@ -1075,7 +1076,7 @@ export default function BillingPage() {
               </SectionTitle>
 
               <Link
-                href="/dashboard/settings"
+                href="/dashboard/settings#team"
                 onMouseEnter={() => setAddMemberHov(true)}
                 onMouseLeave={() => setAddMemberHov(false)}
                 style={{
@@ -1147,7 +1148,7 @@ export default function BillingPage() {
 
             {totalStaffCount > 5 && (
               <Link
-                href="/dashboard/settings"
+                href="/dashboard/settings#team"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",

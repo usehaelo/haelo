@@ -1,0 +1,12 @@
+{
+  "checks": {
+    "overviewFilters": true,
+    "overviewInspector": true,
+    "overviewSearch": true,
+    "staffDepartments": true,
+    "settingsDeepLink": true,
+    "settingsCategories": true
+  },
+  "errors": [],
+  "mutations": []
+}

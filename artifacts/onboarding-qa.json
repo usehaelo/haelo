@@ -1,0 +1,343 @@
+{
+  "checks": {
+    "providerVerification": true,
+    "unsupportedProviderDisabled": true,
+    "domainValidation": true,
+    "domainRetry": true,
+    "phoneNormalisation": true,
+    "otpPasteAndRetry": true,
+    "requiredDocuments": true,
+    "csvValidation": true,
+    "templateDownload": true,
+    "multipartUpload": true,
+    "tonePreview": true,
+    "customTone": true,
+    "timerSave": true,
+    "backPreservesFields": true,
+    "explicitDashboardEntry": true
+  },
+  "layouts": [
+    {
+      "step": "email",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": []
+    },
+    {
+      "step": "email",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 820,
+      "brokenImages": []
+    },
+    {
+      "step": "email",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "step": "email",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "step": "domain",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": []
+    },
+    {
+      "step": "domain",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 814,
+      "brokenImages": []
+    },
+    {
+      "step": "domain",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "step": "domain",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "step": "whatsapp",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": []
+    },
+    {
+      "step": "whatsapp",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 820,
+      "brokenImages": []
+    },
+    {
+      "step": "whatsapp",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "step": "whatsapp",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "step": "bible",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1434,
+      "brokenImages": []
+    },
+    {
+      "step": "bible",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 814,
+      "brokenImages": []
+    },
+    {
+      "step": "bible",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "step": "bible",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "step": "tone",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1434,
+      "brokenImages": []
+    },
+    {
+      "step": "tone",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 814,
+      "brokenImages": []
+    },
+    {
+      "step": "tone",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "step": "tone",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "step": "timer",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": []
+    },
+    {
+      "step": "timer",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 814,
+      "brokenImages": []
+    },
+    {
+      "step": "timer",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "step": "timer",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    },
+    {
+      "step": "ready",
+      "name": "desktop",
+      "width": 1440,
+      "scrollWidth": 1434,
+      "brokenImages": [
+        "http://localhost:3103/_next/image?url=%2Fimages%2Flogo%2Fhalo-icon.png&w=3840&q=75"
+      ]
+    },
+    {
+      "step": "ready",
+      "name": "tablet",
+      "width": 820,
+      "scrollWidth": 820,
+      "brokenImages": []
+    },
+    {
+      "step": "ready",
+      "name": "mobile",
+      "width": 390,
+      "scrollWidth": 384,
+      "brokenImages": []
+    },
+    {
+      "step": "ready",
+      "name": "small-mobile",
+      "width": 320,
+      "scrollWidth": 314,
+      "brokenImages": []
+    }
+  ],
+  "a11y": [
+    {
+      "step": "email",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "step": "email",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "step": "domain",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "step": "domain",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "step": "whatsapp",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "step": "whatsapp",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "step": "bible",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "step": "bible",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "step": "tone",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "step": "tone",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "step": "timer",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "step": "timer",
+      "name": "mobile",
+      "violations": []
+    },
+    {
+      "step": "ready",
+      "name": "desktop",
+      "violations": []
+    },
+    {
+      "step": "ready",
+      "name": "mobile",
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "requests": [
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/email",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/providers",
+      "method": "GET"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/providers",
+      "method": "GET"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/domain",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/domain",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/whatsapp/add-number",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/whatsapp/verify-number",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/whatsapp/verify-number",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/bible/upload",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/haelo-tone",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/haelo-tone",
+      "method": "POST"
+    },
+    {
+      "url": "http://localhost:3103/undefined/api/onboard/haelo-tone",
+      "method": "POST"
+    }
+  ],
+  "data": "All API requests mocked. No real accounts connected, files uploaded, WhatsApp messages sent or workspace records changed."
+}
