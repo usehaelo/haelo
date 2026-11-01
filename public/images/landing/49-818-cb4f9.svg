@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="11.2" height="11.2" viewBox="0 0 11.2 11.2" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon/mail" clip-path="url(#clip0_0_588)">
+<path id="Vector" d="M1.86667 1.86667H9.33333C9.8488 1.86667 10.2667 2.28453 10.2667 2.8V8.4C10.2667 8.91547 9.8488 9.33333 9.33333 9.33333H1.86667C1.3512 9.33333 0.933333 8.91547 0.933333 8.4V2.8C0.933333 2.28453 1.3512 1.86667 1.86667 1.86667Z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="#5E1A26"/>
+<path id="Vector_2" d="M10.2667 3.26667L6.08067 5.92667C5.93659 6.01693 5.77001 6.06481 5.6 6.06481C5.42998 6.06481 5.26341 6.01693 5.11933 5.92667L0.933333 3.26667" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="#5E1A26"/>
+</g>
+<defs>
+<clipPath id="clip0_0_588">
+<rect width="11.2" height="11.2" fill="white"/>
+</clipPath>
+</defs>
+</svg>

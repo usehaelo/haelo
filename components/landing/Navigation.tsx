@@ -1,59 +1,58 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Menu, X } from "lucide-react";
-import Logo from "@/components/ui/Logo";
+import { Menu, X } from "lucide-react";
+import { assets } from "./assets";
+import { Button, Vector } from "./Primitives";
+
 const links = [
   ["How it works", "#how-it-works"],
   ["Features", "#features"],
+  ["Security", "#security"],
   ["Pricing", "#pricing"],
+  ["FAQ", "#faq"],
 ];
+
 export default function Navigation() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   useEffect(() => {
-    const handle = () => setScrolled(window.scrollY > 16);
-    handle();
-    window.addEventListener("scroll", handle, { passive: true });
-    return () => window.removeEventListener("scroll", handle);
-  }, []);
-  useEffect(() => {
-    const handle = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open) {
+    function dismiss(event: KeyboardEvent) {
+      if (event.key === "Escape" && open) {
         setOpen(false);
         toggle.current?.focus();
       }
-    };
-    document.addEventListener("keydown", handle);
-    return () => document.removeEventListener("keydown", handle);
+    }
+    document.addEventListener("keydown", dismiss);
+    return () => document.removeEventListener("keydown", dismiss);
   }, [open]);
   return (
-    <header className={`landing-nav ${scrolled || open ? "nav-solid" : ""}`}>
-      <nav className="landing-container nav-inner" aria-label="Main navigation">
-        <Link href="/" aria-label="HAELO home">
-          <Logo />
+    <header className="landing-nav">
+      <nav className="landing-nav-bar" aria-label="Main navigation">
+        <Link href="/" aria-label="Haelo home">
+          <Vector asset={assets.hero.logo} />
         </Link>
-        <div className="desktop-links">
-          {links.map(([name, href]) => (
+        <div className="landing-nav-links">
+          {links.map(([text, href]) => (
             <a href={href} key={href}>
-              {name}
+              {text}
             </a>
           ))}
         </div>
-        <div className="nav-actions">
-          <Link className="login-link" href="/auth/login">
-            Log in
+        <div className="landing-nav-actions">
+          <Link href="/auth/login" className="landing-signin">
+            Sign in
           </Link>
-          <Link className="button button-small" href="/auth/signup">
-            Start free <ArrowRight size={14} />
-          </Link>
+          <Button small arrow>
+            Start free pilot
+          </Button>
           <button
-            className="menu-toggle"
             ref={toggle}
-            aria-label={open ? "Close navigation" : "Open navigation"}
-            aria-controls="mobile-navigation"
+            type="button"
+            className="landing-menu-toggle"
             aria-expanded={open}
+            aria-controls="landing-mobile-menu"
+            aria-label={open ? "Close navigation" : "Open navigation"}
             onClick={() => setOpen(!open)}
           >
             {open ? <X size={22} /> : <Menu size={22} />}
@@ -62,16 +61,16 @@ export default function Navigation() {
       </nav>
       {open && (
         <nav
-          id="mobile-navigation"
-          className="mobile-navigation"
+          id="landing-mobile-menu"
+          className="landing-mobile-menu"
           aria-label="Mobile navigation"
         >
-          {links.map(([name, href]) => (
-            <a href={href} key={href} onClick={() => setOpen(false)}>
-              {name}
+          {links.map(([text, href]) => (
+            <a key={href} href={href} onClick={() => setOpen(false)}>
+              {text}
             </a>
           ))}
-          <Link href="/auth/login">Log in</Link>
+          <Link href="/auth/login">Sign in</Link>
         </nav>
       )}
     </header>

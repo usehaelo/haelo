@@ -1,0 +1,1158 @@
+{
+  "responsive": [
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": [],
+      "sections": [
+        {
+          "name": "hero-section",
+          "height": 946
+        },
+        {
+          "name": "problem-section",
+          "height": 649
+        },
+        {
+          "name": "landing-section day-section",
+          "height": 1401
+        },
+        {
+          "name": "landing-section workflow-section",
+          "height": 2242
+        },
+        {
+          "name": "landing-section features-section",
+          "height": 2341
+        },
+        {
+          "name": "landing-section bible-section",
+          "height": 1174
+        },
+        {
+          "name": "landing-section timer-section",
+          "height": 1527
+        },
+        {
+          "name": "landing-section security-section",
+          "height": 1640
+        },
+        {
+          "name": "landing-section pricing-section",
+          "height": 2340
+        },
+        {
+          "name": "landing-section faq-section",
+          "height": 1148
+        },
+        {
+          "name": "landing-section final-cta-section",
+          "height": 287
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "sections": [
+        {
+          "name": "hero-section",
+          "height": 946
+        },
+        {
+          "name": "problem-section",
+          "height": 649
+        },
+        {
+          "name": "landing-section day-section",
+          "height": 1401
+        },
+        {
+          "name": "landing-section workflow-section",
+          "height": 2131
+        },
+        {
+          "name": "landing-section features-section",
+          "height": 2302
+        },
+        {
+          "name": "landing-section bible-section",
+          "height": 1048
+        },
+        {
+          "name": "landing-section timer-section",
+          "height": 1485
+        },
+        {
+          "name": "landing-section security-section",
+          "height": 1580
+        },
+        {
+          "name": "landing-section pricing-section",
+          "height": 2340
+        },
+        {
+          "name": "landing-section faq-section",
+          "height": 1084
+        },
+        {
+          "name": "landing-section final-cta-section",
+          "height": 256
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": [],
+      "sections": [
+        {
+          "name": "hero-section",
+          "height": 1120
+        },
+        {
+          "name": "problem-section",
+          "height": 832
+        },
+        {
+          "name": "landing-section day-section",
+          "height": 1326
+        },
+        {
+          "name": "landing-section workflow-section",
+          "height": 1408
+        },
+        {
+          "name": "landing-section features-section",
+          "height": 1513
+        },
+        {
+          "name": "landing-section bible-section",
+          "height": 1154
+        },
+        {
+          "name": "landing-section timer-section",
+          "height": 1508
+        },
+        {
+          "name": "landing-section security-section",
+          "height": 1058
+        },
+        {
+          "name": "landing-section pricing-section",
+          "height": 1384
+        },
+        {
+          "name": "landing-section faq-section",
+          "height": 770
+        },
+        {
+          "name": "landing-section final-cta-section",
+          "height": 796
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "scrollWidth": 1024,
+      "brokenImages": [],
+      "sections": [
+        {
+          "name": "hero-section",
+          "height": 1196
+        },
+        {
+          "name": "problem-section",
+          "height": 900
+        },
+        {
+          "name": "landing-section day-section",
+          "height": 946
+        },
+        {
+          "name": "landing-section workflow-section",
+          "height": 1282
+        },
+        {
+          "name": "landing-section features-section",
+          "height": 1502
+        },
+        {
+          "name": "landing-section bible-section",
+          "height": 760
+        },
+        {
+          "name": "landing-section timer-section",
+          "height": 901
+        },
+        {
+          "name": "landing-section security-section",
+          "height": 914
+        },
+        {
+          "name": "landing-section pricing-section",
+          "height": 1031
+        },
+        {
+          "name": "landing-section faq-section",
+          "height": 810
+        },
+        {
+          "name": "landing-section final-cta-section",
+          "height": 860
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": [],
+      "sections": [
+        {
+          "name": "hero-section",
+          "height": 1196
+        },
+        {
+          "name": "problem-section",
+          "height": 900
+        },
+        {
+          "name": "landing-section day-section",
+          "height": 946
+        },
+        {
+          "name": "landing-section workflow-section",
+          "height": 1186
+        },
+        {
+          "name": "landing-section features-section",
+          "height": 1502
+        },
+        {
+          "name": "landing-section bible-section",
+          "height": 760
+        },
+        {
+          "name": "landing-section timer-section",
+          "height": 812
+        },
+        {
+          "name": "landing-section security-section",
+          "height": 894
+        },
+        {
+          "name": "landing-section pricing-section",
+          "height": 939
+        },
+        {
+          "name": "landing-section faq-section",
+          "height": 786
+        },
+        {
+          "name": "landing-section final-cta-section",
+          "height": 860
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "assetGeometry": [
+    {
+      "src": "/images/landing/49-818-73f81.png",
+      "loaded": true,
+      "width": 1440,
+      "height": 1196,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-cf45b.svg",
+      "loaded": true,
+      "width": 97,
+      "height": 36,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-c5bcc.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-9665f.svg",
+      "loaded": true,
+      "width": 20,
+      "height": 20,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-9b484.svg",
+      "loaded": true,
+      "width": 20,
+      "height": 20,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-b5120.svg",
+      "loaded": true,
+      "width": 16.815460205078125,
+      "height": 16.81549072265625,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-c0b95.svg",
+      "loaded": true,
+      "width": 21.019317626953125,
+      "height": 21.019287109375,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-c4a4c.svg",
+      "loaded": true,
+      "width": 12.611572265625,
+      "height": 12.611572265625,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-c4a4c.svg",
+      "loaded": true,
+      "width": 12.611587524414062,
+      "height": 12.611572265625,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-c4a4c.svg",
+      "loaded": true,
+      "width": 12.611587524414062,
+      "height": 12.611572265625,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-5eebd.svg",
+      "loaded": true,
+      "width": 14.390625,
+      "height": 14.390625,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-07742.svg",
+      "loaded": true,
+      "width": 14.390625,
+      "height": 14.390625,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-08e64.svg",
+      "loaded": true,
+      "width": 20.796875,
+      "height": 20.796875,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-25d2c.svg",
+      "loaded": true,
+      "width": 14.390625,
+      "height": 15.984375,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-dbd2e.svg",
+      "loaded": true,
+      "width": 19.1875,
+      "height": 19.1875,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-f12f8.svg",
+      "loaded": true,
+      "width": 16.796875,
+      "height": 16.796875,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/50-1088-4c92a.svg",
+      "loaded": true,
+      "width": 11.20001220703125,
+      "height": 11.20001220703125,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/50-1088-88708.svg",
+      "loaded": true,
+      "width": 12.79998779296875,
+      "height": 12.800048828125,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/50-1088-88708.svg",
+      "loaded": true,
+      "width": 12.79998779296875,
+      "height": 12.800048828125,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-df62f.svg",
+      "loaded": true,
+      "width": 11.1875,
+      "height": 11.1875,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-22c36.svg",
+      "loaded": true,
+      "width": 20.796875,
+      "height": 20.796875,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-24129.svg",
+      "loaded": true,
+      "width": 17.59375,
+      "height": 17.59375,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-b36cb.svg",
+      "loaded": true,
+      "width": 17.59375,
+      "height": 17.59375,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-c2316.svg",
+      "loaded": true,
+      "width": 8.796875,
+      "height": 8.796875,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-33894.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-aa3ba.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/49-818-99512.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "hero-section"
+    },
+    {
+      "src": "/images/landing/67-1881-13107.png",
+      "loaded": true,
+      "width": 1200,
+      "height": 700,
+      "section": "problem-section"
+    },
+    {
+      "src": "/images/landing/67-1881-fcd71.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "problem-section"
+    },
+    {
+      "src": "/images/landing/50-977-06b98.png",
+      "loaded": true,
+      "width": 282,
+      "height": 420,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-88c4b.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-68cb0.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-f6f1b.png",
+      "loaded": true,
+      "width": 282,
+      "height": 420,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-af677.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-68cb0.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-787bc.png",
+      "loaded": true,
+      "width": 282,
+      "height": 420,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-96855.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-68cb0.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-ecc62.png",
+      "loaded": true,
+      "width": 282,
+      "height": 420,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-2f154.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-977-68cb0.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section day-section"
+    },
+    {
+      "src": "/images/landing/50-1088-6360c.svg",
+      "loaded": true,
+      "width": 200,
+      "height": 101.59375,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-58881.svg",
+      "loaded": true,
+      "width": 200,
+      "height": 1.59375,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-87c13.svg",
+      "loaded": true,
+      "width": 200,
+      "height": 101.59375,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-c9c25.svg",
+      "loaded": true,
+      "width": 130,
+      "height": 1.59375,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-5ba21.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-5ba21.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-5ba21.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-0acec.svg",
+      "loaded": true,
+      "width": 150,
+      "height": 150,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-c8dac.svg",
+      "loaded": true,
+      "width": 118,
+      "height": 118,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-1b02e.svg",
+      "loaded": true,
+      "width": 164,
+      "height": 164,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-6c4a4.svg",
+      "loaded": true,
+      "width": 40,
+      "height": 45.45458984375,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-28e82.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-4c92a.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/50-1088-88708.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section workflow-section"
+    },
+    {
+      "src": "/images/landing/72-1884-4b15a.svg",
+      "loaded": true,
+      "width": 862.390625,
+      "height": 979.984375,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-fc755.png",
+      "loaded": true,
+      "width": 734,
+      "height": 558,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-16aae.svg",
+      "loaded": true,
+      "width": 22.875,
+      "height": 25.984375,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-35e20.svg",
+      "loaded": true,
+      "width": 24,
+      "height": 30.5,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-3bb46.svg",
+      "loaded": true,
+      "width": 13,
+      "height": 13,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-06942.svg",
+      "loaded": true,
+      "width": 1.5,
+      "height": 36,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-1f743.svg",
+      "loaded": true,
+      "width": 13,
+      "height": 13,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-35e20.svg",
+      "loaded": true,
+      "width": 24,
+      "height": 30.5,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-1f506.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-468db.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-050d4.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/72-1884-d3ad4.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section features-section"
+    },
+    {
+      "src": "/images/landing/51-1136-6639a.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-6639a.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-6639a.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-6639a.svg",
+      "loaded": true,
+      "width": 14,
+      "height": 14,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-e085f.svg",
+      "loaded": true,
+      "width": 22,
+      "height": 22,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-c4a4c.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-c4a4c.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-c4a4c.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-c4a4c.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-c4a4c.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-c4a4c.svg",
+      "loaded": true,
+      "width": 12,
+      "height": 12,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-f1ed6.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1136-98812.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section bible-section"
+    },
+    {
+      "src": "/images/landing/51-1242-2c4ea.svg",
+      "loaded": true,
+      "width": 721.59375,
+      "height": 819.984375,
+      "section": "landing-section timer-section"
+    },
+    {
+      "src": "/images/landing/51-1242-c2d7d.svg",
+      "loaded": true,
+      "width": 104,
+      "height": 104,
+      "section": "landing-section timer-section"
+    },
+    {
+      "src": "/images/landing/51-1242-0c5a6.svg",
+      "loaded": true,
+      "width": 104,
+      "height": 104,
+      "section": "landing-section timer-section"
+    },
+    {
+      "src": "/images/landing/51-1242-cd5c5.svg",
+      "loaded": true,
+      "width": 15,
+      "height": 15,
+      "section": "landing-section timer-section"
+    },
+    {
+      "src": "/images/landing/51-1242-61210.svg",
+      "loaded": true,
+      "width": 24,
+      "height": 30.5,
+      "section": "landing-section timer-section"
+    },
+    {
+      "src": "/images/landing/51-1242-8e8c8.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section timer-section"
+    },
+    {
+      "src": "/images/landing/51-1242-61210.svg",
+      "loaded": true,
+      "width": 24,
+      "height": 30.5,
+      "section": "landing-section timer-section"
+    },
+    {
+      "src": "/images/landing/51-1289-0a181.png",
+      "loaded": true,
+      "width": 1440,
+      "height": 894,
+      "section": "landing-section security-section"
+    },
+    {
+      "src": "/images/landing/51-1289-a05ff.svg",
+      "loaded": true,
+      "width": 20,
+      "height": 20,
+      "section": "landing-section security-section"
+    },
+    {
+      "src": "/images/landing/51-1289-db8eb.svg",
+      "loaded": true,
+      "width": 20,
+      "height": 20,
+      "section": "landing-section security-section"
+    },
+    {
+      "src": "/images/landing/51-1289-bca0c.svg",
+      "loaded": true,
+      "width": 20,
+      "height": 20,
+      "section": "landing-section security-section"
+    },
+    {
+      "src": "/images/landing/51-1289-876ce.svg",
+      "loaded": true,
+      "width": 20,
+      "height": 20,
+      "section": "landing-section security-section"
+    },
+    {
+      "src": "/images/landing/51-1289-5457d.svg",
+      "loaded": true,
+      "width": 20,
+      "height": 20,
+      "section": "landing-section security-section"
+    },
+    {
+      "src": "/images/landing/51-1289-1363e.svg",
+      "loaded": true,
+      "width": 20,
+      "height": 20,
+      "section": "landing-section security-section"
+    },
+    {
+      "src": "/images/landing/51-1353-3584c.svg",
+      "loaded": true,
+      "width": 792,
+      "height": 900,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1353-f0785.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section pricing-section"
+    },
+    {
+      "src": "/images/landing/51-1530-b9c05.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "landing-section faq-section"
+    },
+    {
+      "src": "/images/landing/51-1530-1cbd2.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section faq-section"
+    },
+    {
+      "src": "/images/landing/51-1530-04d79.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section faq-section"
+    },
+    {
+      "src": "/images/landing/51-1530-04d79.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section faq-section"
+    },
+    {
+      "src": "/images/landing/51-1530-04d79.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section faq-section"
+    },
+    {
+      "src": "/images/landing/51-1530-04d79.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section faq-section"
+    },
+    {
+      "src": "/images/landing/51-1530-04d79.svg",
+      "loaded": true,
+      "width": 16,
+      "height": 16,
+      "section": "landing-section faq-section"
+    },
+    {
+      "src": "/images/landing/51-1597-0a181.png",
+      "loaded": true,
+      "width": 1200,
+      "height": 620,
+      "section": "landing-section final-cta-section"
+    },
+    {
+      "src": "/images/landing/51-1597-96646.svg",
+      "loaded": true,
+      "width": 60,
+      "height": 68.181640625,
+      "section": "landing-section final-cta-section"
+    },
+    {
+      "src": "/images/landing/51-1597-82b9e.svg",
+      "loaded": true,
+      "width": 20,
+      "height": 20,
+      "section": "landing-section final-cta-section"
+    },
+    {
+      "src": "/images/landing/51-1628-49f59.svg",
+      "loaded": true,
+      "width": 108,
+      "height": 40,
+      "section": "footer"
+    },
+    {
+      "src": "/images/landing/49-818-c5bcc.svg",
+      "loaded": true,
+      "width": 18,
+      "height": 18,
+      "section": "footer"
+    },
+    {
+      "src": "/images/landing/51-1628-49f59.svg",
+      "loaded": true,
+      "width": 1200,
+      "height": 444.4443359375,
+      "section": "footer"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+// Existing CSV import categories and templates, preserved from onboarding.
+export const BIBLE_DOCS = [
+  {
+    id: "overview",
+    icon: "🏢",
+    name: "Company Overview",
+    required: true,
+    isStaff: false,
+    hint: "The foundation of every Haelo response. Describe your company — what it does, who it serves, core values, and how it operates.",
+    accept: ".csv",
+    templateCols: ["section", "content"] as string[],
+    templateRows: [
+      ["Company name & industry", "e.g. Acme Corp — FMCG distribution"],
+      ["What we do", "Products / services description"],
+      ["Who we serve", "Target clients and markets"],
+      ["Company values", "Core principles and culture"],
+      ["Key facts", "Founded, headcount, revenue range"],
+    ] as string[][],
+    templateFile: "haelo_company_overview_template.csv",
+    aiPrompt:
+      "Fill this template for my company. We are called [name] and we do [description]. Format it as Section | Content.",
+  },
+  {
+    id: "directory",
+    icon: "👥",
+    name: "Staff Directory",
+    required: true,
+    isStaff: true,
+    hint: "Every person Haelo will recognise. Each row must include first name, last name, role, email, and a one-sentence description.",
+    accept: ".csv",
+    templateFile: "haelo_staff_directory_template.csv",
+    aiPrompt:
+      "Fill this staff directory CSV for my team. My staff: [list names, roles]. Add a one-sentence description per person. Use columns: First Name, Last Name, Role, Email, Description.",
+    templateCols: undefined as string[] | undefined,
+    templateRows: undefined as string[][] | undefined,
+  },
+  {
+    id: "chart",
+    icon: "🏗️",
+    name: "Org Chart",
+    required: true,
+    isStaff: false,
+    hint: "Your hierarchy and reporting lines. Haelo uses this to understand seniority and route responses correctly.",
+    accept: ".csv",
+    templateCols: ["name", "reportsTo", "department", "level"] as string[],
+    templateRows: [
+      ["John Adeyemi", "CEO", "Executive", "Director"],
+      ["Grace Obi", "John Adeyemi", "Operations", "Manager"],
+      ["Finance Team", "Grace Obi", "Finance", "Team Lead"],
+    ] as string[][],
+    templateFile: "haelo_org_structure_template.csv",
+    aiPrompt:
+      "Create an org chart CSV for my company. Hierarchy: [describe]. Columns: Name, Reports To, Department, Level.",
+  },
+  {
+    id: "sop",
+    icon: "📋",
+    name: "SOPs & Policies",
+    required: false,
+    isStaff: false,
+    hint: "Approval thresholds, leave policies, procurement rules, escalation paths.",
+    accept: ".csv",
+    templateCols: ["situation", "action", "whoApproves"] as string[],
+    templateRows: [
+      ["Leave request", "Approve if 5 days notice and cover confirmed", "CEO"],
+      [
+        "Purchase above ₦500k",
+        "Requires Finance + CEO sign-off",
+        "CEO + Finance",
+      ],
+      [
+        "Client complaint",
+        "Acknowledge 2hrs, resolve 24hrs",
+        "Operations Manager",
+      ],
+    ] as string[][],
+    templateFile: "haelo_sops_template.csv",
+    aiPrompt:
+      "Create a SOPs document for my business. Key processes: [describe]. Format: Situation | Standard Action | Who Approves.",
+  },
+  {
+    id: "comms",
+    icon: "💬",
+    name: "Comms Style",
+    required: false,
+    isStaff: false,
+    hint: "How you communicate with your team. Formal or direct? Long or brief? Haelo mirrors this in every draft.",
+    accept: ".csv",
+    templateCols: ["aspect", "preference"] as string[],
+    templateRows: [
+      ["Tone", "e.g. Direct and brief"],
+      ["With senior staff", "e.g. Peer-to-peer, no formality"],
+      ["With junior staff", "e.g. Warm but firm, action-oriented"],
+      ["Phrases to avoid", 'e.g. filler words, "I will try"'],
+      ["Format", "e.g. One idea per message"],
+    ] as string[][],
+    templateFile: "haelo_comms_style_template.csv",
+    aiPrompt:
+      "Write a communication style guide for my AI assistant. My preferences: [describe]. Format: Aspect | Your Preference.",
+  },
+];

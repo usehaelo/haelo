@@ -1,0 +1,256 @@
+{
+  "mockedApi": true,
+  "results": [
+    {
+      "step": 0,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 1,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 2,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 3,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 4,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 5,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 6,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 7,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 8,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 9,
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "step": 0,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 1,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 2,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 3,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 4,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 5,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 6,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 7,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 8,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 9,
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "step": 0,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 1,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 2,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 3,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 4,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 5,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 6,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 7,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 8,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 9,
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "step": 0,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 1,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 2,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 3,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 4,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 5,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 6,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 7,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 8,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 9,
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "step": 0,
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "step": 1,
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "step": 2,
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "step": 3,
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "step": 4,
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "step": 5,
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "step": 6,
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "step": 7,
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "step": 8,
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "step": 9,
+      "width": 1440,
+      "overflow": false
+    }
+  ],
+  "loginAccessibility": []
+}

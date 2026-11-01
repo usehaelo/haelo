@@ -1,764 +1,221 @@
 "use client";
-
-import { useEffect, useMemo, useState } from "react";
+import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff, Mail, LockKeyhole } from "lucide-react";
+import SetupShell, { SetupStages } from "@/components/setup/SetupShell";
 import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  Eye,
-  EyeOff,
-  Loader2,
-  Mail,
-  Building2,
-  LockKeyhole,
-  ShieldCheck,
-  Sparkles,
-  AlertCircle,
-} from "lucide-react";
-
+  Actions,
+  AccountProviders,
+  CodeInput,
+  Field,
+} from "@/components/setup/Controls";
 import { register, verifyOtp, checkEmail } from "@/lib/api/auth";
-
-const steps = [
-  {
-    number: "01",
-    label: "Your details",
-  },
-  {
-    number: "02",
-    label: "Your company",
-  },
-  {
-    number: "03",
-    label: "Password",
-  },
-];
 
 export default function SignupPage() {
   const router = useRouter();
-
-  const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [checkingEmail, setCheckingEmail] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [emailAvailable, setEmailAvailable] = useState(false);
-
   const [form, setForm] = useState({
     name: "",
     email: "",
-    company: "",
+    companyName: "",
     password: "",
-    otp: "",
   });
-
-  /* ============================================================
-     EMAIL VALIDATION
-  ============================================================ */
-
-  useEffect(() => {
-    if (step !== 1) return;
-
-    if (!form.email) {
-      setEmailAvailable(false);
-      return;
-    }
-
-    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
-
-    if (!validEmail) {
-      setEmailAvailable(false);
-      return;
-    }
-
-    const timer = window.setTimeout(async () => {
-      setCheckingEmail(true);
-      setError("");
-
-      try {
-        await checkEmail(form.email);
-        setEmailAvailable(true);
-      } catch (err: any) {
-        setEmailAvailable(false);
-
-        setError(err?.message || "This email address cannot be used.");
-      } finally {
-        setCheckingEmail(false);
-      }
-    }, 550);
-
-    return () => window.clearTimeout(timer);
-  }, [form.email, step]);
-
-  /* ============================================================
-     PASSWORD STRENGTH
-  ============================================================ */
-
-  const passwordChecks = useMemo(
-    () => ({
-      length: form.password.length >= 8,
-      letter: /[A-Za-z]/.test(form.password),
-      number: /\d/.test(form.password),
-    }),
-    [form.password],
-  );
-
-  const passwordScore = Object.values(passwordChecks).filter(Boolean).length;
-
-  /* ============================================================
-     HELPERS
-  ============================================================ */
-
-  const updateField = (field: keyof typeof form, value: string) => {
-    setForm((current) => ({
-      ...current,
-      [field]: value,
-    }));
-
+  const [verification, setVerification] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [agreed, setAgreed] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    if (busy) return;
+    setBusy(true);
     setError("");
-    setSuccess("");
-  };
-
-  const nextStep = () => {
-    setError("");
-    setSuccess("");
-    setStep((current) => current + 1);
-  };
-
-  const previousStep = () => {
-    setError("");
-    setSuccess("");
-    setStep((current) => current - 1);
-  };
-
-  /* ============================================================
-     FORM SUBMISSION
-  ============================================================ */
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setError("");
-    setSuccess("");
-
-    /* ---------------- STEP 1 ---------------- */
-
-    if (step === 1) {
-      if (!form.name.trim()) {
-        setError("Please enter your full name.");
-        return;
-      }
-
-      if (!emailAvailable) {
-        setError("Please enter a valid and available work email.");
-        return;
-      }
-
-      nextStep();
-      return;
-    }
-
-    /* ---------------- STEP 2 ---------------- */
-
-    if (step === 2) {
-      if (!form.company.trim()) {
-        setError("Please enter your company name.");
-        return;
-      }
-
-      nextStep();
-      return;
-    }
-
-    /* ---------------- STEP 3 ---------------- */
-
-    if (step === 3) {
-      if (form.password.length < 8) {
-        setError("Your password must be at least 8 characters.");
-        return;
-      }
-
-      setLoading(true);
-
-      try {
-        const res = await register({
-          name: form.name,
-          email: form.email,
-          companyName: form.company,
-          password: form.password,
+    try {
+      if (verification) {
+        const token = localStorage.getItem("registrationToken");
+        if (!token)
+          throw new Error(
+            "Please create your account again to request a new code.",
+          );
+        const response = await verifyOtp(token, otp);
+        if (!response.data?.token)
+          throw new Error(
+            "Verification did not return a session. Please try again.",
+          );
+        localStorage.setItem("token", response.data.token);
+        localStorage.removeItem("registrationToken");
+        router.push("/onboarding");
+      } else {
+        if (!form.name.trim() || !form.companyName.trim())
+          throw new Error("Enter your full name and company name.");
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
+          throw new Error("Enter a valid work email address.");
+        await checkEmail(form.email.trim());
+        const response = await register({
+          ...form,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          companyName: form.companyName.trim(),
         });
-
-        if (res.data?.token) {
-          localStorage.setItem("registrationToken", res.data.token);
-        }
-
-        setStep(4);
-      } catch (err: any) {
-        setError(
-          err?.message || "We could not create your account. Please try again.",
+        if (!response.data?.token)
+          throw new Error(
+            "Account creation did not return a verification token.",
+          );
+        localStorage.setItem("registrationToken", response.data.token);
+        localStorage.setItem(
+          "haelo-setup-identity",
+          JSON.stringify({
+            name: form.name.trim(),
+            email: form.email.trim(),
+            companyName: form.companyName.trim(),
+          }),
         );
-      } finally {
-        setLoading(false);
+        setVerification(true);
       }
-
-      return;
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setBusy(false);
     }
-
-    /* ---------------- STEP 4 ---------------- */
-
-    if (step === 4) {
-      if (!form.otp.trim()) {
-        setError("Please enter the verification code.");
-        return;
-      }
-
-      const registrationToken = localStorage.getItem("registrationToken");
-
-      if (!registrationToken) {
-        setError("Your registration session has expired. Please start again.");
-        return;
-      }
-
-      setLoading(true);
-
-      try {
-        const res = await verifyOtp(registrationToken, form.otp);
-
-        if (res.data?.token) {
-          localStorage.setItem("token", res.data.token);
-
-          localStorage.removeItem("registrationToken");
-        }
-
-        setSuccess(res.message || "Your email has been verified successfully.");
-
-        window.setTimeout(() => {
-          router.push("/onboarding");
-        }, 900);
-      } catch (err: any) {
-        setError(err?.message || "That verification code is not valid.");
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
-
+  }
   return (
-    <>
-      <div className="signup">
-        <header className="header">
-          <div className="eyebrow">
-            <span className="eyebrow-dot" />
-            GET STARTED
-          </div>
-
-          <div className="title-row">
-            <div>
-              <h1 className="title">
-                {step === 4 ? "Verify your email" : "Create your account"}
-              </h1>
-
-              {step !== 4 && (
-                <p className="subtitle">
-                  Get Haelo working for your team in just a few simple steps.
-                </p>
-              )}
+    <SetupShell
+      className="setup-signup"
+      badge={verification ? "One quick check" : "Takes about 3 minutes"}
+      title={verification ? "One quick check" : "Your first draft, on WhatsApp"}
+      description={
+        verification
+          ? "We only use this to confirm your work email."
+          : "Haelo reads internal emails, writes the reply in your voice, and waits for your YES."
+      }
+      headerAction={
+        <Link href="/auth/login">Already have an account? Sign in</Link>
+      }
+    >
+      <SetupStages active={0} />
+      <h1>{verification ? "Check your email" : "Create your Haelo account"}</h1>
+      <p className="setup-intro">
+        {verification
+          ? `We sent a 6-digit code to ${form.email}.`
+          : "Start your 30-day pilot. No card needed."}
+      </p>
+      <form onSubmit={submit} className="setup-form">
+        {verification ? (
+          <>
+            <CodeInput value={otp} onChange={setOtp} disabled={busy} />
+            <p className="setup-note">Use the code sent to your work email.</p>
+          </>
+        ) : (
+          <>
+            <span className="setup-label">Sign up with</span>
+            <AccountProviders />
+            <div className="setup-divider">or</div>
+            <div className="setup-field-pair">
+              <Field label="Full name">
+                <input
+                  autoComplete="name"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  placeholder="Your full name"
+                />
+              </Field>
+              <Field label="Company name">
+                <input
+                  autoComplete="organization"
+                  required
+                  value={form.companyName}
+                  onChange={(e) =>
+                    setForm({ ...form, companyName: e.target.value })
+                  }
+                  placeholder="Your company"
+                />
+              </Field>
             </div>
-
-            {step !== 4 && (
-              <div className="trial">
-                <Sparkles size={11} />
-                START FREE
-              </div>
-            )}
-          </div>
-
-          {step !== 4 && (
-            <div className="progress">
-              {steps.map((item) => {
-                const itemNumber = Number(item.number);
-
-                const isActive = itemNumber === step;
-
-                const isDone = itemNumber < step;
-
-                return (
-                  <div
-                    key={item.number}
-                    aria-current={isActive ? "step" : undefined}
-                    className={[
-                      "progress-item",
-                      isActive ? "active" : "",
-                      isDone ? "done" : "",
-                    ].join(" ")}
-                  >
-                    <span className="progress-number">
-                      {isDone ? "✓" : item.number}
-                    </span>
-
-                    <span className="progress-label">{item.label}</span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </header>
-
-        <section className="card">
-          {error && (
-            <div className="message error" role="alert">
-              <AlertCircle className="message-icon" size={16} />
-
-              <span>{error}</span>
-            </div>
-          )}
-
-          {success && (
-            <div className="message success" role="status">
-              <Check className="message-icon" size={16} />
-
-              <span>{success}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit}>
-            <div className="step-content" key={step}>
-              {step === 1 && (
-                <>
-                  <div className="field">
-                    <div className="label-row">
-                      <label htmlFor="name" className="label">
-                        FULL NAME
-                      </label>
-                    </div>
-
-                    <div className="input-wrap">
-                      <Sparkles className="icon" size={17} />
-
-                      <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        autoComplete="name"
-                        placeholder="Adaeze Okonkwo"
-                        value={form.name}
-                        onChange={(e) => updateField("name", e.target.value)}
-                        className="input input-icon"
-                        required
-                        autoFocus
-                      />
-                    </div>
-                  </div>
-
-                  <div className="field">
-                    <div className="label-row">
-                      <label htmlFor="email" className="label">
-                        WORK EMAIL
-                      </label>
-
-                      {checkingEmail && (
-                        <span className="hint">Checking...</span>
-                      )}
-
-                      {!checkingEmail && emailAvailable && (
-                        <span className="hint">Email available</span>
-                      )}
-                    </div>
-
-                    <div className="input-wrap">
-                      <Mail className="icon" size={17} />
-
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        autoComplete="email"
-                        placeholder="adaeze@company.com"
-                        value={form.email}
-                        onChange={(e) => updateField("email", e.target.value)}
-                        className={[
-                          "input",
-                          "input-icon",
-                          emailAvailable ? "email-valid" : "",
-                        ].join(" ")}
-                        required
-                      />
-
-                      {checkingEmail && (
-                        <Loader2
-                          className="valid"
-                          size={17}
-                          style={{
-                            animation: "spin 1s linear infinite",
-                          }}
-                        />
-                      )}
-
-                      {!checkingEmail && emailAvailable && (
-                        <Check className="valid" size={18} />
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="info">
-                    <div className="info-icon">
-                      <ShieldCheck size={17} />
-                    </div>
-
-                    <div>
-                      <span className="info-title">
-                        Your information is secure.
-                      </span>
-
-                      <p className="info-text">
-                        We&apos;ll use your work email to create your account
-                        and verify your identity.
-                      </p>
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="button primary"
-                    disabled={
-                      !form.name.trim() || !emailAvailable || checkingEmail
-                    }
-                  >
-                    Continue
-                    <ArrowRight size={16} />
-                  </button>
-                </>
-              )}
-
-              {step === 2 && (
-                <>
-                  <div className="field">
-                    <div className="label-row">
-                      <label htmlFor="company" className="label">
-                        COMPANY NAME
-                      </label>
-                    </div>
-
-                    <div className="input-wrap">
-                      <Building2 className="icon" size={17} />
-
-                      <input
-                        id="company"
-                        name="company"
-                        type="text"
-                        autoComplete="organization"
-                        placeholder="Acme Corporation"
-                        value={form.company}
-                        onChange={(e) => updateField("company", e.target.value)}
-                        className="input input-icon"
-                        required
-                        autoFocus
-                      />
-                    </div>
-                  </div>
-
-                  <div className="info">
-                    <div className="info-icon">
-                      <Building2 size={17} />
-                    </div>
-
-                    <div>
-                      <span className="info-title">
-                        Tell us where you work.
-                      </span>
-
-                      <p className="info-text">
-                        Your company name helps Haelo personalise your
-                        workspace. You&apos;ll connect your business tools
-                        during onboarding.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="actions">
-                    <button
-                      type="button"
-                      className="button secondary back"
-                      onClick={previousStep}
-                    >
-                      <ArrowLeft size={15} />
-                      Back
-                    </button>
-
-                    <button type="submit" className="button primary">
-                      Continue
-                      <ArrowRight size={16} />
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {step === 3 && (
-                <>
-                  <div className="field">
-                    <div className="label-row">
-                      <label htmlFor="password" className="label">
-                        PASSWORD
-                      </label>
-
-                      <span className="hint">At least 8 characters</span>
-                    </div>
-
-                    <div className="input-wrap">
-                      <LockKeyhole className="icon" size={17} />
-
-                      <input
-                        id="password"
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        autoComplete="new-password"
-                        placeholder="Create a secure password"
-                        value={form.password}
-                        onChange={(e) =>
-                          updateField("password", e.target.value)
-                        }
-                        className="input input-icon"
-                        style={{
-                          paddingRight: 52,
-                        }}
-                        required
-                        minLength={8}
-                        autoFocus
-                      />
-
-                      <button
-                        type="button"
-                        className="password-toggle"
-                        onClick={() => setShowPassword((current) => !current)}
-                        aria-label={
-                          showPassword ? "Hide password" : "Show password"
-                        }
-                      >
-                        {showPassword ? (
-                          <EyeOff size={17} />
-                        ) : (
-                          <Eye size={17} />
-                        )}
-                      </button>
-                    </div>
-
-                    <div className="meter">
-                      <div className="meter-bars">
-                        {[1, 2, 3].map((number) => (
-                          <span
-                            key={number}
-                            className={[
-                              "meter-bar",
-                              passwordScore >= number ? "active" : "",
-                            ].join(" ")}
-                          />
-                        ))}
-                      </div>
-
-                      <div className="meter-caption">
-                        <span>
-                          {passwordScore === 0
-                            ? "Enter a password"
-                            : passwordScore === 3
-                              ? "Strong password"
-                              : "Keep going"}
-                        </span>
-
-                        <span>{passwordScore}/3</span>
-                      </div>
-                    </div>
-
-                    <div className="rules">
-                      <span
-                        className={[
-                          "rule",
-                          passwordChecks.length ? "valid-rule" : "",
-                        ].join(" ")}
-                      >
-                        <Check size={11} />
-                        8+ characters
-                      </span>
-
-                      <span
-                        className={[
-                          "rule",
-                          passwordChecks.letter ? "valid-rule" : "",
-                        ].join(" ")}
-                      >
-                        <Check size={11} />A letter
-                      </span>
-
-                      <span
-                        className={[
-                          "rule",
-                          passwordChecks.number ? "valid-rule" : "",
-                        ].join(" ")}
-                      >
-                        <Check size={11} />A number
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="info">
-                    <div className="info-icon">
-                      <ShieldCheck size={17} />
-                    </div>
-
-                    <div>
-                      <span className="info-title">Almost there.</span>
-
-                      <p className="info-text">
-                        Create your password and we&apos;ll send a verification
-                        code to your work email.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="actions">
-                    <button
-                      type="button"
-                      className="button secondary back"
-                      onClick={previousStep}
-                    >
-                      <ArrowLeft size={15} />
-                      Back
-                    </button>
-
-                    <button
-                      type="submit"
-                      className="button primary"
-                      disabled={loading || passwordScore < 2}
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2
-                            size={16}
-                            style={{
-                              animation: "spin 1s linear infinite",
-                            }}
-                          />
-                          Creating account...
-                        </>
-                      ) : (
-                        <>
-                          Create account
-                          <ArrowRight size={16} />
-                        </>
-                      )}
-                    </button>
-                  </div>
-
-                  <p className="agreement">
-                    By continuing, you agree to our{" "}
-                    <Link href="/terms">Terms of Service</Link> and{" "}
-                    <Link href="/privacy">Privacy Policy</Link>.
-                  </p>
-                </>
-              )}
-
-              {step === 4 && (
-                <div className="otp">
-                  <div className="otp-icon">
-                    <Mail size={24} />
-                  </div>
-
-                  <h2 className="otp-title">Check your inbox</h2>
-
-                  <p className="otp-text">
-                    We sent a verification code to <strong>{form.email}</strong>
-                    . Enter the code below to finish creating your account.
-                  </p>
-
-                  <input
-                    aria-label="Verification code"
-                    id="otp"
-                    name="otp"
-                    type="text"
-                    inputMode="text"
-                    autoComplete="one-time-code"
-                    maxLength={8}
-                    placeholder="000000"
-                    value={form.otp}
-                    onChange={(e) =>
-                      updateField(
-                        "otp",
-                        e.target.value.replace(/[^a-zA-Z0-9]/g, ""),
-                      )
-                    }
-                    className="input otp-input"
-                    required
-                    autoFocus
-                  />
-
-                  <button
-                    type="submit"
-                    className="button primary"
-                    style={{
-                      marginTop: 16,
-                    }}
-                    disabled={loading || form.otp.length < 4}
-                  >
-                    {loading ? (
-                      <>
-                        <Loader2
-                          size={16}
-                          style={{
-                            animation: "spin 1s linear infinite",
-                          }}
-                        />
-                        Verifying...
-                      </>
-                    ) : (
-                      <>
-                        Verify email
-                        <ArrowRight size={16} />
-                      </>
-                    )}
-                  </button>
-
-                  <button
-                    type="button"
-                    className="button secondary"
-                    style={{
-                      marginTop: 10,
-                    }}
-                    onClick={() => {
-                      localStorage.removeItem("registrationToken");
-
-                      setForm((current) => ({
-                        ...current,
-                        otp: "",
-                      }));
-
-                      setError("");
-                      setSuccess("");
-                      setStep(1);
-                    }}
-                  >
-                    Start again
-                  </button>
-                </div>
-              )}
-            </div>
-          </form>
-        </section>
-
-        {step !== 4 && (
-          <p className="bottom">
-            Already have an account? <Link href="/auth/login">Sign in</Link>
+            <Field label="Work email">
+              <Mail size={16} />
+              <input
+                type="email"
+                autoComplete="email"
+                required
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="you@company.com"
+              />
+            </Field>
+            <Field
+              label="Create a password"
+              hint="At least 8 characters, with a letter and a number."
+            >
+              <LockKeyhole size={16} />
+              <input
+                type={showPassword ? "text" : "password"}
+                autoComplete="new-password"
+                required
+                minLength={8}
+                pattern="(?=.*[A-Za-z])(?=.*[0-9]).{8,}"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+              />
+              <button
+                type="button"
+                className="setup-icon-button"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </Field>
+            <label className="setup-checkbox">
+              <input
+                type="checkbox"
+                required
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+              />
+              I agree to the Terms and Privacy Policy
+            </label>
+          </>
+        )}
+        {error && (
+          <p className="setup-error" role="alert">
+            {error}
           </p>
         )}
-
-        <div className="secure">
-          <ShieldCheck size={11} />
-          Secure account creation
-          <span>·</span>
-          No credit card required
-        </div>
-      </div>
-    </>
+        <Actions
+          onBack={
+            verification
+              ? () => {
+                  setVerification(false);
+                  setOtp("");
+                  setError("");
+                }
+              : undefined
+          }
+          busy={busy}
+          disabled={verification ? !/^\d{6}$/.test(otp) : !agreed}
+        >
+          {verification ? "Verify email" : "Create account"}
+        </Actions>
+        {verification && (
+          <button
+            type="button"
+            className="setup-text-button"
+            onClick={() => {
+              setVerification(false);
+              setOtp("");
+              setError("");
+            }}
+          >
+            Wrong email? Change it
+          </button>
+        )}
+      </form>
+    </SetupShell>
   );
 }

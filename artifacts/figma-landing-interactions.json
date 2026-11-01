@@ -1,0 +1,217 @@
+{
+  "results": [
+    "FAQ opens and closes with correct aria-expanded state",
+    "Sample reply edits, saves, approves and replays without API calls",
+    "Tone controls change the draft",
+    "Reminder interval selection updates accessibly",
+    "All on-page anchors resolve",
+    "Signup and sign-in actions use existing routes",
+    "Mobile navigation opens; Escape closes it and restores focus",
+    "No duplicate DOM IDs"
+  ],
+  "a11y": {
+    "390": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": [
+          {
+            "target": [
+              ".approval-phone > .approval-message > small"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 6.0pt (8px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".approval-phone > .approval-message > time"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".phone-confirmation > time"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".phone-composer > span:nth-child(2)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".workflow-whatsapp > .approval-preview > .approval-message > small"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".workflow-whatsapp > .approval-preview > .approval-message > time"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".summary-card > dl > div:nth-child(1) > dt"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".summary-card > dl > div:nth-child(2) > dt"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".summary-card > dl > div:nth-child(3) > dt"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".tone-tabs > button:nth-child(1)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".tone-tabs > button:nth-child(2)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".timer-earlier"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.3 (foreground color: #a8999b, background color: #f4eae1, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".timer-interval > button:nth-child(1)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".timer-interval > button:nth-child(2)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "nav[aria-label=\"product\"] > h3"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "nav[aria-label=\"company\"] > h3"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "nav[aria-label=\"legal\"] > h3"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".footer-bottom > p:nth-child(1)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".footer-bottom > p:nth-child(2)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ],
+    "1440": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": [
+          {
+            "target": [
+              ".inbox-live"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.21 (foreground color: #2e7d4f, background color: #ddefe3, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".phone-confirmation > time"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".workflow-whatsapp > .approval-preview > .approval-message > small"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".workflow-whatsapp > .approval-preview > .approval-message > time"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".tone-tabs > button:nth-child(1)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".timer-earlier"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.3 (foreground color: #a8999b, background color: #f4eae1, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".timer-interval > button:nth-child(2)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.72 (foreground color: #a8999b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "nav[aria-label=\"product\"] > h3"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "nav[aria-label=\"company\"] > h3"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "nav[aria-label=\"legal\"] > h3"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".footer-bottom > p:nth-child(1)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".footer-bottom > p:nth-child(2)"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #a8999b, background color: #fbf5ef, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  },
+  "errors": []
+}

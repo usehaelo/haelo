@@ -1,120 +1,110 @@
-"use client";
-import Link from "next/link";
-import { useState } from "react";
-import { PRICING_PLANS as plans } from "@/lib/pricing";
-import { ArrowRight, Check, Minus, Plus } from "lucide-react";
+import { assets } from "./assets";
+import { Button, CONTACT_URL, Heading, Vector } from "./Primitives";
 
+// The Figma marketing offer is intentionally separate from the existing billing plan IDs.
+// These CTAs start signup/contact; they never select a subscription or initiate checkout.
+const plans = [
+  {
+    name: "Starter",
+    price: "₦150k",
+    description: "For a single executive getting started with Haelo.",
+    features: [
+      "Up to 3 email accounts",
+      "Business Bible up to 20 pages",
+      "WhatsApp notifications",
+      "Email history dashboard",
+      "Standard 10-minute timer",
+    ],
+  },
+  {
+    name: "Professional",
+    price: "₦300k",
+    description:
+      "For the executive who wants rules by staff level and a monthly report.",
+    features: [
+      "All email providers",
+      "Unlimited Business Bible",
+      "Custom timer per staff level",
+      "Priority support",
+      "Monthly performance report",
+    ],
+  },
+  {
+    name: "Executive",
+    price: "₦500k",
+    description:
+      "For leadership teams of up to three executives in one company.",
+    features: [
+      "Up to 3 executives",
+      "Everything in Professional",
+      "Dedicated onboarding session",
+      "Slack integration (coming)",
+      "Monthly strategy review call",
+    ],
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    description: "For organisations with 5+ executives and bespoke needs.",
+    features: [
+      "5+ executives",
+      "Custom integrations",
+      "SLA guarantees",
+      "Dedicated account manager",
+      "Bespoke knowledge base",
+    ],
+  },
+];
 export default function Pricing() {
-  const [people, setPeople] = useState(3);
-  const plan = plans.find((p) => people >= p.minUsers && people <= p.maxUsers)!;
   return (
-    <section className="landing-section pricing-section" id="pricing">
+    <section
+      className="landing-section pricing-section"
+      id="pricing"
+      aria-labelledby="pricing-heading"
+    >
+      <Vector
+        asset={assets.pricing.watermarkHaeloMark}
+        className="pricing-watermark"
+      />
       <div className="landing-container">
-        <div className="section-heading">
-          <p className="eyebrow">07 / Room for your team</p>
-          <h2>
-            A clearer inbox.
-            <br />
-            <span>A clear monthly price.</span>
-          </h2>
-          <p>
-            Choose the space your team needs. Start with a 7-day free trial.
-          </p>
-        </div>
-        <div className="pricing-layout">
-          <div className="pricing-detail">
-            <h3>
-              Built for the people
-              <br />
-              moving your business forward.
-            </h3>
-            <p>
-              One workspace, with the context and communication tools to keep
-              everyone moving.
-            </p>
-            <ul>
-              {[
-                "Context-aware email drafting",
-                "WhatsApp approval workflow",
-                "Business Bible and staff directory",
-                "Communication activity history",
-                "Configurable response workflows",
-              ].map((item) => (
-                <li key={item}>
-                  <Check size={17} />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div className="pricing-tiers">
-              {plans.map((p) => (
-                <button
-                  key={p.name}
-                  onClick={() => setPeople(p.minUsers)}
-                  aria-pressed={p.name === plan.name}
-                >
-                  <strong>{p.name}</strong>
-                  <span>{p.priceLabel}</span>
-                  <span>₦{p.price.toLocaleString("en-NG")}/mo</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="price-calculator">
-            <div className="price-card-top">
-              <span>YOUR WORKSPACE</span>
-              <span className="approval-tag">{plan.name}</span>
-            </div>
-            <label htmlFor="team-size">How many people are on your team?</label>
-            <div className="team-counter">
-              <button
-                aria-label="Remove one person"
-                onClick={() => setPeople(Math.max(1, people - 1))}
-                disabled={people === 1}
-              >
-                <Minus size={18} />
-              </button>
-              <output htmlFor="team-size">
-                {people.toString().padStart(2, "0")}
-              </output>
-              <button
-                aria-label="Add one person"
-                onClick={() => setPeople(Math.min(15, people + 1))}
-                disabled={people === 15}
-              >
-                <Plus size={18} />
-              </button>
-            </div>
-            <input
-              id="team-size"
-              aria-label="Team size"
-              type="range"
-              min="1"
-              max="15"
-              value={people}
-              onChange={(e) => setPeople(Number(e.target.value))}
-            />
-            <div className="range-labels">
-              <span>1 person</span>
-              <span>15 people</span>
-            </div>
-            <div className="price-total">
-              <span>Estimated monthly cost</span>
-              <p>
-                ₦{plan.price.toLocaleString("en-NG")}
-                <small> / month</small>
+        <Heading
+          eyebrow="Pricing"
+          id="pricing-heading"
+          description="One subscription per executive. Your first 30 days are free while we tune Haelo to your business."
+        >
+          Priced for the value <em>of your time.</em>
+        </Heading>
+        <div className="pricing-grid">
+          {plans.map((plan) => (
+            <article
+              key={plan.name}
+              className={`pricing-card${plan.name === "Professional" ? " pricing-featured" : ""}`}
+            >
+              <h3>{plan.name}</h3>
+              <p className="plan-price">
+                <strong>{plan.price}</strong>
+                {plan.name !== "Enterprise" && <span>/month</span>}
               </p>
-              <span>
-                {plan.priceLabel} included in the {plan.name.toLowerCase()} plan
-              </span>
-            </div>
-            <Link href="/auth/signup" className="button">
-              Start free <ArrowRight size={16} />
-            </Link>
-            <p className="price-note">
-              7-day free trial · Confirm subscription terms at signup.
-            </p>
-          </div>
+              <p className="plan-description">{plan.description}</p>
+              <Button
+                small
+                variant={plan.name === "Professional" ? "primary" : "secondary"}
+                href={plan.name === "Enterprise" ? CONTACT_URL : "/auth/signup"}
+              >
+                {plan.name === "Enterprise"
+                  ? "Talk to sales"
+                  : "Start 30-day pilot"}
+              </Button>
+              <ul>
+                {plan.features.map((feature) => (
+                  <li key={feature}>
+                    <Vector asset={assets.pricing.iconCheck} />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
       </div>
     </section>

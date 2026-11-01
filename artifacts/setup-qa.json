@@ -1,0 +1,132 @@
+{
+  "note": "API responses mocked; no real accounts, provider authorisations, messages, uploads or subscriptions created.",
+  "passed": true,
+  "screenshots": [
+    "signup-1440",
+    "about-you-1440",
+    "company-1440",
+    "pilot-1440",
+    "email-1440",
+    "whatsapp-1440",
+    "upload-1440",
+    "review-1440",
+    "timer-1440",
+    "ready-1440",
+    "ready-390",
+    "whatsapp-390",
+    "login-390",
+    "login-1440",
+    "signup-390"
+  ],
+  "apiRequests": [
+    {
+      "path": "/api/auth/check-email",
+      "method": "POST"
+    },
+    {
+      "path": "/api/auth/register",
+      "method": "POST"
+    },
+    {
+      "path": "/api/auth/verify",
+      "method": "POST"
+    },
+    {
+      "path": "/api/auth/verify",
+      "method": "POST"
+    },
+    {
+      "path": "/api/profile",
+      "method": "GET"
+    },
+    {
+      "path": "/api/profile",
+      "method": "GET"
+    },
+    {
+      "path": "/api/onboard/providers",
+      "method": "GET"
+    },
+    {
+      "path": "/api/onboard/domain",
+      "method": "GET"
+    },
+    {
+      "path": "/api/onboard/whatsapp/number",
+      "method": "GET"
+    },
+    {
+      "path": "/api/bible/metrics",
+      "method": "GET"
+    },
+    {
+      "path": "/api/onboard/haelo-tone",
+      "method": "GET"
+    },
+    {
+      "path": "/api/onboard/haelo-tone",
+      "method": "POST"
+    },
+    {
+      "path": "/api/onboard/domain",
+      "method": "POST"
+    },
+    {
+      "path": "/api/onboard/email",
+      "method": "POST"
+    },
+    {
+      "path": "/api/onboard/providers",
+      "method": "GET"
+    },
+    {
+      "path": "/api/onboard/whatsapp/add-number",
+      "method": "POST"
+    },
+    {
+      "path": "/api/onboard/whatsapp/verify-number",
+      "method": "POST"
+    },
+    {
+      "path": "/api/bible/upload",
+      "method": "POST"
+    },
+    {
+      "path": "/api/bible/metrics",
+      "method": "GET"
+    },
+    {
+      "path": "/api/staff/directory",
+      "method": "GET"
+    },
+    {
+      "path": "/api/bible/metrics",
+      "method": "GET"
+    },
+    {
+      "path": "/api/onboard/haelo-tone",
+      "method": "POST"
+    },
+    {
+      "path": "/api/auth/login",
+      "method": "POST"
+    },
+    {
+      "path": "/api/profile",
+      "method": "GET"
+    },
+    {
+      "path": "/api/billing/subscription/find",
+      "method": "GET"
+    },
+    {
+      "path": "/api/profile",
+      "method": "GET"
+    },
+    {
+      "path": "/api/billing/subscription/find",
+      "method": "GET"
+    }
+  ],
+  "consoleErrors": []
+}

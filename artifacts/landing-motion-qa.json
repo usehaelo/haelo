@@ -1,8 +1,37 @@
 {
-  "autoplay": true,
-  "threeScenarioData": true,
-  "pause": true,
-  "resume": true,
-  "offscreenPause": true,
-  "analysisAccessibilityViolations": []
+  "results": [
+    "Four photographic section backgrounds fixed to the viewport",
+    "Cursor moves between tone buttons and changes the actual selected tone",
+    "Hover and keyboard focus pause autoplay; manual tone selection is preserved",
+    "Approval cursor approves a sample reply and replays the demo",
+    "Workflow advances through incoming email, drafting, delivery and approval",
+    "Workflow steps can be selected manually",
+    "Reminder cursor clicks through intervals and countdown advances",
+    "Global pause freezes timelines and resume restarts them",
+    "No horizontal page overflow at five viewport widths",
+    "Reduced motion disables autoplay, animated cursors and fixed scrolling"
+  ],
+  "responsive": [
+    {
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    {
+      "width": 1024,
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440
+    }
+  ],
+  "errors": []
 }

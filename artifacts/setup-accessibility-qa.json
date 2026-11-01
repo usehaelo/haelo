@@ -1,0 +1,10 @@
+[
+  {
+    "route": "login",
+    "violations": []
+  },
+  {
+    "route": "signup",
+    "violations": []
+  }
+]
