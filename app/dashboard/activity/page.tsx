@@ -1,296 +1,598 @@
 "use client";
-
-import { useState, useEffect } from "react";
-import { Search, Filter, ChevronDown, ChevronRight, Mail } from "lucide-react";
-import { getActivityMetrics, getActivityLogs } from "@/lib/api/activity";
-
-// Data replaced with state from API
-
-const statusColor: Record<string, string> = {
-  sent: "badge-lime",
-  "auto-sent": "badge-silver",
-  edited: "badge-navy",
-  pending: "badge-navy",
+import { useEffect, useMemo, useState } from "react";
+import {
+  ArrowDownUp,
+  ArrowRight,
+  CalendarDays,
+  Check,
+  ChevronDown,
+  Download,
+  Mail,
+  Search,
+  Send,
+  Sparkles,
+  Timer,
+} from "lucide-react";
+import { getActivityLogs, getActivityMetrics } from "@/lib/api/activity";
+import { initials } from "@/components/dashboard/workspace-data";
+import {
+  Badge,
+  exportCSV,
+  Overlay,
+  Segments,
+} from "@/components/dashboard/WorkspaceUI";
+type Entry = {
+  id: string;
+  name: string;
+  role: string;
+  subject: string;
+  original: string;
+  suggested: string;
+  sent: string;
+  status: string;
+  received: string;
+  date: string;
+  drafted: string;
+  delivered: string;
+  sentAt: string;
+  details: string;
+  replyTime: string;
+  mailUrl: string;
 };
-
+function category(status: string) {
+  if (/held|hold/.test(status)) return "held";
+  if (/edit|chang|rewrit/.test(status)) return "changed";
+  if (/auto/.test(status)) return "automatic";
+  if (/approv|manual|sent|whatsapp/.test(status)) return "approved";
+  return "pending";
+}
+const labels: Record<string, string> = {
+  held: "Held",
+  changed: "Changed, then sent",
+  automatic: "Sent automatically",
+  approved: "Approved by you",
+  pending: "Waiting for you",
+};
+const displayDate = (value: string) => {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? "Date unavailable"
+    : date.toLocaleDateString([], {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+};
+const displayTime = (value: string) => {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? "—"
+    : date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+};
+function within(entry: Entry, range: string, start: string, end: string) {
+  if (range === "all") return true;
+  const time = new Date(entry.date).getTime();
+  if (!Number.isFinite(time)) return false;
+  const now = new Date();
+  let from = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let to = new Date(now);
+  to.setHours(23, 59, 59, 999);
+  if (range === "week")
+    from.setDate(from.getDate() - ((from.getDay() + 6) % 7));
+  if (range === "month") from.setDate(from.getDate() - 29);
+  if (range === "year") from = new Date(now.getFullYear(), 0, 1);
+  if (range === "custom") {
+    if (start) from = new Date(`${start}T00:00:00`);
+    if (end) to = new Date(`${end}T23:59:59`);
+  }
+  return time >= from.getTime() && time <= to.getTime();
+}
 export default function ActivityPage() {
-  const [search, setSearch] = useState("");
-  const [expanded, setExpanded] = useState<number | null>(null);
-  const [filterDept, setFilterDept] = useState("All");
-  const [metrics, setMetrics] = useState({
-    today: 0,
-    thisWeek: 0,
-    thisMonth: 0,
-    allTime: 0,
-  });
-  const [activities, setActivities] = useState<any[]>([]);
+  const [entries, setEntries] = useState<Entry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [serverPage, setServerPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [query, setQuery] = useState("");
+  const [range, setRange] = useState("week");
+  const [rangeOpen, setRangeOpen] = useState(false);
+  useEffect(() => {
+    if (!rangeOpen) return;
+    const key = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setRangeOpen(false);
+    };
+    const outside = (event: PointerEvent) => {
+      if (!(event.target as Element)?.closest(".ws-menu-anchor"))
+        setRangeOpen(false);
+    };
+    document.addEventListener("keydown", key);
+    document.addEventListener("pointerdown", outside);
+    return () => {
+      document.removeEventListener("keydown", key);
+      document.removeEventListener("pointerdown", outside);
+    };
+  }, [rangeOpen]);
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [sort, setSort] = useState("date");
+  const [ascending, setAscending] = useState(false);
   const [page, setPage] = useState(1);
-  const [meta, setMeta] = useState<any>(null);
-
+  const [selected, setSelected] = useState<Entry | null>(null);
+  const [attempt, setAttempt] = useState(0);
+  const [counts, setCounts] = useState<Record<string, number>>({});
   useEffect(() => {
-    const fetchMetrics = async () => {
-      try {
-        const res = await getActivityMetrics();
-        if (res?.data?.metrics) {
-          setMetrics(res.data.metrics);
-        }
-      } catch (err) {
-        console.error("Failed to fetch activity metrics:", err);
-      }
+    let active = true;
+    getActivityMetrics()
+      .then((r) => {
+        if (active) setCounts(r.data?.metrics || {});
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
     };
-    fetchMetrics();
   }, []);
-
   useEffect(() => {
-    const fetchLogs = async () => {
-      setLoading(true);
-      try {
-        const logsRes = await getActivityLogs(page);
-
-        if (logsRes?.data?.logs) {
-          setActivities(
-            logsRes.data.logs.map((item: any) => {
-              const dateObj = new Date(item.sentAt || item.createdAt);
-              return {
-                id: item.id || item.uid,
-                from: item.staff?.name || item.senderEmail || "Unknown",
-                role: item.staff?.role || "Unknown",
-                dept: item.staff?.department || item.department || "",
-                summary: (item.originalMessage || "").substring(0, 100) + "...",
-                original: item.originalMessage || "",
-                suggested: item.aiSuggested || "",
-                sent: item.responseSent || "",
-                status: (item.sentType || "pending").toLowerCase(),
-                method: item.sentType || "Unknown",
-                time: dateObj.toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                }),
-                date: dateObj.toLocaleDateString([], {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                }),
-              };
-            }),
-          );
-          setMeta(logsRes.data.meta);
-        }
-      } catch (err) {
-        console.error("Failed to fetch data:", err);
-      } finally {
-        setLoading(false);
-      }
+    let active = true;
+    setLoading(true);
+    setError("");
+    getActivityLogs(serverPage, 100)
+      .then((r) => {
+        if (!active) return;
+        const rows = (r.data?.logs || []).map((item: any, index: number) => {
+          const elapsed =
+            new Date(item.sentAt).getTime() -
+            new Date(item.createdAt).getTime();
+          return {
+            id: String(item.id || item.uid || `${serverPage}-${index}`),
+            name: item.staff?.name || item.senderEmail || "Unknown sender",
+            role: item.staff?.role || "Not on staff list",
+            subject:
+              item.subject ||
+              item.originalMessage?.split("\n")[0]?.slice(0, 90) ||
+              "Internal email",
+            original: item.originalMessage || "",
+            suggested: item.aiSuggested || "",
+            sent: item.responseSent || "",
+            status: String(
+              item.sentType || (item.responseSent ? "sent" : "pending"),
+            ).toLowerCase(),
+            received: item.createdAt || "",
+            date: item.sentAt || item.createdAt || "",
+            drafted: item.draftedAt || "",
+            delivered: item.whatsappSentAt || "",
+            sentAt: item.sentAt || "",
+            details: item.details || item.channel || "",
+            replyTime: item.responseTime
+              ? String(item.responseTime)
+              : Number.isFinite(elapsed) && elapsed >= 0
+                ? `${Math.max(1, Math.round(elapsed / 60000))} min`
+                : "—",
+            mailUrl: item.mailUrl || item.emailUrl || "",
+          } as Entry;
+        });
+        setEntries((previous) =>
+          serverPage === 1
+            ? rows
+            : Array.from(
+                new Map(
+                  [...previous, ...rows].map((item) => [item.id, item]),
+                ).values(),
+              ),
+        );
+        const meta = r.data?.meta;
+        setHasMore(
+          Boolean(meta?.nextPage) ||
+            (meta?.totalPages && serverPage < meta.totalPages),
+        );
+      })
+      .catch((err) => {
+        if (active) setError(err.message || "Could not load activity.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
     };
-    fetchLogs();
-  }, [page]);
-
-  const depts = [
-    "All",
-    ...Array.from(new Set(activities.map((a) => a.dept).filter(Boolean))),
-  ];
-
-  const filtered = activities.filter(
-    (a) =>
-      (filterDept === "All" || a.dept === filterDept) &&
-      (a.from.toLowerCase().includes(search.toLowerCase()) ||
-        a.summary.toLowerCase().includes(search.toLowerCase())),
+  }, [serverPage, attempt]);
+  useEffect(() => setPage(1), [range, start, end, query, filter]);
+  const inRange = useMemo(
+    () => entries.filter((entry) => within(entry, range, start, end)),
+    [entries, range, start, end],
   );
-
+  const filtered = inRange
+    .filter(
+      (entry) =>
+        (filter === "all" || category(entry.status) === filter) &&
+        `${entry.name} ${entry.subject} ${entry.details} ${entry.role}`
+          .toLowerCase()
+          .includes(query.toLowerCase()),
+    )
+    .sort((a, b) => {
+      const left =
+        sort === "date"
+          ? new Date(a.date).getTime() || 0
+          : sort === "replyTime"
+            ? parseFloat(a.replyTime) || 0
+            : sort === "status"
+              ? category(a.status)
+              : a[sort as "name" | "subject"];
+      const right =
+        sort === "date"
+          ? new Date(b.date).getTime() || 0
+          : sort === "replyTime"
+            ? parseFloat(b.replyTime) || 0
+            : sort === "status"
+              ? category(b.status)
+              : b[sort as "name" | "subject"];
+      return (
+        (typeof left === "number" && typeof right === "number"
+          ? left - right
+          : String(left).localeCompare(String(right))) * (ascending ? 1 : -1)
+      );
+    });
+  const totalPages = Math.max(1, Math.ceil(filtered.length / 8));
+  const shown = filtered.slice(
+    (Math.min(page, totalPages) - 1) * 8,
+    Math.min(page, totalPages) * 8,
+  );
+  const ranges = [
+    { id: "today", label: "Today" },
+    { id: "week", label: "This week" },
+    { id: "month", label: "Last 30 days" },
+    { id: "year", label: "This year" },
+    { id: "all", label: "All loaded history" },
+    { id: "custom", label: "Pick dates…" },
+  ];
+  function download() {
+    exportCSV("haelo_activity.csv", [
+      ["Date & time", "From", "Email", "Outcome", "Details", "Reply time"],
+      ...filtered.map((e) => [
+        e.date,
+        e.name,
+        e.subject,
+        labels[category(e.status)],
+        e.details,
+        e.replyTime,
+      ]),
+    ]);
+  }
+  useEffect(() => {
+    const listener = () => download();
+    window.addEventListener("haelo:download-activity", listener);
+    return () =>
+      window.removeEventListener("haelo:download-activity", listener);
+  });
   return (
-    <main className="activity-page flex-1 p-6 lg:p-8 overflow-auto">
-      <div className="mb-8 lg:ml-0 ml-12">
-        <p className="section-label mb-1">Activity Log</p>
-        <h1
-          className="text-2xl font-bold text-navy"
-          style={{ letterSpacing: "-0.02em" }}
-        >
-          Every email. Every response.
-        </h1>
-        <p className="text-midgray text-sm mt-1">
-          Complete history of everything Haelo has handled on your behalf.
-        </p>
-      </div>
-
-      {/* Summary strip */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        {[
-          { label: "Today", value: metrics.today.toLocaleString() },
-          { label: "This week", value: metrics.thisWeek.toLocaleString() },
-          { label: "This month", value: metrics.thisMonth.toLocaleString() },
-          { label: "All time", value: metrics.allTime.toLocaleString() },
-        ].map((s) => (
-          <div key={s.label} className="stat-card">
-            <p
-              className="text-2xl font-bold text-navy"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              {s.value}
-            </p>
-            <p className="text-xs text-midgray mt-0.5">{s.label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-5">
-        <div className="relative flex-1 min-w-48">
-          <Search
-            size={15}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-silver"
-          />
-          <input
-            type="text"
-            aria-label="Search activity"
-            placeholder="Search by name or content..."
-            className="input pl-10"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+    <main className="ws-page ws-activity">
+      <header className="ws-page-heading">
+        <div>
+          <h1>Activity log</h1>
+          <p>Everything Haelo did, in plain words.</p>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
-          {depts.map((d) => (
+        <div className="ws-page-tools">
+          <label className="ws-local-search">
+            <Search size={15} />
+            <input
+              aria-label="Search activity"
+              placeholder="Search activity"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </label>
+          <div className="ws-menu-anchor">
             <button
-              key={d}
-              aria-pressed={filterDept === d}
-              onClick={() => setFilterDept(d)}
-              className={`text-xs font-bold px-3 py-2 rounded-lg transition-all ${
-                filterDept === d
-                  ? "bg-navy text-white"
-                  : "bg-white border border-border text-midgray hover:text-navy"
-              }`}
+              className="ws-button"
+              aria-expanded={rangeOpen}
+              onClick={() => setRangeOpen(!rangeOpen)}
             >
-              {d}
+              <CalendarDays size={14} />
+              {ranges.find((item) => item.id === range)?.label}
+              <ChevronDown size={13} />
             </button>
-          ))}
-        </div>
-      </div>
-
-      {loading && (
-        <p role="status" className="text-sm text-midgray mb-4">
-          Loading communication history…
-        </p>
-      )}
-      {/* Activity list */}
-      <div className="space-y-3">
-        {filtered.map((item) => (
-          <div key={item.id} className="card overflow-hidden p-0">
-            {/* Row header */}
-            <button
-              className="w-full flex items-start gap-4 p-5 text-left hover:bg-offwhite/60 transition-colors"
-              aria-expanded={expanded === item.id}
-              onClick={() => setExpanded(expanded === item.id ? null : item.id)}
-            >
-              <div className="w-9 h-9 bg-navy rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
-                {item.from.charAt(0)}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <p className="text-sm font-bold text-navy">{item.from}</p>
-                  <p className="text-xs text-midgray">· {item.role}</p>
-                  <span
-                    className={`badge ${statusColor[item.status] || "badge-navy"} ml-auto`}
+            {rangeOpen && (
+              <div className="ws-popover ws-range-menu">
+                {ranges.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setRange(item.id);
+                      setRangeOpen(false);
+                    }}
                   >
-                    {item.status === "auto-sent"
-                      ? "Auto-sent"
-                      : item.status.charAt(0).toUpperCase() +
-                        item.status.slice(1)}
-                  </span>
-                </div>
-                <p className="text-xs text-midgray leading-relaxed">
-                  {item.summary}
-                </p>
-                <p className="text-xs text-silver mt-1">{item.time}</p>
-              </div>
-              <ChevronRight
-                size={16}
-                className={`text-silver shrink-0 mt-1 transition-transform ${expanded === item.id ? "rotate-90" : ""}`}
-              />
-            </button>
-
-            {/* Expanded detail */}
-            {expanded === item.id && (
-              <div className="border-t border-border bg-offwhite/50 p-5 space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wide text-midgray mb-2">
-                      Original email
-                    </p>
-                    <div className="bg-white border border-border rounded-lg p-3">
-                      <p className="text-xs text-nearblack leading-relaxed">
-                        {item.original}
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wide text-midgray mb-2">
-                      AI suggested
-                    </p>
-                    <div className="bg-white border border-border rounded-lg p-3">
-                      <p className="text-xs text-nearblack leading-relaxed">
-                        {item.suggested}
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wide text-midgray mb-2">
-                      Response sent
-                    </p>
-                    <div className="bg-lime/5 border border-lime/20 rounded-lg p-3">
-                      <p className="text-xs text-nearblack leading-relaxed">
-                        {item.sent}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 text-xs text-midgray">
-                  <span>
-                    Method: <strong className="text-navy">{item.method}</strong>
-                  </span>
-                  <span>
-                    Dept: <strong className="text-navy">{item.dept}</strong>
-                  </span>
-                  <span>
-                    Date: <strong className="text-navy">{item.date}</strong>
-                  </span>
-                </div>
+                    <span>{item.label}</span>
+                    <small>
+                      {
+                        entries.filter((e) => within(e, item.id, start, end))
+                          .length
+                      }{" "}
+                      loaded
+                    </small>
+                    {range === item.id && <Check size={13} />}
+                  </button>
+                ))}
               </div>
             )}
           </div>
-        ))}
-      </div>
-
-      {filtered.length === 0 && !loading && (
-        <div className="card text-center py-12">
-          <Mail size={32} className="text-silver mx-auto mb-3" />
-          <p className="text-sm font-bold text-navy mb-1">No results found</p>
-          <p className="text-xs text-midgray">
-            Try adjusting your search or filter.
-          </p>
+          <button
+            className="ws-icon"
+            aria-label="Download activity report"
+            onClick={download}
+          >
+            <Download size={15} />
+          </button>
+        </div>
+      </header>
+      {range === "custom" && (
+        <div className="ws-date-range">
+          <label>
+            From{" "}
+            <input
+              aria-label="Start date"
+              type="date"
+              value={start}
+              onChange={(e) => setStart(e.target.value)}
+            />
+          </label>
+          <label>
+            To{" "}
+            <input
+              aria-label="End date"
+              type="date"
+              value={end}
+              min={start}
+              onChange={(e) => setEnd(e.target.value)}
+            />
+          </label>
+          {start && end && start > end && (
+            <span role="alert">End date must follow the start date.</span>
+          )}
         </div>
       )}
-
-      {/* Pagination controls */}
-      {meta && (
-        <div className="mt-6 flex justify-center gap-4">
-          {meta.previousPage && (
+      <Segments
+        label="Activity outcomes"
+        value={filter}
+        onChange={setFilter}
+        options={[
+          { id: "all", label: "All", count: inRange.length },
+          ...Object.entries({
+            approved: "Approved by you",
+            automatic: "Sent automatically",
+            changed: "Changed",
+            held: "Held",
+          }).map(([id, label]) => ({
+            id,
+            label,
+            count: inRange.filter((e) => category(e.status) === id).length,
+          })),
+        ]}
+      />
+      {error && (
+        <p className="ws-alert" role="alert">
+          {error}{" "}
+          <button onClick={() => setAttempt((value) => value + 1)}>
+            Retry
+          </button>
+        </p>
+      )}
+      <div className="ws-data-table">
+        <table>
+          <thead>
+            <tr>
+              {[
+                ["date", "Date & time"],
+                ["name", "From"],
+                ["subject", "Email"],
+                ["status", "Outcome"],
+                ["details", "Details"],
+                ["replyTime", "Reply time"],
+              ].map(([id, label]) => (
+                <th
+                  key={id}
+                  aria-sort={
+                    sort === id
+                      ? ascending
+                        ? "ascending"
+                        : "descending"
+                      : undefined
+                  }
+                >
+                  {id === "details" ? (
+                    label
+                  ) : (
+                    <button
+                      onClick={() => {
+                        if (sort === id) setAscending(!ascending);
+                        else {
+                          setSort(id);
+                          setAscending(true);
+                        }
+                      }}
+                    >
+                      {label}
+                      <ArrowDownUp size={11} />
+                    </button>
+                  )}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {shown.map((entry) => (
+              <tr key={entry.id} onClick={() => setSelected(entry)}>
+                <td>
+                  <strong>{displayTime(entry.date)}</strong>
+                  <small>{displayDate(entry.date)}</small>
+                </td>
+                <td>
+                  <div className="ws-table-person">
+                    <span className="ws-avatar">{initials(entry.name)}</span>
+                    <div>
+                      <strong>{entry.name}</strong>
+                      <small>{entry.role}</small>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button
+                    className="ws-table-open"
+                    aria-label={`View activity: ${entry.subject}`}
+                  >
+                    {entry.subject}
+                  </button>
+                </td>
+                <td>
+                  <Badge
+                    tone={
+                      category(entry.status) === "approved"
+                        ? "green"
+                        : category(entry.status) === "changed"
+                          ? "amber"
+                          : category(entry.status) === "held"
+                            ? "red"
+                            : "neutral"
+                    }
+                  >
+                    {labels[category(entry.status)]}
+                  </Badge>
+                </td>
+                <td>{entry.details || "—"}</td>
+                <td>{entry.replyTime}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {!shown.length && (
+          <p className="ws-empty" role="status">
+            {loading ? "Loading activity…" : "No activity matches this view."}
+          </p>
+        )}
+        <footer>
+          <span>
+            Showing {shown.length} of {filtered.length} loaded entries
+            {counts.allTime ? ` · ${counts.allTime} total recorded` : ""}
+          </span>
+          <div>
             <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="px-4 py-2 bg-white border border-border text-navy text-sm font-bold rounded-lg hover:bg-offwhite transition-colors"
+              className="ws-button"
+              disabled={page <= 1}
+              onClick={() => setPage((value) => value - 1)}
             >
-              Previous Page
+              Previous
             </button>
-          )}
-          {meta.nextPage && (
             <button
-              onClick={() => setPage((p) => p + 1)}
-              className="px-4 py-2 bg-navy text-white text-sm font-bold rounded-lg hover:bg-navy/90 transition-colors"
+              className="ws-button"
+              disabled={page >= totalPages}
+              onClick={() => setPage((value) => value + 1)}
             >
-              Next Page
+              Next <ArrowRight size={13} />
             </button>
-          )}
-        </div>
+            {hasMore && (
+              <button
+                className="ws-button"
+                disabled={loading}
+                onClick={() => setServerPage((value) => value + 1)}
+              >
+                Load more history
+              </button>
+            )}
+          </div>
+        </footer>
+      </div>
+      {selected && (
+        <Overlay
+          drawer
+          title="Activity details"
+          subtitle={displayDate(selected.date)}
+          onClose={() => setSelected(null)}
+          footer={
+            <>
+              {/^https:\/\//.test(selected.mailUrl) && (
+                <a
+                  className="ws-button"
+                  href={selected.mailUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open original email <ArrowRight size={13} />
+                </a>
+              )}
+              <button
+                className="ws-button ws-dark"
+                onClick={() => setSelected(null)}
+              >
+                Done
+              </button>
+            </>
+          }
+        >
+          <div className="ws-detail-person">
+            <span className="ws-avatar">{initials(selected.name)}</span>
+            <div>
+              <h3>{selected.name}</h3>
+              <p>{selected.role}</p>
+            </div>
+            <Badge>{labels[category(selected.status)]}</Badge>
+          </div>
+          <h3 className="ws-detail-subject">{selected.subject}</h3>
+          <section className="ws-detail-box">
+            <h4>What happened</h4>
+            <ol className="ws-timeline">
+              {[
+                [
+                  Mail,
+                  `${selected.name.split(" ")[0]} emailed you`,
+                  selected.received,
+                ],
+                [Sparkles, "Haelo drafted a reply", selected.drafted],
+                [Mail, "Draft delivered to WhatsApp", selected.delivered],
+                [
+                  Send,
+                  selected.sent ? "Reply sent" : "Waiting for your approval",
+                  selected.sentAt,
+                ],
+              ]
+                .filter(
+                  ([, label, time], index) =>
+                    index === 0 || Boolean(time) || index === 3,
+                )
+                .map(([Icon, label, time], index) => {
+                  const EventIcon = Icon as typeof Mail;
+                  return (
+                    <li key={index}>
+                      <span>
+                        <EventIcon size={14} />
+                      </span>
+                      <div>
+                        <strong>{label as string}</strong>
+                        <small>
+                          {time
+                            ? displayTime(time as string)
+                            : "Time not recorded"}
+                        </small>
+                      </div>
+                    </li>
+                  );
+                })}
+            </ol>
+          </section>
+          <section className="ws-detail-box ws-soft">
+            <h4>{selected.sent ? "What was sent" : "Suggested reply"}</h4>
+            <pre>
+              {selected.sent ||
+                selected.suggested ||
+                "No response is recorded."}
+            </pre>
+          </section>
+          <details className="ws-original">
+            <summary>
+              <Mail size={14} />
+              Read original email <ChevronDown size={13} />
+            </summary>
+            <pre>{selected.original || "Original email unavailable."}</pre>
+          </details>
+        </Overlay>
       )}
     </main>
   );

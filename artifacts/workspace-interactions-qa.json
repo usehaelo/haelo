@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "mockedApi": true,
+  "screenshots": [
+    "whatsapp-verification",
+    "staff-remove",
+    "bible-rule"
+  ],
+  "errors": [],
+  "writeRequests": [
+    {
+      "path": "/api/onboard/notifications",
+      "method": "POST"
+    },
+    {
+      "path": "/api/onboard/haelo-tone",
+      "method": "POST"
+    },
+    {
+      "path": "/api/onboard/email/g1",
+      "method": "DELETE"
+    },
+    {
+      "path": "/api/onboard/whatsapp/add-number",
+      "method": "POST"
+    },
+    {
+      "path": "/api/staff/invite",
+      "method": "POST"
+    }
+  ]
+}

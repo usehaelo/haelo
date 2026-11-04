@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import DashboardSidebar from "@/components/dashboard/Sidebar";
+import WorkspaceShell from "@/components/dashboard/WorkspaceShell";
+import { setupDisplay } from "@/components/setup/fonts";
+
 import "./dashboard.css";
+import "./workspace.css";
 export const metadata: Metadata = { title: "HAELO — Your workspace" };
 const jakarta = localFont({
   src: [
@@ -46,14 +49,10 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`dashboard-shell ${jakarta.variable} ${satoshi.variable}`}>
-      <a className="dashboard-skip" href="#dashboard-content">
-        Skip to workspace
-      </a>
-      <DashboardSidebar />
-      <div className="dashboard-content" id="dashboard-content">
-        {children}
-      </div>
+    <div
+      className={`${jakarta.variable} ${satoshi.variable} ${setupDisplay.variable}`}
+    >
+      <WorkspaceShell>{children}</WorkspaceShell>
     </div>
   );
 }

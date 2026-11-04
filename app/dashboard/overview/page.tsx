@@ -1,317 +1,278 @@
 "use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
-  ArrowUpRight,
   ArrowRight,
-  Mail,
-  Users,
   BookOpen,
-  SlidersHorizontal,
-  Clock,
-  Check,
-  Search,
+  CheckCheck,
+  Clock3,
+  Hourglass,
+  Inbox,
+  Mail,
+  MessageCircle,
+  Sparkles,
+  Timer,
+  UserRoundX,
 } from "lucide-react";
-import { getOverviewMetric, OverviewMetricType } from "@/lib/api/overview";
-import { getActivityLogs } from "@/lib/api/activity";
-import { getProfile } from "@/lib/api/auth";
-import { getUnrecognizedSendersCount } from "@/lib/api/staff";
-
-type Conversation = {
-  id: string;
-  name: string;
-  role: string;
-  original: string;
-  suggested: string;
-  sent: string;
-  status: string;
-};
-const metricDefinitions: {
-  key: OverviewMetricType;
-  label: string;
-  unit: string;
-}[] = [
-  {
-    key: "emails-handled",
-    label: "Emails handled",
-    unit: "Communication taken care of",
-  },
-  {
-    key: "avg-response-time",
-    label: "Response time",
-    unit: "Average turnaround",
-  },
-  { key: "approval-rate", label: "Approval rate", unit: "Responses approved" },
-  {
-    key: "staff-recognised",
-    label: "People recognised",
-    unit: "Context behind every message",
-  },
-];
+import { initials, useWorkspace } from "@/components/dashboard/workspace-data";
 export default function OverviewPage() {
-  const [name, setName] = useState("");
-  const [metrics, setMetrics] = useState<Record<string, string>>({});
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [unknown, setUnknown] = useState(0);
-  const [filter, setFilter] = useState("All activity");
-  const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<string | null>(null);
+  const w = useWorkspace();
+  const waiting = w.drafts.filter((d) => d.status === "pending");
+  const sent = w.drafts.filter((d) => d.status !== "pending");
+  const automated = sent.filter((d) => /auto/.test(d.status));
+  const approved = sent.filter((d) => /approv|manual|whatsapp/.test(d.status));
+  const changed = sent.filter((d) => /edit|rewrit|chang/.test(d.status));
+  const [greeting, setGreeting] = useState("Hello");
   useEffect(() => {
-    let active = true;
-    Promise.allSettled([
-      getProfile().then((r) => {
-        if (active) setName(r?.data?.name?.split(" ")[0] || "");
-      }),
-      ...metricDefinitions.map((m) =>
-        getOverviewMetric(m.key).then((r) => {
-          if (active && r?.data)
-            setMetrics((v) => ({ ...v, [m.key]: String(r.data.value ?? "—") }));
-        }),
-      ),
-      getUnrecognizedSendersCount().then((r) => {
-        if (active) setUnknown(r?.data?.count || 0);
-      }),
-      getActivityLogs(1, 20)
-        .then((r) => {
-          if (active)
-            setConversations(
-              (r?.data?.logs || []).map((item: any) => ({
-                id: String(item.id || item.uid),
-                name: item.staff?.name || item.senderEmail || "Unknown sender",
-                role: item.staff?.role || "External contact",
-                original: item.originalMessage || "",
-                suggested: item.aiSuggested || "",
-                sent: item.responseSent || "",
-                status: (item.sentType || "pending").toLowerCase(),
-              })),
-            );
-        })
-        .catch(() => {
-          if (active) setError(true);
-        }),
-    ]).finally(() => {
-      if (active) setLoading(false);
-    });
-    return () => {
-      active = false;
-    };
+    const hour = new Date().getHours();
+    setGreeting(
+      hour < 12
+        ? "Good morning"
+        : hour < 17
+          ? "Good afternoon"
+          : "Good evening",
+    );
   }, []);
-  const pending = conversations.filter((c) => c.status === "pending").length;
-  const filtered = conversations.filter(
-    (c) =>
-      (filter !== "Needs review" || c.status === "pending") &&
-      (filter !== "Completed" || c.status !== "pending") &&
-      `${c.name} ${c.original}`.toLowerCase().includes(query.toLowerCase()),
-  );
-  const current = filtered.find((c) => c.id === selected) || filtered[0];
   return (
-    <main className="page-main executive-overview">
-      <header className="executive-header">
+    <main className="ws-page ws-overview">
+      <header className="ws-page-heading">
         <div>
-          <p className="workspace-eyebrow">Your daily perspective</p>
-          <h1>More room for what matters.</h1>
+          <h1>
+            {greeting}
+            {w.name ? `, ${w.name.split(" ")[0]}` : ""}
+          </h1>
           <p>
-            {name ? `${name}, here` : "Here"} is what’s happening across your
-            workspace.
+            {w.loading ? (
+              "Loading your workspace…"
+            ) : (
+              <>
+                <strong className="ws-burgundy">
+                  {waiting.length} drafts are waiting for you.
+                </strong>{" "}
+                Keep your team moving, wherever you are.
+              </>
+            )}
           </p>
         </div>
-        <Link className="workspace-button" href="/dashboard/settings">
-          Workspace settings <SlidersHorizontal size={16} />
-        </Link>
+        <span className="ws-period">Latest activity</span>
       </header>
-      <section className="overview-brief" aria-label="Workspace briefing">
-        <div className="brief-copy">
-          <span className="brief-kicker">
-            <span /> THE WORKSPACE BRIEF
-          </span>
-          <h2>
-            A clear view.
-            <br />A lighter day.
-          </h2>
-          <p>
-            Your communication, people and business knowledge, brought into
-            focus.
-          </p>
-          <Link href="/dashboard/business-bible">
-            Build Haelo’s understanding <ArrowUpRight size={18} />
-          </Link>
-        </div>
-        <div className="brief-attention">
-          <p className="workspace-eyebrow">Next on your radar</p>
-          <Link href="/dashboard/activity">
-            <span className="attention-icon">
-              <Mail size={20} />
-            </span>
-            <div>
-              <strong>
-                {loading ? "Checking activity…" : `${pending} awaiting review`}
-              </strong>
-              <p>In your latest conversations</p>
-            </div>
-            <ArrowRight size={18} />
-          </Link>
-          <Link href="/dashboard/staff">
-            <span className="attention-icon">
-              <Users size={20} />
-            </span>
-            <div>
-              <strong>
-                {loading
-                  ? "Checking directory…"
-                  : `${unknown} unrecognised senders`}
-              </strong>
-              <p>Give every conversation context</p>
-            </div>
-            <ArrowRight size={18} />
-          </Link>
-        </div>
+      {w.error && (
+        <p className="ws-alert" role="alert">
+          Some workspace information couldn’t load.{" "}
+          <button onClick={w.reload}>Try again</button>
+        </p>
+      )}
+      <section className="ws-metrics" aria-label="Workspace metrics">
+        {[
+          [
+            "Drafts waiting",
+            w.loading ? "—" : waiting.length,
+            Inbox,
+            "Ready for your review",
+          ],
+          [
+            "Emails handled",
+            w.metrics["emails-handled"] || "—",
+            Mail,
+            "Across your workspace",
+          ],
+          [
+            "Sent automatically",
+            w.loading ? "—" : automated.length,
+            Timer,
+            "In the latest activity",
+          ],
+          [
+            "Average reply time",
+            w.metrics["avg-response-time"] || "—",
+            Clock3,
+            "Average turnaround",
+          ],
+        ].map(([label, value, Icon, note]) => {
+          const MetricIcon = Icon as typeof Mail;
+          return (
+            <article key={label as string}>
+              <div>
+                {label as string}
+                <MetricIcon size={16} />
+              </div>
+              <strong>{value as string}</strong>
+              <small>{note as string}</small>
+            </article>
+          );
+        })}
       </section>
-      <section
-        className="overview-metric-strip"
-        aria-label="Workspace performance"
-      >
-        {metricDefinitions.map((m, i) => (
-          <div key={m.key}>
-            <span className="metric-index">0{i + 1}</span>
-            <p>{m.label}</p>
-            <strong>{metrics[m.key] || "—"}</strong>
-            <span>{m.unit}</span>
-          </div>
-        ))}
-      </section>
-      <section className="communication-workspace">
-        <header className="communication-heading">
-          <div>
-            <p className="workspace-eyebrow">Communication desk</p>
-            <h2>The latest, at a glance.</h2>
-          </div>
-          <Link href="/dashboard/activity">
-            All activity <ArrowUpRight size={16} />
-          </Link>
-        </header>
-        <div className="communication-toolbar">
-          <div className="workspace-tabs" aria-label="Filter conversations">
-            {["All activity", "Needs review", "Completed"].map((t) => (
-              <button
-                key={t}
-                aria-pressed={filter === t}
-                onClick={() => setFilter(t)}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-          <label className="workspace-search">
-            <Search size={16} />
-            <input
-              aria-label="Search conversations"
-              placeholder="Find a conversation…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="communication-columns">
-          <div className="conversation-list" aria-label="Recent conversations">
-            {loading ? (
-              <p className="workspace-empty" role="status">
-                Loading your conversations…
-              </p>
-            ) : filtered.length ? (
-              filtered.map((c) => (
-                <button
-                  className="conversation-preview"
-                  key={c.id}
-                  aria-pressed={current?.id === c.id}
-                  onClick={() => setSelected(c.id)}
+      <div className="ws-overview-grid">
+        <section className="ws-card ws-awaiting">
+          <header>
+            <div>
+              <h2>Awaiting your approval</h2>
+              <p>Approve here or on WhatsApp, whichever is closer</p>
+            </div>
+            <Link href="/dashboard/approvals">
+              View all <ArrowRight size={14} />
+            </Link>
+          </header>
+          <div className="ws-awaiting-list">
+            {waiting.slice(0, 3).map((d) => (
+              <article key={d.id}>
+                <span className="ws-avatar">{initials(d.name)}</span>
+                <div>
+                  <strong>{d.subject}</strong>
+                  <small>
+                    {d.name}
+                    {d.role ? ` · ${d.role}` : ""} · Waiting for you
+                  </small>
+                </div>
+                <Link
+                  className="ws-button"
+                  href={`/dashboard/approvals?draft=${encodeURIComponent(d.id)}`}
                 >
-                  <span className="person-monogram">
-                    {c.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .slice(0, 2)
-                      .join("")}
-                  </span>
-                  <span className="conversation-copy">
-                    <strong>{c.name}</strong>
-                    <span>{c.original || "Message details unavailable"}</span>
-                    <small>{c.role}</small>
-                  </span>
-                  <span
-                    className={`conversation-status ${c.status === "pending" ? "is-pending" : ""}`}
-                  >
-                    {c.status === "pending" ? (
-                      <Clock size={13} />
-                    ) : (
-                      <Check size={13} />
-                    )}
-                    <span>{c.status === "pending" ? "Review" : "Done"}</span>
-                  </span>
-                </button>
-              ))
-            ) : (
-              <p className="workspace-empty">
-                {error
-                  ? "Activity couldn’t load. Open Activity Log to try again."
-                  : "No conversations in this view."}
-              </p>
+                  Review
+                </Link>
+              </article>
+            ))}
+            {!waiting.length && (
+              <div className="ws-empty">
+                <Inbox size={24} />
+                <strong>
+                  {w.loading ? "Checking your drafts…" : "Your queue is clear"}
+                </strong>
+                <p>
+                  {w.loading
+                    ? ""
+                    : "New drafts will appear here when they need your attention."}
+                </p>
+                <Link href="/dashboard/approvals">
+                  Open approvals <ArrowRight size={14} />
+                </Link>
+              </div>
             )}
           </div>
-          <aside
-            className="conversation-inspector"
-            aria-label="Conversation details"
-          >
-            {current ? (
-              <>
-                <p className="workspace-eyebrow">Conversation context</p>
-                <h3>{current.name}</h3>
-                <span className="inspector-role">{current.role}</span>
-                <div className="message-excerpt">
-                  <span>INCOMING MESSAGE</span>
-                  <p>{current.original || "No message content available."}</p>
+        </section>
+        <section className="ws-card ws-week">
+          <header>
+            <div>
+              <h2>Your activity with Haelo</h2>
+              <p>What happened in your latest activity</p>
+            </div>
+          </header>
+          {[
+            [
+              CheckCheck,
+              "You approved the reply",
+              "Approved responses",
+              approved.length,
+            ],
+            [
+              Timer,
+              "Haelo sent for you",
+              "Your timer ran out",
+              automated.length,
+            ],
+            [
+              Sparkles,
+              "You asked for changes",
+              "Rewritten responses",
+              changed.length,
+            ],
+          ].map(([Icon, title, caption, count]) => {
+            const RowIcon = Icon as typeof Timer;
+            return (
+              <div className="ws-week-row" key={title as string}>
+                <span className="ws-round-icon">
+                  <RowIcon size={18} />
+                </span>
+                <div>
+                  <strong>{title as string}</strong>
+                  <small>{caption as string}</small>
                 </div>
-                <div className="response-excerpt">
-                  <span>
-                    {current.sent
-                      ? "RESPONSE SENT"
-                      : "HAELO’S SUGGESTED RESPONSE"}
+                <b>{w.loading ? "—" : (count as number)}</b>
+              </div>
+            );
+          })}
+          <Link className="ws-inline-link" href="/dashboard/activity">
+            Explore your activity <ArrowRight size={14} />
+          </Link>
+        </section>
+        <section className="ws-card ws-attention">
+          <header>
+            <h2>Needs your attention</h2>
+          </header>
+          <div>
+            {[
+              [
+                UserRoundX,
+                "Unrecognised senders",
+                w.unknown === null
+                  ? "Checking your directory…"
+                  : `${w.unknown} senders to review`,
+                "/dashboard/staff",
+                "Review",
+              ],
+              [
+                BookOpen,
+                "Business Bible",
+                "Keep your business context current",
+                "/dashboard/business-bible",
+                "Update",
+              ],
+              [
+                MessageCircle,
+                "WhatsApp",
+                w.connected ? "Connected" : "Complete your connection",
+                "/dashboard/settings",
+                "Details",
+              ],
+            ].map(([Icon, title, caption, href, action]) => {
+              const ItemIcon = Icon as typeof BookOpen;
+              return (
+                <Link key={title as string} href={href as string}>
+                  <span className="ws-round-icon">
+                    <ItemIcon size={18} />
                   </span>
-                  <p>
-                    {current.sent ||
-                      current.suggested ||
-                      "A suggested response is not available yet."}
-                  </p>
-                </div>
-                <Link href="/dashboard/activity">
-                  Open activity details <ArrowRight size={16} />
+                  <strong>{title as string}</strong>
+                  <small>{caption as string}</small>
+                  <span>
+                    {action as string} <ArrowRight size={13} />
+                  </span>
                 </Link>
-              </>
-            ) : (
-              <>
-                <BookOpen size={30} />
-                <h3>A little context goes a long way.</h3>
-                <p>
-                  Conversations will appear here as Haelo handles your
-                  communication.
-                </p>
-                <Link href="/dashboard/business-bible">
-                  Explore your Business Bible <ArrowRight size={16} />
-                </Link>
-              </>
-            )}
-          </aside>
+              );
+            })}
+          </div>
+        </section>
+        <div className="ws-impact">
+          <article className="ws-card ws-impact-dark">
+            <span className="ws-round-icon">
+              <Hourglass size={19} />
+            </span>
+            <div>
+              <p>Time, back on your side</p>
+              <h2>
+                A lighter
+                <br />
+                working day.
+              </h2>
+              <span className="ws-lime-tag">Made for the way you lead</span>
+            </div>
+          </article>
+          <article className="ws-card">
+            <span className="ws-round-icon">
+              <Sparkles size={19} />
+            </span>
+            <div>
+              <p>Approved responses</p>
+              <strong className="ws-impact-value">
+                {w.metrics["approval-rate"] || "—"}
+              </strong>
+              <p>Across your workspace</p>
+              <Link href="/dashboard/settings">
+                Your writing preferences <ArrowRight size={13} />
+              </Link>
+            </div>
+          </article>
         </div>
-      </section>
-      <footer className="overview-footnote">
-        <BookOpen size={16} />
-        <span>Better context makes better responses.</span>
-        <Link href="/dashboard/business-bible">
-          Keep your Business Bible up to date <ArrowUpRight size={14} />
-        </Link>
-      </footer>
+      </div>
     </main>
   );
 }

@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "mockedApi": true,
+  "screenshots": [
+    "activity-1440",
+    "activity-range",
+    "activity-details",
+    "staff-add",
+    "staff-1440",
+    "staff-details",
+    "staff-unknown",
+    "bible-1440",
+    "bible-upload",
+    "bible-changes",
+    "settings-timer",
+    "settings-email-accounts",
+    "settings-whatsapp",
+    "settings-tone-of-voice",
+    "settings-notifications",
+    "settings-plan-billing",
+    "settings-team-access",
+    "activity-320",
+    "activity-390",
+    "activity-768",
+    "activity-1024",
+    "staff-320",
+    "staff-390",
+    "staff-768",
+    "staff-1024",
+    "business-bible-320",
+    "business-bible-390",
+    "business-bible-768",
+    "business-bible-1024",
+    "settings-320",
+    "settings-390",
+    "settings-768",
+    "settings-1024"
+  ],
+  "errors": [],
+  "writeRequests": [
+    {
+      "path": "/api/staff/add",
+      "method": "POST"
+    },
+    {
+      "path": "/api/bible/upload",
+      "method": "POST"
+    },
+    {
+      "path": "/api/onboard/haelo-tone",
+      "method": "POST"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "mockedApi": true,
+  "screenshots": [
+    "overview-1440",
+    "notifications-1440",
+    "approvals-live-1440",
+    "approvals-sample-1440",
+    "ask-for-changes-1440",
+    "rewritten-1440",
+    "hold-menu-1440",
+    "sent-1440",
+    "approvals-320",
+    "approvals-390",
+    "notifications-390",
+    "approvals-768",
+    "approvals-1024",
+    "collapsed-1440",
+    "overview-320",
+    "overview-390",
+    "overview-768",
+    "overview-1024"
+  ],
+  "consoleErrors": [],
+  "writeRequests": []
+}

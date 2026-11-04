@@ -138,6 +138,10 @@ export function useDemoTimeline<T extends HTMLElement>(
   return {
     step,
     running,
+    resume: () => {
+      manualUntil.current = 0;
+      setEngaged(false);
+    },
     interact: () => {
       manualUntil.current = Date.now() + 12000;
     },

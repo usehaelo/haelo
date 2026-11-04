@@ -1,62 +1,8 @@
 import Link from "next/link";
 import { assets } from "./assets";
-import {
-  Button,
-  CONTACT_URL,
-  Heading,
-  Photo,
-  ProofChip,
-  Vector,
-} from "./Primitives";
+import { Button, CONTACT_URL, Heading, Photo, Vector } from "./Primitives";
 
-export function Problem() {
-  return (
-    <section className="problem-section" aria-labelledby="problem-heading">
-      <div className="landing-container problem-stage">
-        <Photo
-          fixed
-          src={assets.problem.glassStage.src}
-          alt="Executive checking her phone while her team works"
-          sizes="(max-width: 767px) 100vw, 1200px"
-        />
-        <div className="problem-wash" />
-        <div className="problem-glass">
-          <Heading
-            eyebrow="The problem"
-            align="left"
-            id="problem-heading"
-            description="Decisions, approvals and quick yeses pile up while you're in meetings, on site visits or travelling. Your team waits, and the business slows to your inbox's pace."
-          >
-            Fifty internal emails a day. <em>Most of them wait — on you.</em>
-          </Heading>
-          <div className="problem-comparison">
-            <div>
-              <span>BEFORE HAELO</span>
-              <strong>2 days</strong>
-              <small>Average wait for a reply</small>
-            </div>
-            <div>
-              <span>WITH HAELO</span>
-              <strong>2 min</strong>
-              <small>From email to your answer</small>
-            </div>
-          </div>
-        </div>
-        <div className="problem-waiting">
-          <strong>Re: Rice order for Friday</strong>
-          <p>Sent Monday, 9:12 AM · No reply yet</p>
-          <span>Waiting 2 days</span>
-        </div>
-        <ProofChip
-          className="problem-approved"
-          icon={assets.problem.iconCheck}
-          title="With Haelo: approved in 2 minutes"
-          description="“Approved — log it and send the receipt.”"
-        />
-      </div>
-    </section>
-  );
-}
+export { default as Problem } from "./Problem";
 
 const securityItems = [
   {

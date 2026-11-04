@@ -3677,3 +3677,609 @@
 .approval-phone[data-status="sent"] .approval-actions button:nth-child(2) {
   display: none;
 }
+/* An interactive editorial interlude: the cost of waiting, then the room to lead. */
+.lux-problem {
+  padding: 72px 0 112px;
+  --lux-gold: #d7bc91;
+  --lux-x: 70%;
+  --lux-y: 40%;
+}
+.lux-stage {
+  position: relative;
+  isolation: isolate;
+  min-height: 850px;
+  overflow: hidden;
+  border-radius: 36px;
+  background: #201315;
+  color: #fff6eb;
+  padding: 38px 48px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  column-gap: 60px;
+}
+.lux-stage .lux-photo {
+  z-index: -3;
+  opacity: 0.63;
+  background-position: 68% center;
+  filter: saturate(0.75);
+}
+.lux-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg, #160e12ed 0%, #201017ac 48%, #1b101540 100%),
+    linear-gradient(0deg, #170d13f5 0%, transparent 55%);
+}
+.lux-spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at var(--lux-x) var(--lux-y),
+    #d7bc9114,
+    transparent 48%
+  );
+  pointer-events: none;
+}
+.lux-header {
+  grid-column: 1/-1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  align-self: start;
+  border-bottom: 1px solid #fff2df29;
+  padding-bottom: 24px;
+  margin-bottom: 64px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #ecdbbd;
+}
+.lux-header > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.lux-header i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #d7bc91;
+  box-shadow: 0 0 18px #d7bc9190;
+}
+.lux-edition {
+  opacity: 0.65;
+  font-size: 8px;
+}
+.lux-editorial {
+  align-self: center;
+  padding-bottom: 60px;
+}
+.lux-overline {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  color: #d2bfa8;
+  margin-bottom: 25px;
+}
+.landing .lux-editorial h2 {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: clamp(42px, 5.2vw, 67px);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -2.7px;
+  font-variation-settings: "wdth" 100;
+  max-width: 570px;
+  color: #fff6eb;
+}
+.lux-editorial h2 em {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  color: #d7bc91;
+  letter-spacing: -3px;
+  font-size: 1.03em;
+}
+.landing .lux-editorial > p {
+  max-width: 360px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: #d0bec5;
+  margin: 28px 0;
+}
+.lux-editorial > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid #bda77d80;
+  font-size: 11px;
+  color: #f7e6c9;
+}
+.lux-editorial > a svg {
+  transition: transform 0.25s;
+}
+.lux-editorial > a:hover svg {
+  transform: translateX(5px);
+}
+.lux-story {
+  align-self: center;
+  min-width: 0;
+  padding-bottom: 44px;
+}
+.lux-story-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 13px;
+  color: #ecdcc1;
+  letter-spacing: 1.3px;
+  font-size: 8px;
+}
+.lux-story-label > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lux-story-label > span:last-child {
+  opacity: 0.6;
+  font-size: 7px;
+}
+.lux-live {
+  width: 5px;
+  height: 5px;
+  display: block;
+  background: #e1b778;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #e1b77840;
+}
+.lux-live.done {
+  background: #cfee42;
+}
+.lux-story-card {
+  padding: 24px 24px 0;
+  border: 1px solid #fff3df7d;
+  border-radius: 24px;
+  background: linear-gradient(140deg, #fffcf7f5, #f7e8def2);
+  color: #29171d;
+  box-shadow:
+    0 32px 80px #10080e5c,
+    0 1px 0 #fff7e699 inset;
+  backdrop-filter: blur(24px);
+  animation: lux-card-reveal 0.6s ease both;
+  min-height: 340px;
+}
+.lux-story-card > header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #8a67551c;
+}
+.lux-story-card > header > div {
+  flex: 1;
+}
+.lux-story-card > header strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+}
+.lux-story-card > header small {
+  display: block;
+  font-size: 9px;
+  margin-top: 2px;
+  color: #8e737d;
+}
+.lux-story-card > header > svg {
+  color: #8a5c68;
+}
+.lux-avatar {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #b08b783d;
+  background: #e9d9cf;
+  color: #76444e;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.landing .lux-subject {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 24px;
+  letter-spacing: -0.5px;
+  margin-top: 20px;
+  font-weight: 600;
+}
+.landing .lux-email {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #816672;
+  margin-top: 8px;
+}
+.lux-message {
+  margin: 20px 0;
+  min-height: 130px;
+}
+.lux-message-wait {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #ba87670f;
+  border: 1px solid #b6846d26;
+  border-radius: 14px;
+}
+.lux-message-wait > svg {
+  color: #b38c67;
+  flex-shrink: 0;
+}
+.lux-message-wait strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+}
+.lux-message-wait small {
+  font-size: 9px;
+  color: #937887;
+  line-height: 1.8;
+  display: block;
+  margin-top: 6px;
+}
+.lux-message-draft {
+  background: #fff8f2;
+  border: 1px solid #ad877c2e;
+  padding: 15px;
+  border-radius: 14px;
+}
+.lux-draft-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #9c5669;
+  font-size: 8px;
+  letter-spacing: 0.8px;
+}
+.landing .lux-message-draft p {
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 12px 0 14px;
+}
+.lux-message-draft button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #30131e;
+  color: #fff9ee;
+  border-radius: 99px;
+  border: 1px solid #30131e;
+  padding: 9px 12px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.lux-message-draft button:hover {
+  background: #633044;
+}
+.lux-message-done {
+  text-align: center;
+  padding: 4px 12px;
+}
+.lux-message-done > span {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: #d3e78a;
+  border: 1px solid #aac561;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  box-shadow: 0 0 0 6px #d0e48820;
+}
+.lux-message-done strong {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+}
+.landing .lux-message-done p {
+  font-size: 10px;
+  color: #8e7480;
+  line-height: 1.7;
+  margin: 8px 0;
+}
+.lux-message-done small {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #667743;
+  font-size: 9px;
+}
+.lux-story-card > footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-top: 1px solid #8a67551c;
+  color: #9a7c86;
+  font-size: 9px;
+  letter-spacing: 0.2px;
+}
+.lux-story-card > footer button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #b18f7c3d;
+  border-radius: 50%;
+  background: transparent;
+  color: #77515f;
+  cursor: pointer;
+}
+.lux-story-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 25px;
+}
+.lux-story-controls button {
+  position: relative;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  border-top: 1px solid #efdec229;
+  padding: 14px 0 0;
+  color: #ab969d;
+  font-size: 9px;
+  cursor: pointer;
+}
+.lux-story-controls button > span {
+  font-size: 7px;
+  color: #d6ba8c;
+}
+.lux-story-controls button > i {
+  position: absolute;
+  height: 1px;
+  top: -1px;
+  left: 0;
+  width: 0;
+  background: #e1c59d;
+  transition: width 0.4s ease;
+}
+.lux-story-controls button[aria-pressed="true"] {
+  color: #faedda;
+}
+.lux-story-controls button[aria-pressed="true"] > i {
+  width: 100%;
+}
+.lux-story-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 17px;
+  color: #bca6ae;
+  font-size: 8px;
+  letter-spacing: 0.2px;
+}
+.lux-story-caption button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: none;
+  color: #e0cdb1;
+  font-size: 8px;
+  cursor: pointer;
+}
+.lux-bottom {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr auto;
+  align-items: center;
+  gap: 20px;
+  border-top: 1px solid #ecdcc12e;
+  padding-top: 30px;
+  margin-top: 16px;
+  align-self: end;
+}
+.lux-bottom > div > span {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: #ac929e;
+  margin-bottom: 10px;
+}
+.lux-bottom > div > strong {
+  font-family: var(--font-bricolage), sans-serif;
+  font-weight: 500;
+  font-size: 29px;
+  line-height: 1.2;
+  letter-spacing: -0.7px;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+.lux-bottom > div:first-child > strong {
+  font-size: 25px;
+  color: #c8b79e;
+}
+.lux-bottom > div:nth-child(2) > strong {
+  color: #a98a97;
+}
+.lux-bottom .lux-time {
+  color: #f6e3bf;
+}
+.lux-bottom > a {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #c2a27566;
+  border-radius: 50%;
+  color: #e5cba5;
+  transition:
+    background 0.25s,
+    transform 0.25s;
+}
+.lux-bottom > a:hover {
+  background: #d7bc9117;
+  transform: translateY(4px);
+}
+@keyframes lux-card-reveal {
+  from {
+    opacity: 0.1;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 1100px) {
+  .lux-stage {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    column-gap: 30px;
+    padding: 32px;
+  }
+  .landing .lux-editorial h2 {
+    font-size: 54px;
+  }
+  .lux-bottom > div > strong {
+    font-size: 26px;
+  }
+  .lux-bottom > div:first-child > strong {
+    font-size: 21px;
+  }
+  .lux-story-card {
+    padding: 20px 20px 0;
+  }
+}
+@media (max-width: 800px) {
+  .lux-problem {
+    padding: 32px 0 70px;
+  }
+  .lux-stage {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 28px 24px;
+    border-radius: 28px;
+  }
+  .lux-header {
+    margin-bottom: 42px;
+    gap: 12px;
+    letter-spacing: 1.4px;
+  }
+  .lux-edition {
+    display: none;
+  }
+  .lux-editorial {
+    padding-bottom: 38px;
+  }
+  .landing .lux-editorial h2 {
+    font-size: 58px;
+    line-height: 1.04;
+    letter-spacing: -2.8px;
+  }
+  .landing .lux-editorial > p {
+    max-width: 370px;
+    font-size: 12px;
+    line-height: 1.9;
+  }
+  .lux-overline {
+    font-size: 10px;
+    margin-bottom: 20px;
+  }
+  .lux-story {
+    width: min(100%, 420px);
+    justify-self: center;
+    padding-bottom: 20px;
+  }
+  .lux-stage .lux-photo {
+    background-position: 65% center;
+    opacity: 0.4;
+  }
+  .lux-shade {
+    background: linear-gradient(180deg, #170c13d9, #170c13a6 50%, #170c13f5);
+  }
+  .lux-bottom {
+    grid-template-columns: 1fr 1fr auto;
+    gap: 12px;
+    padding-top: 24px;
+  }
+  .lux-bottom > div:first-child {
+    display: none;
+  }
+  .lux-bottom > div > strong {
+    font-size: 25px;
+    gap: 15px;
+  }
+  .lux-bottom > div > strong > svg {
+    width: 16px;
+  }
+  .lux-bottom > div > span {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+  .lux-bottom > a {
+    width: 36px;
+    height: 36px;
+  }
+}
+@media (max-width: 400px) {
+  .lux-stage {
+    padding: 24px 18px;
+  }
+  .landing .lux-editorial h2 {
+    font-size: 48px;
+  }
+  .lux-header {
+    font-size: 8px;
+  }
+  .lux-story-card {
+    padding: 18px 18px 0;
+  }
+  .lux-story-controls {
+    gap: 9px;
+  }
+  .lux-story-controls button {
+    font-size: 8px;
+  }
+  .lux-bottom > div > strong {
+    font-size: 23px;
+  }
+}
+[data-motion="paused"] .lux-story-card {
+  animation: none;
+}
+[data-motion="paused"] .lux-spotlight {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lux-story-card {
+    animation: none;
+  }
+  .lux-stage * {
+    transition: none !important;
+  }
+  .lux-spotlight {
+    display: none;
+  }
+}
+.lux-message {
+  height: 166px;
+  min-height: 166px;
+}
+.landing .lux-editorial h2 em {
+  font-style: italic;
+}
+@media (max-width: 400px) {
+  .landing .lux-editorial h2 {
+    font-size: clamp(34px, 12vw, 48px);
+  }
+}
